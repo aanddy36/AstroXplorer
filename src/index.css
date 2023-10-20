@@ -1,0 +1,28 @@
+@import url('./fonts/stylesheets.css');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Condensed:wght@300;400;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root{
+    --main-bg-color: #dadada;
+    --main-font-color: #fff;
+    --secundary-color: #ffffff9f;
+    --third-color: #000;
+    --sidebar-border-color: #3131313d;
+    --bg-icons:#00000086;
+}
+@layer components{
+      .active{
+        @apply translate-x-[0%]
+      }
+      .after{
+        @apply translate-x-[100%] opacity-0
+      }
+      .before{
+        @apply -translate-x-[100%]
+      }
+      .check-form{
+        @apply h-5 w-5 bg-black border border-white text-black
+      }
+}
