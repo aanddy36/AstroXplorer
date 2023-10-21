@@ -1,21 +1,13 @@
-import { useQuery } from "@tanstack/react-query";
-import { getTours } from "./apiTours";
-import { useEffect, useState } from "react";
-import { ITours } from "../moduls";
+import {
+  Filters,
+  IBodyType,
+  IDuration,
+  IGroupSize,
+  IPrice,
+  ISorting,
+  ITours,
+} from "../moduls";
 import { options } from "../utils/filterBtnsOptions";
-
-type IBodyType = "Planet" | "Moon";
-type IPrice =
-  | "$300k or less"
-  | "$301k - $499k"
-  | "$500k - $799k"
-  | "$800k or more";
-type IDuration =
-  | "60 days or less"
-  | "61 - 99 days"
-  | "100 - 140 days"
-  | "141 days or more";
-type IGroupSize = "40 people or less" | "41 - 80 people" | "81 people or more";
 
 function isOfTypeBodyType(value: string): value is IBodyType {
   return options[0].includes(value);
@@ -52,11 +44,8 @@ function areAllItemsOfTypes(arr: string[]) {
   }
   return trueOrFalse;
 }
-function areAllDifferentType(arr: string[]) {
-  let newArray = [...new Set(arr.map((filter) => whichType(filter)))];
-  return arr.length - newArray.length;
-}
-function separatePerType(arr: string[]) {
+
+function separatePerType(arr: Filters[]) {
   if (!Array.isArray(arr) || arr.length === 0) {
     return [];
   }
@@ -106,138 +95,121 @@ function bodyType(type: IBodyType, tours: ITours[] | undefined) {
 
 function price(type: IPrice, tours: ITours[] | undefined) {
   if (!tours || !tours.length) return;
-  let newArray = [];
   switch (type) {
     case "$300k or less":
-      return (newArray = tours.filter(
-        (tour) => (tour.price as number) < 300001
-      ));
+      return tours.filter((tour) => (tour.price as number) < 300001);
     case "$301k - $499k":
-      return (newArray = tours.filter(
+      return tours.filter(
         (tour) =>
           (tour.price as number) > 300000 && (tour.price as number) < 500000
-      ));
+      );
     case "$500k - $799k":
-      return (newArray = tours.filter(
+      return tours.filter(
         (tour) =>
           (tour.price as number) > 499000 && (tour.price as number) < 800000
-      ));
+      );
     case "$800k or more":
-      return (newArray = tours.filter(
-        (tour) => (tour.price as number) > 799000
-      ));
+      return tours.filter((tour) => (tour.price as number) > 799000);
   }
 }
 
 function duration(type: IDuration, tours: ITours[] | undefined) {
   if (!tours || !tours.length) return;
-  let newArray = [];
   switch (type) {
     case "60 days or less":
-      return (newArray = tours.filter((tour) => Number(tour.duration) < 61));
+      return tours.filter((tour) => Number(tour.duration) < 61);
     case "61 - 99 days":
-      return (newArray = tours.filter(
+      return tours.filter(
         (tour) => Number(tour.duration) > 60 && Number(tour.duration) < 100
-      ));
+      );
     case "100 - 140 days":
-      return (newArray = tours.filter(
+      return tours.filter(
         (tour) => Number(tour.duration) > 99 && Number(tour.duration) < 141
-      ));
+      );
     case "141 days or more":
-      return (newArray = tours.filter((tour) => Number(tour.duration) > 140));
+      return tours.filter((tour) => Number(tour.duration) > 140);
   }
 }
 
 function groupSize(type: IGroupSize, tours: ITours[] | undefined) {
   if (!tours || !tours.length) return;
-  let newArray = [];
   switch (type) {
     case "40 people or less":
-      return (newArray = tours.filter((tour) => tour.groupSize === "20-40"));
+      return tours.filter((tour) => tour.groupSize === "20-40");
     case "41 - 80 people":
-      return (newArray = tours.filter(
+      return tours.filter(
         (tour) => tour.groupSize === "40-60" || tour.groupSize === "60-80"
-      ));
+      );
     case "81 people or more":
-      return (newArray = tours.filter(
+      return tours.filter(
         (tour) => tour.groupSize === "80-100" || tour.groupSize === "100-120"
-      ));
+      );
   }
 }
-function singleFilter(filter: string, tours: ITours[]) {
+function singleFilter(filter: Filters, tours: ITours[]) {
   if (!tours.length) {
     return [];
   }
   if (isOfTypeBodyType(filter)) {
-    return bodyType(filter as IBodyType, tours);
+    return bodyType(filter, tours);
   }
   if (isOfTypeDuration(filter)) {
-    return duration(filter as IDuration, tours);
+    return duration(filter, tours);
   }
   if (isOfTypeGroupSize(filter)) {
-    return groupSize(filter as IGroupSize, tours);
+    return groupSize(filter, tours);
   }
   if (isOfTypePrice(filter)) {
-    return price(filter as IPrice, tours);
+    return price(filter, tours);
   }
 }
 
-function applyAllFilters(
-  filtersToAdd: string[],
-  tours: ITours[] | undefined,
-  originalTours: ITours[] | undefined
-) {
+function applyAllFilters(filtersToAdd: Filters[], originalTours: ITours[]) {
   if (!filtersToAdd || !originalTours) return;
   if (!filtersToAdd.length) {
     return originalTours;
   }
-  //console.log(filtersToAdd);
-  //console.log(tours);
   if (areAllItemsOfTypes(filtersToAdd)) {
     return filtersToAdd
       .map((filter) => singleFilter(filter, originalTours))
       .flatMap((item) => item);
   }
-  /*if (!areAllDifferentType(filtersToAdd)) {
-    let finalArray: any = [...tours];
-    for (let i = 0; i < filtersToAdd.length; i++) {
-      finalArray = singleFilter(filtersToAdd[i], finalArray);
-    }
-    return finalArray;
-  }*/
   let groupedPerType = separatePerType(filtersToAdd);
   let selectedToursPerGroup = groupedPerType.map((group) =>
-    group.map((filter) => singleFilter(filter, tours as ITours[])).flatMap((item) => item)
+    group
+      .map((filter) => singleFilter(filter, originalTours))
+      .flatMap((item) => item)
   );
-  console.log(groupedPerType);
-  console.log(selectedToursPerGroup);
   let commonElem = findCommonElements(selectedToursPerGroup as ITours[][]);
   return commonElem;
-  //}
-  return tours;
 }
 
-export const useFilters = (filtersToAdd: string[]) => {
-  const { data: tours } = useQuery({
-    queryKey: ["tours"],
-    queryFn: getTours,
-  });
+function sort(sortingMethod: ISorting, tours: ITours[]) {
+  console.log(sortingMethod);
+  let newArray = tours;
+  console.log(newArray);
+  switch (sortingMethod) {
+    case "Featured":
+      return newArray?.sort((a, b) => b.id - a.id);
+    case "Price: Low to high":
+      return newArray?.sort((a, b) => a.price - b.price);
+    case "Duration: Long to short":
+      //console.log(newArray?.sort((a, b) => Number(b.duration) - Number(a.duration)));
+      return newArray?.sort((a, b) => Number(b.duration) - Number(a.duration));
+    case "Duration: Short to long":
+      return newArray?.sort((a, b) => Number(a.duration) - Number(b.duration));
+  }
+}
 
-  const [finalTours, setFinalTours] = useState(tours as ITours[]);
-  useEffect(() => {
-    //console.log(filtersToAdd);
-    console.log("Holi");
-    let newArray = applyAllFilters(filtersToAdd, finalTours, tours as ITours[]);
-    setFinalTours(newArray as any);
-  }, [filtersToAdd]);
-  //console.log(applyAllFilters(filtersToAdd, finalTours));
+export function filterAndSort(
+  filtersToAdd: Filters[],
+  sortingMethod: ISorting,
+  allTours: ITours[]
+) {
+  //console.log([...filtersToAdd]);
+  let newArray = applyAllFilters([...filtersToAdd], [...allTours]);
+  let sortedArray = sort(sortingMethod, newArray as ITours[]);
+  console.log(sortedArray);
 
-  useEffect(() => {
-    
-    setFinalTours(tours as ITours[]);
-  }, [tours]);
-
-  useEffect(() => console.log(finalTours), [finalTours]);
-
-  return { finalTours };
-};
+  return sortedArray;
+}

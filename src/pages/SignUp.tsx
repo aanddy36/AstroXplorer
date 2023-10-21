@@ -1,8 +1,11 @@
 import { FaCircleUser } from "react-icons/fa6";
-import { useGlobalContext } from "../utils/context";
+import { toggleLogIn } from "../features/Navbar/navbarSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../store";
 
 export const SignUp = () => {
-  const { isLoggedIn, setIsLoggedIn } = useGlobalContext();
+  const dispatch = useDispatch()
+  const {isLoggedIn} = useSelector((store:RootState)=>store.navbar)
   return (
     <div
       className="h-[100vh] relative z-[1] w-full bg-[url('src/images/mars.jpg')] bg-cover bg-bottom
@@ -12,7 +15,7 @@ export const SignUp = () => {
       {!isLoggedIn ? (
           <button
             className="border text-3xl py-3 px-6 transition duration-200 hover:bg-[--main-font-color] hover:text-[--third-color]"
-            onClick={() => setIsLoggedIn(true)}
+            onClick={() => dispatch(toggleLogIn(true))}
           >
             Sign Up
           </button>
@@ -23,7 +26,7 @@ export const SignUp = () => {
             </div>
             <button
               className="border text-3xl py-3 px-6 transition duration-200 hover:bg-[--main-font-color] hover:text-[--third-color]"
-              onClick={() => setIsLoggedIn(false)}
+              onClick={() => dispatch(toggleLogIn(false))}
             >
               Sign Down
             </button>

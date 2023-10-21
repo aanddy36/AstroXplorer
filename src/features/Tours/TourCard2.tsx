@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { Coordinates, ITours } from "../moduls";
-import { ImageCont } from "../ui/ImageCont";
-import { BlurBall } from "../ui/BlurBall";
+import { Coordinates, ITours } from "../../moduls";
+import { ImageCont } from "../../ui/ImageCont";
+import { BlurBall } from "../../ui/BlurBall";
 
 export const TourCard2 = ({ cardImage, price, title, duration }: ITours) => {
   const ref = useRef<HTMLDivElement | null>(null);

@@ -1,19 +1,20 @@
+import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
+import { closeSidebar } from "../features/Navbar/navbarSlice";
 
 export const NavlinkSidebar = ({
   children,
   route,
-  setIsOpen
 }: {
   children: string;
   route: string;
-  setIsOpen: (data:boolean)=>void
 }) => {
+  const dispatch = useDispatch()
   return (
-    <li onClick={() => setIsOpen(false)}>
+    <li onClick={() => dispatch(closeSidebar())}>
       <NavLink
         to={route}
-        className={`block border-b border-[--sidebar-border-color] w-full py-2 transiton duration-200 px-[7%] hover:pr-[11%]`}
+        className={`block border-b border-[#7e7e7e3d] w-full py-2 transiton duration-200 px-[7%] hover:pr-[11%]`}
       >
         {children}
       </NavLink>

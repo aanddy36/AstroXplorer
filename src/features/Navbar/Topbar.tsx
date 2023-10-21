@@ -1,16 +1,16 @@
 import { useState, useRef, useEffect } from "react";
 import { FaBars, FaChevronDown } from "react-icons/fa6";
 import { Link, NavLink } from "react-router-dom";
-import { useGlobalContext } from "../../utils/context";
 import { NavlinkTopbar } from "../../ui/NavlinkTopbar";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleSidebar } from "./navbarSlice";
+import { RootState } from "../../store";
+import { toggleLogIn } from "./navbarSlice";
 
-export const Topbar = ({
-  setIsToggleOpen,
-}: {
-  setIsToggleOpen: (val: boolean) => void;
-}) => {
+export const Topbar = () => {
+  const dispatch = useDispatch()
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const { isLoggedIn, setIsLoggedIn } = useGlobalContext();
+  const {isLoggedIn} = useSelector((store:RootState)=>store.navbar)
   const dropdown = useRef<null | HTMLUListElement>(null);
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
@@ -92,7 +92,7 @@ export const Topbar = ({
                     className="block w-full text-center transition-all duration-200 hover:font-bold"
                     onClick={() => {
                       setIsProfileOpen(false);
-                      setIsLoggedIn(false);
+                      dispatch(toggleLogIn(false));
                     }}
                   >
                     Sign Out
@@ -104,7 +104,7 @@ export const Topbar = ({
         </li>
         <li className="block laptop:hidden scale-x-[2] scale-y-[1.5] cursor-pointer">
           <button
-            onClick={() => setIsToggleOpen(true)}
+            onClick={() => dispatch(toggleSidebar())}
             className=" transition duration-300
       hover:rotate-90"
           >
