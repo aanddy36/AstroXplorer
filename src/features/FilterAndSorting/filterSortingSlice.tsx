@@ -83,6 +83,7 @@ const filterSortingSlice = createSlice({
       state.areTheyOpen = initialState.areTheyOpen;
     },
     openOneOfThem: (state, { payload }) => {
+      
       return {
         ...state,
         areTheyOpen: {
@@ -105,6 +106,7 @@ const filterSortingSlice = createSlice({
         state.addedFilters.push(payload);
       }
       state.filteredTours = filterAndSort(state.addedFilters, state.currentSorting, state.allTours) as ITours[]
+      state.searchText = "";
     },
     changeCurrentSorting: (state, { payload }: { payload: ISorting }) => {
       state.currentSorting = payload;

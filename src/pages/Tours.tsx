@@ -18,6 +18,8 @@ import {
   getAllTours,
 } from "../features/FilterAndSorting/filterSortingSlice";
 import { AnyAction, ThunkDispatch } from "@reduxjs/toolkit";
+import { toggleFilterSidebar } from "../features/FilterSidebar/filterSidebarSlice";
+import { TourSidebar } from "../features/FilterSidebar/TourSidebar";
 
 export const Tours = () => {
   const dispatch = useDispatch() as ThunkDispatch<
@@ -28,9 +30,8 @@ export const Tours = () => {
   const { page, addedFilters, filteredTours, isLoading } = useSelector(
     (store: RootState) => store.filterSorting
   );
+  const { isOpen } = useSelector((store: RootState) => store.filterSidebar);
   const filterNSort = useRef<null | HTMLDivElement>(null);
-  const [_, setIsOpenSidebar] = useState(false);
-
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
       if (
@@ -58,6 +59,7 @@ export const Tours = () => {
 
   return (
     <main className="relative">
+      <TourSidebar/>
       <div
         className="h-[400px] relative z-[1] w-full bg-[url('src/images/bgImages/titan-bg.jpg')] bg-cover bg-center
         before:content-[''] before:absolute before:inset-0 before:bg-black/50"
@@ -85,7 +87,7 @@ export const Tours = () => {
             className="w-full bg-black text-[#fff] flex full:hidden border border-[#ffffff34]
           items-center transition-all duration-300 hover:underline absolute inset-0 justify-center gap-5
           hover:border-[#ffffffc2]"
-            onClick={() => setIsOpenSidebar((prev) => !prev)}
+            onClick={() => dispatch(toggleFilterSidebar(!isOpen))}
           >
             <FaSliders />
             Filter & Sort

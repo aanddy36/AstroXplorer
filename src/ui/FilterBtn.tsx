@@ -1,9 +1,12 @@
-import { ChangeEvent, useEffect } from "react";
+import { ChangeEvent } from "react";
 import { FaChevronDown } from "react-icons/fa6";
 import { RootState } from "../store";
 import { useDispatch, useSelector } from "react-redux";
-import { addOrDeleteFilter, cleanSearchBar, openOneOfThem } from "../features/FilterAndSorting/filterSortingSlice";
-import { Filters } from "../moduls";
+import {
+  addOrDeleteFilter,
+  openOneOfThem,
+} from "../features/FilterAndSorting/filterSortingSlice";
+import { Filters, OptionsFilter } from "../moduls";
 
 export const FilterBtn = ({
   tag,
@@ -12,22 +15,12 @@ export const FilterBtn = ({
 }: {
   tag: string;
   name: string;
-  options: {
-    id: Filters;
-  }[];
+  options: OptionsFilter[];
 }) => {
   const { areTheyOpen, addedFilters } = useSelector(
     (store: RootState) => store.filterSorting
   );
   const dispatch = useDispatch();
-  const handleNewFilter = (e: ChangeEvent<HTMLInputElement>) => {
-    const { id } = e.target;
-    
-    dispatch(cleanSearchBar());
-    dispatch(addOrDeleteFilter(id as Filters));
-  };
-  useEffect(()=>console.log(addedFilters)
-  ,[addedFilters])
   return (
     <div
       className={`relative h-[60px] w-full bg-transparent hidden full:block ${
@@ -53,18 +46,21 @@ export const FilterBtn = ({
         {options.map((option) => {
           return (
             <label
-              key={option.id}
+              key={option.idFull}
               className="flex justify-start items-center gap-4 font-light cursor-pointer"
-              htmlFor={option.id}
+              htmlFor={option.idFull}
             >
               <input
                 type="checkbox"
-                id={option.id}
-                onChange={handleNewFilter}
-                checked={addedFilters.includes(option.id)}
-                className="check-form cursor-pointer"
+                id={option.idFull}
+                value={option.idShared}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  dispatch(addOrDeleteFilter(e.target.value as Filters))
+                }
+                checked={addedFilters.includes(option.idShared)}
+                className="check-form cursor-pointer border"
               />
-              {option.id}
+              {option.idShared}
             </label>
           );
         })}

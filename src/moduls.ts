@@ -36,9 +36,12 @@ export interface FilterButtons {
 export interface IFilterBtn {   
     tag: string,
     name: string,
-    options: {
-        id: Filters,
-      }[],
+    options: OptionsFilter[],
+}
+export interface OptionsFilter {
+  idShared: Filters,
+  idSidebar: string,
+  idFull: string
 }
 export interface ISortingOptions {
     id: string,

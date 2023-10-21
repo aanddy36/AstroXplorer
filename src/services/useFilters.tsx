@@ -185,9 +185,7 @@ function applyAllFilters(filtersToAdd: Filters[], originalTours: ITours[]) {
 }
 
 function sort(sortingMethod: ISorting, tours: ITours[]) {
-  console.log(sortingMethod);
   let newArray = tours;
-  console.log(newArray);
   switch (sortingMethod) {
     case "Featured":
       return newArray?.sort((a, b) => b.id - a.id);
@@ -206,10 +204,8 @@ export function filterAndSort(
   sortingMethod: ISorting,
   allTours: ITours[]
 ) {
-  //console.log([...filtersToAdd]);
   let newArray = applyAllFilters([...filtersToAdd], [...allTours]);
   let sortedArray = sort(sortingMethod, newArray as ITours[]);
-  console.log(sortedArray);
 
   return sortedArray;
 }

@@ -1,4 +1,5 @@
 import { IFilterBtn, ISortingOptions } from "../moduls";
+import { nanoid } from 'nanoid'
 
 export const filterOptions: IFilterBtn[] = [
   {
@@ -6,13 +7,19 @@ export const filterOptions: IFilterBtn[] = [
     name: "groupSize",
     options: [
       {
-        id: "40 people or less",
+        idFull:nanoid(),
+        idSidebar:nanoid(),
+        idShared: "40 people or less",
       },
       {
-        id: "41 - 80 people",
+        idFull:nanoid(),
+        idSidebar:nanoid(),
+        idShared: "41 - 80 people",
       },
       {
-        id: "81 people or more",
+        idFull:nanoid(),
+        idSidebar:nanoid(),
+        idShared: "81 people or more",
       },
     ],
   },
@@ -21,16 +28,24 @@ export const filterOptions: IFilterBtn[] = [
     name: "duration",
     options: [
       {
-        id: "60 days or less",
+        idFull:nanoid(),
+        idSidebar:nanoid(),
+        idShared: "60 days or less",
       },
       {
-        id: "61 - 99 days",
+        idFull:nanoid(),
+        idSidebar:nanoid(),
+        idShared: "61 - 99 days",
       },
       {
-        id: "100 - 140 days",
+        idFull:nanoid(),
+        idSidebar:nanoid(),
+        idShared: "100 - 140 days",
       },
       {
-        id: "141 days or more",
+        idFull:nanoid(),
+        idSidebar:nanoid(),
+        idShared: "141 days or more",
       },
     ],
   },
@@ -39,16 +54,24 @@ export const filterOptions: IFilterBtn[] = [
     name: "price",
     options: [
       {
-        id: "$300k or less",
+        idFull:nanoid(),
+        idSidebar:nanoid(),
+        idShared: "$300k or less",
       },
       {
-        id: "$301k - $499k",
+        idFull:nanoid(),
+        idSidebar:nanoid(),
+        idShared: "$301k - $499k",
       },
       {
-        id: "$500k - $799k",
+        idFull:nanoid(),
+        idSidebar:nanoid(),
+        idShared: "$500k - $799k",
       },
       {
-        id: "$800k or more",
+        idFull:nanoid(),
+        idSidebar:nanoid(),
+        idShared: "$800k or more",
       },
     ],
   },
@@ -57,10 +80,14 @@ export const filterOptions: IFilterBtn[] = [
     name: "bodyType",
     options: [
       {
-        id: "Planet",
+        idFull:nanoid(),
+        idSidebar:nanoid(),
+        idShared: "Planet",
       },
       {
-        id: "Moon",
+        idFull:nanoid(),
+        idSidebar:nanoid(),
+        idShared: "Moon",
       },
     ],
   },
