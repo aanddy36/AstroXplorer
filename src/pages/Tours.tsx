@@ -2,7 +2,7 @@ import { FaChevronLeft, FaChevronRight, FaSliders } from "react-icons/fa6";
 import { TourCard2 } from "../features/Tours/TourCard2";
 import { ITours } from "../moduls";
 import { Spinner } from "../ui/Spinner";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { filterOptions } from "../utils/filterBtnsOptions";
 import { FilterBtn } from "../ui/FilterBtn";
 import { SortBtn } from "../ui/SortBtn";
@@ -20,6 +20,8 @@ import {
 import { AnyAction, ThunkDispatch } from "@reduxjs/toolkit";
 import { toggleFilterSidebar } from "../features/FilterSidebar/filterSidebarSlice";
 import { TourSidebar } from "../features/FilterSidebar/TourSidebar";
+import { Services } from "../features/Services";
+import { motion } from "framer-motion";
 
 export const Tours = () => {
   const dispatch = useDispatch() as ThunkDispatch<
@@ -58,22 +60,29 @@ export const Tours = () => {
   }, [dispatch]);
 
   return (
-    <main className="relative">
-      <TourSidebar/>
+    <main className="relative bg-[url('src/images/starred-bg2.jpg')] ">
+      <TourSidebar />
       <div
         className="h-[400px] relative z-[1] w-full bg-[url('src/images/bgImages/titan-bg.jpg')] bg-cover bg-center
         before:content-[''] before:absolute before:inset-0 before:bg-black/50"
       >
-        <h1
+        <motion.h1
+          initial={{ opacity: 0, translateY: "-200%" }}
+          animate={{ opacity: 1, translateY: "-50%" }}
+          transition={{ duration: 1.0 }}
           className="relative text-[--main-font-color] top-[50%] translate-y-[-50%] text-center
         font-bold text-5xl tablet:text-6xl font-serif tracking-wide"
         >
           Tours
-        </h1>
+        </motion.h1>
         <TourSearchBar />
       </div>
-      <div className="bg-[url('src/images/starred-bg2.jpg')] pt-24 px-[8%]">
-        <div
+      <div className="pt-24 px-[8%]">
+        <motion.div
+          initial={{ opacity: 0, translateY: "100%" }}
+          whileInView={{ opacity: 1, translateY: "0%" }}
+          transition={{ duration: 0.5 }}
+          viewport={{ once: true }}
           className="text-white shadow-md shadow-black/30 grid grid-cols-5
           h-[60px] text-lg text-[--third-color] bg-white/20 border-[#ffffff34] mb-4 
           relative"
@@ -92,12 +101,18 @@ export const Tours = () => {
             <FaSliders />
             Filter & Sort
           </button>
-        </div>
+        </motion.div>
         {isLoading ? (
           <Spinner />
         ) : (
           <div>
-            <div className="flex items-center gap-5 flex-wrap">
+            <motion.div
+              initial={{ opacity: 0, translateY: "100%" }}
+              whileInView={{ opacity: 1, translateY: "0%" }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+              className="flex items-center gap-5 flex-wrap"
+            >
               <ToursFoundText filteredTours={filteredTours} page={page} />
               {addedFilters.map((filter) => (
                 <FilterTag key={filter} text={filter} />
@@ -111,7 +126,7 @@ export const Tours = () => {
                   Clear all
                 </button>
               )}
-            </div>
+            </motion.div>
             {filteredTours?.length ? (
               <div className="pb-10">
                 <div className="grid grid-cols-1 laptop:grid-cols-2 full:grid-cols-3 gap-8 pt-12">
@@ -158,6 +173,7 @@ export const Tours = () => {
           </div>
         )}
       </div>
+      <Services />
     </main>
   );
 };

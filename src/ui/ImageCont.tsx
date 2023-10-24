@@ -19,8 +19,8 @@ export const ImageCont = ({ cardImage }: { cardImage?: string }) => {
     return () => window.removeEventListener("resize", adjustHeight);
   }, []);
   return (
-    <div className="relative cursor-pointer overflow-hidden" ref={ref}>
-      <img src={cardImage} className="relative object-contain" />
+    <div className="relative cursor-pointer overflow-hidden bg-black/60" ref={ref}>
+      <img src={cardImage} className="relative object-contain" loading="lazy"/>       
     </div>
   );
 };

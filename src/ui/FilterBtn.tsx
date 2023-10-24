@@ -57,7 +57,7 @@ export const FilterBtn = ({
                 onChange={(e: ChangeEvent<HTMLInputElement>) =>
                   dispatch(addOrDeleteFilter(e.target.value as Filters))
                 }
-                checked={addedFilters.includes(option.idShared)}
+                checked={addedFilters.includes(option.idShared)}                                                                                          
                 className="check-form cursor-pointer border"
               />
               {option.idShared}

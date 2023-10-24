@@ -1,52 +1,52 @@
 export interface IHomeBg {
-    planet: string;
-    price:string;
-    image: string;
-    position: string;
+  planet: string;
+  price: string;
+  image: string;
+  position: string;
 }
 
 export interface ITours {
-    id: number;
-    name?:string;
-    isPlanet?: boolean;
-    gravity?: number;
-    aroundPlanet?: string;
-    title?:string;
-    description?:string;
-    price:number;
-    groupSize?:string;
-    duration:string;
-    cardImage?:string;
+  id: number;
+  name?: string;
+  isPlanet?: boolean;
+  gravity?: number;
+  aroundPlanet?: string;
+  title?: string;
+  description?: string;
+  price: number;
+  groupSize?: string;
+  duration: string;
+  cardImage?: string;
 }
 
 export interface Coordinates {
-    offsetX: number;
-    offsetY: number;
+  offsetX: number;
+  offsetY: number;
 }
 
 export interface FilterButtons {
-    price: boolean;
-    groupSize: boolean;
-    duration: boolean;
-    bodyType: boolean;
-    sort: boolean;
-    [key:string]:boolean;
+  price: boolean;
+  groupSize: boolean;
+  duration: boolean;
+  bodyType: boolean;
+  sort: boolean;
+  [key: string]: boolean;
 }
 
-export interface IFilterBtn {   
-    tag: string,
-    name: string,
-    options: OptionsFilter[],
+export interface IFilterBtn {
+  tag: string;
+  name: string;
+  options: OptionsFilter[];
 }
 export interface OptionsFilter {
-  idShared: Filters,
-  idSidebar: string,
-  idFull: string
+  idShared: Filters;
+  idSidebar: string;
+  idFull: string;
 }
 export interface ISortingOptions {
-    id: string,
-  }
-  
+  id: string;
+}
+
 export type IBodyType = "Planet" | "Moon";
 export type IPrice =
   | "$300k or less"
@@ -58,13 +58,23 @@ export type IDuration =
   | "61 - 99 days"
   | "100 - 140 days"
   | "141 days or more";
-export type IGroupSize = "40 people or less" | "41 - 80 people" | "81 people or more";
+export type IGroupSize =
+  | "40 people or less"
+  | "41 - 80 people"
+  | "81 people or more";
 
- export type ISorting =
+export type ISorting =
   | "Featured"
   | "Price: Low to high"
   | "Rating: High to low"
   | "Duration: Long to short"
   | "Duration: Short to long";
 
-export type Filters =  IBodyType | IDuration | IPrice | IGroupSize
+export type Filters = IBodyType | IDuration | IPrice | IGroupSize;
+
+export interface IReviewsHome {
+  name: string;
+  review: string;
+  date: string;
+  tourTitle: string;
+}

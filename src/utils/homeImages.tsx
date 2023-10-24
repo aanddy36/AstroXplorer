@@ -1,4 +1,4 @@
-import bg from "../images/europe-bg.jpg"
+
 import { IHomeBg } from "../moduls";
 export const homeImages: IHomeBg[] = [
   { planet: "Mars", price: "8000.00", image: 'mars-bg', position: "active" },

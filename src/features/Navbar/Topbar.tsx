@@ -43,7 +43,7 @@ export const Topbar = () => {
                 to="signup"
                 className={({ isActive }) =>
                   isActive
-                    ? "font-bold border-2 border-[--main-font-color] rounded-full py-1 px-6 bg-[--main-font-color] text-[--third-color]"
+                    ? "font-bold border-2 border-[--main-font-color] py-1 px-6 bg-[--main-font-color] text-[--third-color]"
                     : `transition duration-200 border-2 py-1 px-6 hover:bg-[--main-font-color]
               border-[--secundary-color] hover:text-[--third-color]`
                 }

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { FaLocationDot } from "react-icons/fa6";
 import { homeImages } from "../utils/homeImages";
 import { IHomeBg } from "../moduls";
+import { motion } from "framer-motion";
 
 export const HomePhoto = () => {
   const [photos, setPhotos] = useState(homeImages);
@@ -32,65 +33,76 @@ export const HomePhoto = () => {
   }, [isStoped]);
   return (
     <div className="relative h-full w-full overflow-hidden">
-      <button
+      <motion.button
+        initial={{ opacity: 0, translateY: "200%" }}
+        animate={{ opacity: 1, translateY: "0%" }}
+        transition={{ duration: 1.0 }}
         onMouseEnter={() => setIsStoped(true)}
         onMouseLeave={() => setIsStoped(false)}
         className="absolute right-[50%] translate-x-[50%] min-[490px]:max-[1000px]:right-[10%] 
-        min-[490px]:max-[1000px]:translate-x-[0] tablet:bottom-7 text-white z-[2] transition duration-200 
+        min-[490px]:max-[1000px]:translate-x-[0] tablet:bottom-7 text-white z-[2] transition-colors duration-200 
         border-2 py-1 hover:bg-[--main-font-color] w-[120px] border-[--secundary-color] hover:text-[--third-color] 
         hover:font-bold bottom-28"
       >
         View More
-      </button>
+      </motion.button>
       {photos.map((photo, index) => {
         const { position, price, planet, image } = photo;
-        
+
         return (
           <div
             key={index}
             className={`transition-[transform] duration-300 absolute h-full w-full bg-[url('src/images/bgImages/${image}.jpg')] bg-cover bg-bottom
             before:content-[''] before:absolute before:inset-0 before:bg-black/50 ${position}`}
           >
-            <div className="absolute text-[--main-font-color] flex gap-3 items-center left-[10%] bottom-6">
+            <motion.div
+              initial={{ opacity: 0, translateY: "200%" }}
+              animate={{ opacity: 1, translateY: "0%" }}
+              transition={{ duration: 1.0 }}
+              className="absolute text-[--main-font-color] flex gap-3 items-center left-[10%] bottom-6"
+            >
               <span className="p-3 rounded-full bg-[--bg-icons]">
                 <FaLocationDot />
               </span>
               {planet} - ${price} / night
-            </div>
+            </motion.div>
           </div>
         );
       })}
       {/*<div
-        className={`transition-[transform] duration-300 absolute h-full w-full bg-[url('src/images/bgImages/mercury-bg.jpg')] bg-cover bg-bottom
-            before:content-[''] before:absolute before:inset-0 before:bg-black/50`}
-      >
-        <div className="absolute text-[--main-font-color] flex gap-3 items-center left-[10%] bottom-6">
-          <span className="p-3 rounded-full bg-[--bg-icons]">
-            <FaLocationDot />
-          </span>
-          Mars - $8000.00 / night
-        </div>
-    </div>*
-    <div
-        className={`transition-[transform] duration-300 absolute h-full w-full bg-[url('src/images/bgImages/europe-bg.jpg')] bg-cover bg-bottom
-            before:content-[''] before:absolute before:inset-0 before:bg-black/50`}
-      >
-        <div className="absolute text-[--main-font-color] flex gap-3 items-center left-[10%] bottom-6">
-          <span className="p-3 rounded-full bg-[--bg-icons]">
-            <FaLocationDot />
-          </span>
-          Mars - $8000.00 / night
-        </div>
-    </div>*
-    <div
+        key={index}
         className={`transition-[transform] duration-300 absolute h-full w-full bg-[url('src/images/bgImages/mars-bg.jpg')] bg-cover bg-bottom
-            before:content-[''] before:absolute before:inset-0 before:bg-black/50`}
+            before:content-[''] before:absolute before:inset-0 before:bg-black/50 ${position}`}
       >
         <div className="absolute text-[--main-font-color] flex gap-3 items-center left-[10%] bottom-6">
           <span className="p-3 rounded-full bg-[--bg-icons]">
             <FaLocationDot />
           </span>
-          Mars - $8000.00 / night
+          {planet} - ${price} / night
+        </div>
+    </div>
+    <div
+        key={index}
+        className={`transition-[transform] duration-300 absolute h-full w-full bg-[url('src/images/bgImages/mercury-bg.jpg')] bg-cover bg-bottom
+            before:content-[''] before:absolute before:inset-0 before:bg-black/50 ${position}`}
+      >
+        <div className="absolute text-[--main-font-color] flex gap-3 items-center left-[10%] bottom-6">
+          <span className="p-3 rounded-full bg-[--bg-icons]">
+            <FaLocationDot />
+          </span>
+          {planet} - ${price} / night
+        </div>
+    </div>
+    <div
+        key={index}
+        className={`transition-[transform] duration-300 absolute h-full w-full bg-[url('src/images/bgImages/europe-bg.jpg')] bg-cover bg-bottom
+            before:content-[''] before:absolute before:inset-0 before:bg-black/50 ${position}`}
+      >
+        <div className="absolute text-[--main-font-color] flex gap-3 items-center left-[10%] bottom-6">
+          <span className="p-3 rounded-full bg-[--bg-icons]">
+            <FaLocationDot />
+          </span>
+          {planet} - ${price} / night
         </div>
     </div>*/}
     </div>
