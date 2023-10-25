@@ -1,5 +1,5 @@
 import { FaChevronLeft, FaChevronRight, FaSliders } from "react-icons/fa6";
-import { TourCard2 } from "../features/Tours/TourCard2";
+import { TourCard } from "../features/Tours/TourCard";
 import { ITours } from "../moduls";
 import { Spinner } from "../ui/Spinner";
 import { useEffect, useRef } from "react";
@@ -22,6 +22,8 @@ import { toggleFilterSidebar } from "../features/FilterSidebar/filterSidebarSlic
 import { TourSidebar } from "../features/FilterSidebar/TourSidebar";
 import { Services } from "../features/Services";
 import { motion } from "framer-motion";
+import { ReviewsHome } from "../features/ReviewsHome";
+import { FAQ } from "../features/FAQ";
 
 export const Tours = () => {
   const dispatch = useDispatch() as ThunkDispatch<
@@ -133,7 +135,7 @@ export const Tours = () => {
                   {filteredTours
                     ?.slice((page - 1) * 9, page * 9)
                     .map((tour: ITours) => (
-                      <TourCard2 key={tour.id} {...tour} />
+                      <TourCard key={tour.id} {...tour} />
                     ))}
                 </div>
                 {filteredTours?.length > 8 && (
@@ -174,6 +176,10 @@ export const Tours = () => {
         )}
       </div>
       <Services />
+      <div className="px-[10%] full:px-[3%] min-[1200px]:px-[10%] grid grid-cols-1 full:grid-cols-2 gap-14 full:gap-0 mt-20">
+        <ReviewsHome />
+        <FAQ />
+      </div>
     </main>
   );
 };

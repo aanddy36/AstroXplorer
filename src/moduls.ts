@@ -78,3 +78,8 @@ export interface IReviewsHome {
   date: string;
   tourTitle: string;
 }
+
+export interface IFAQ {
+  question: string,
+  answer: string
+}

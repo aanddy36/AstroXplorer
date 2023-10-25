@@ -3,7 +3,7 @@ import { Coordinates, ITours } from "../../moduls";
 import { ImageCont } from "../../ui/ImageCont";
 import { BlurBall } from "../../ui/BlurBall";
 
-export const TourCard2 = ({ cardImage, price, title, duration }: ITours) => {
+export const TourCard = ({ cardImage, price, title, duration }: ITours) => {
   const ref = useRef<HTMLDivElement | null>(null);
   const [{ offsetX, offsetY }, setOffset] = useState<Coordinates>({
     offsetX: 0,

@@ -48,13 +48,14 @@ export const ReviewsHome = () => {
         whileInView={{ opacity: 1, translateY: "0%" }}
         transition={{ duration: 0.5 }}
         viewport={{ once: true }}
-        className="mt-8 full:mt-12 h-[450px] full:h-[350px] overflow-hidden"
+        className="mt-8 full:mt-12 h-[450px] full:h-[350px] overflow-hidden relative"
       >
         {reviewsHome.map((review, index) => (
-          <div
-            className={`transition duration-200 absolute inset-0 translate-x-[${
-              index * 100 - reviewNo * 100
-            }%]`}
+          <motion.div
+            initial={{ x: `${index * 100 - reviewNo * 100}%` }}
+            animate={{ x: `${index * 100 - reviewNo * 100}%` }}
+            transition={{ duration: 0.2 }}
+            className="absolute inset-0"
             key={index}
             onMouseEnter={() => setIsOver(true)}
             onMouseLeave={() => setIsOver(false)}
@@ -81,7 +82,7 @@ export const ReviewsHome = () => {
                 </p>
               </Link>
             </div>
-          </div>
+          </motion.div>
         ))}
       </motion.div>
       <div
@@ -102,7 +103,7 @@ export const ReviewsHome = () => {
               value={index}
               name="reviewNo"
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setReviewNo(e.target.value as any)
+                setReviewNo(Number(e.target.value) as any)
               }
               checked={reviewNo == index}
               className="absolute top-0 left-0 opacity-0 cursor-pointer"

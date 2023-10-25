@@ -12,6 +12,7 @@
     --sidebar-border-color: #3131313d;
     --bg-icons:#00000086;
 }
+
 @layer components{
       .active{
         @apply translate-x-[0%]

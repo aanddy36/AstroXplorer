@@ -20,7 +20,7 @@ export const AboutUs = () => {
           whileInView={{ opacity: 1, translateY: "0%" }}
           transition={{ duration: 0.5 }}
           viewport={{ once: true }}
-          className="text-5xl text-white font-semibold"
+          className="text-4xl laptop:text-5xl text-white font-semibold"
         >
           Explore All Corners of The Universe With Us
         </motion.h3>

@@ -26,7 +26,7 @@ export const Services = () => {
       >
         Join Us on a Journey Beyond Imagination
       </motion.h3>
-      <div className="w-full grid full:grid-cols-3 grid-cols-1 full:gap-0 gap-8 mt-8">
+      <div className="w-full grid full:grid-cols-3 grid-cols-1 full:gap-0 gap-8 pt-8">
         <motion.div
           initial={{ opacity: 0, translateY: "100%" }}
           whileInView={{ opacity: 1, translateY: "0%" }}

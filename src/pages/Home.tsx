@@ -1,5 +1,5 @@
 import { AboutUs } from "../features/AboutUs";
-import { FAQHome } from "../features/FAQHome";
+import { FAQ } from "../features/FAQ";
 import { ReviewsHome } from "../features/ReviewsHome";
 import { Services } from "../features/Services";
 import { HomePhoto } from "../ui/HomePhoto";
@@ -29,7 +29,7 @@ export const Home = () => {
       <Services />
       <div className="px-[10%] full:px-[3%] min-[1200px]:px-[10%] grid grid-cols-1 full:grid-cols-2 gap-14 full:gap-0">
         <ReviewsHome />
-        <FAQHome />
+        <FAQ />
       </div>
     </div>
   );
