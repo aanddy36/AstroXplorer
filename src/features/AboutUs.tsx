@@ -54,7 +54,7 @@ export const AboutUs = () => {
           whileInView={{ opacity: 1 }}
           transition={{ duration: 1 }}
           viewport={{ once: true }}
-          src="src/images/temp-1.jpg"
+          src="src/images/aboutUs/temp-1.jpg"
           className="full:h-[300px]"
         />
         <motion.img
@@ -62,7 +62,7 @@ export const AboutUs = () => {
           whileInView={{ opacity: 1 }}
           transition={{ duration: 1 }}
           viewport={{ once: true }}
-          src="src/images/temp-2.jpg"
+          src="src/images/aboutUs/temp-2.jpg"
           className="full:h-[300px] full:mt-12"
         />
       </div>

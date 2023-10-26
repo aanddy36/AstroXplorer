@@ -10,8 +10,8 @@ export const TourSearchBar = () => {
   );
   const dispatch = useDispatch();
   useEffect(() => {
-    const handleSearchBarMovement = () => {
-      if (window.scrollY > 360) {
+    const handleSearchBarMovement = () => {      
+      if (window.scrollY > 360 && window.scrollY < 2000) {
         dispatch(toggleFixing(true));
       } else {
         dispatch(toggleFixing(false));

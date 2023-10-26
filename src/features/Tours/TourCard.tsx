@@ -36,7 +36,7 @@ export const TourCard = ({ cardImage, price, title, duration }: ITours) => {
   return (
     <>
       <div
-        className="group relative overflow-hidden p-px mb-8 text-white bg-gradient-to-b 
+        className="group relative overflow-hidden p-px mb-8 text-white bg-gradient-to-b
         from-white/20 to-white/0 hover:translate-x-1 hover:-translate-y-1 transition-all duration-200"
         onMouseMove={handleMove}
         ref={ref}

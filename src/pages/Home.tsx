@@ -6,7 +6,7 @@ import { HomePhoto } from "../ui/HomePhoto";
 import { motion } from "framer-motion";
 export const Home = () => {
   return (
-    <div className="bg-[url('src/images/starred-bg2.jpg')]">
+    <div className="bg-[url('src/images/bgImages/starred-bg.jpg')]">
       <article className="h-[100vh] relative z-[1] ">
         <HomePhoto />
         <motion.div

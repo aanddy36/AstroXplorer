@@ -7,6 +7,11 @@ import { motion } from "framer-motion";
 export const HomePhoto = () => {
   const [photos, setPhotos] = useState(homeImages);
   const [isStoped, setIsStoped] = useState(false);
+  const urls = [
+    "bg-[url('src/images/bgImages/mars-bg.jpg')]",
+    "bg-[url('src/images/bgImages/mercury-bg.jpg')]",
+    "bg-[url('src/images/bgImages/europe-bg.jpg')]",
+  ];
   useEffect(() => {
     let timerImage: any;
     if (!isStoped) {
@@ -69,42 +74,6 @@ export const HomePhoto = () => {
           </div>
         );
       })}
-      {/*<div
-        key={index}
-        className={`transition-[transform] duration-300 absolute h-full w-full bg-[url('src/images/bgImages/mars-bg.jpg')] bg-cover bg-bottom
-            before:content-[''] before:absolute before:inset-0 before:bg-black/50 ${position}`}
-      >
-        <div className="absolute text-[--main-font-color] flex gap-3 items-center left-[10%] bottom-6">
-          <span className="p-3 rounded-full bg-[--bg-icons]">
-            <FaLocationDot />
-          </span>
-          {planet} - ${price} / night
-        </div>
-    </div>
-    <div
-        key={index}
-        className={`transition-[transform] duration-300 absolute h-full w-full bg-[url('src/images/bgImages/mercury-bg.jpg')] bg-cover bg-bottom
-            before:content-[''] before:absolute before:inset-0 before:bg-black/50 ${position}`}
-      >
-        <div className="absolute text-[--main-font-color] flex gap-3 items-center left-[10%] bottom-6">
-          <span className="p-3 rounded-full bg-[--bg-icons]">
-            <FaLocationDot />
-          </span>
-          {planet} - ${price} / night
-        </div>
-    </div>
-    <div
-        key={index}
-        className={`transition-[transform] duration-300 absolute h-full w-full bg-[url('src/images/bgImages/europe-bg.jpg')] bg-cover bg-bottom
-            before:content-[''] before:absolute before:inset-0 before:bg-black/50 ${position}`}
-      >
-        <div className="absolute text-[--main-font-color] flex gap-3 items-center left-[10%] bottom-6">
-          <span className="p-3 rounded-full bg-[--bg-icons]">
-            <FaLocationDot />
-          </span>
-          {planet} - ${price} / night
-        </div>
-    </div>*/}
     </div>
   );
 };
