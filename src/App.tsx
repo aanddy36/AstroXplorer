@@ -17,10 +17,10 @@ function App() {
           <Route path="tours" element={<Tours />} />
           <Route path="tours/:id" element={<SpecificTour />} />
           <Route path="about" element={<About />} />
-          <Route path="login" element={<LogIn />} />
-          <Route path="signup" element={<SignUp />} />
           <Route path="profile" element={<Profile />} />
         </Route>
+        <Route path="login" element={<LogIn />} />
+        <Route path="signup" element={<SignUp />} />
       </Routes>
     </BrowserRouter>
   );

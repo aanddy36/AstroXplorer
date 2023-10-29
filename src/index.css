@@ -12,7 +12,13 @@
     --sidebar-border-color: #3131313d;
     --bg-icons:#00000086;
 }
-
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+    transition: background-color 600000s 0s, color 600000s 0s;
+}
+input[data-autocompleted] {
+    background-color: transparent !important;
+}
 @layer components{
       .active{
         @apply translate-x-[0%]

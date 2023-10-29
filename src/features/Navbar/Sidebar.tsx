@@ -2,13 +2,20 @@ import { useRef, useEffect, useState } from "react";
 import { FaChevronDown, FaX } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { NavlinkSidebar } from "../../ui/NavlinkSidebar";
-import { closeSidebar, toggleLogIn } from "./navbarSlice";
+import { closeSidebar } from "./navbarSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
+import { logout } from "../Auth/authSlice";
+import { AnyAction, ThunkDispatch } from "@reduxjs/toolkit";
 
 export const Sidebar = () => {
-  const dispatch = useDispatch();
-  const { isOpen, isLoggedIn } = useSelector((store: RootState) => store.navbar);
+  const dispatch = useDispatch() as ThunkDispatch<
+    RootState,
+    undefined,
+    AnyAction
+  >;
+  const { isOpen } = useSelector((store: RootState) => store.navbar);
+  const { isLoggedIn, name, surname } = useSelector((store: RootState) => store.auth);
   const sidebar = useRef<null | HTMLDivElement>(null);
   const [isProfileToggleOpen, setIsProfileToggleOpen] = useState(false);
 
@@ -82,7 +89,8 @@ export const Sidebar = () => {
                       }`}
                     />
                     <span className="text-base bg-[#7e7e7e3d] py-2 px-3 rounded-full">
-                      AD
+                      {name.slice(0, 1).toLocaleUpperCase()}
+                      {surname.slice(0, 1).toLocaleUpperCase()}
                     </span>
                   </div>
                   My Account
@@ -105,7 +113,7 @@ export const Sidebar = () => {
                       className="hover:underline"
                       onClick={() => {
                         setIsProfileToggleOpen(false);
-                        dispatch(toggleLogIn(false));
+                        dispatch(logout());
                         dispatch(closeSidebar());
                       }}
                     >

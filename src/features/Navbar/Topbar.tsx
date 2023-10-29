@@ -1,34 +1,41 @@
-import { useState, useRef, useEffect } from "react";
-import { FaBars, FaChevronDown } from "react-icons/fa6";
+import { useEffect, useState } from "react";
+import {
+  FaArrowRightFromBracket,
+  FaBars,
+  FaChevronDown,
+  FaUser,
+} from "react-icons/fa6";
 import { Link, NavLink } from "react-router-dom";
 import { NavlinkTopbar } from "../../ui/NavlinkTopbar";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleSidebar } from "./navbarSlice";
 import { RootState } from "../../store";
-import { toggleLogIn } from "./navbarSlice";
+import { LogoLink } from "../../ui/LogoLink";
+import { getCurrentUser, logout } from "../Auth/authSlice";
+import { AnyAction, ThunkDispatch } from "@reduxjs/toolkit";
+import { ClipLoader } from "react-spinners";
 
 export const Topbar = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch() as ThunkDispatch<
+    RootState,
+    undefined,
+    AnyAction
+  >;
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const {isLoggedIn} = useSelector((store:RootState)=>store.navbar)
-  const dropdown = useRef<null | HTMLUListElement>(null);
-  useEffect(() => {
-    const handleClick = (e: MouseEvent) => {
-      if (dropdown.current && !dropdown.current.contains(e.target as Node)) {
-        setIsProfileOpen(false);
-      }
-    };
-    document.addEventListener("click", handleClick, true);
-    return () => document.removeEventListener("click", handleClick, true);
-  }, []);
+  const { isLoggedIn, name, surname, isLoading } = useSelector(
+    (store: RootState) => store.auth
+  );
+  {
+    useEffect(() => {
+      dispatch(getCurrentUser());
+    }, []);
+  }
 
   return (
     <div className="bg-transparent absolute text-[--main-font-color] z-[2] w-full">
       <ul className="flex w-full justify-between px-[10%] h-32 items-center">
         <li className="flex tablet:w-[60%] full:w-[50%] justify-between items-center">
-          <div className="text-2xl font-spacex">
-            <Link to="/">astroX</Link>
-          </div>
+          <LogoLink />
           <div className="hidden laptop:flex gap-4 full:gap-8 text-lg">
             <NavlinkTopbar route="/">Home</NavlinkTopbar>
             <NavlinkTopbar route="tours">Tours</NavlinkTopbar>
@@ -37,64 +44,83 @@ export const Topbar = () => {
         </li>
         <li className="hidden laptop:flex gap-4 full:gap-8 text-lg items-center">
           {!isLoggedIn ? (
-            <>
-              <NavlinkTopbar route="login">Log In</NavlinkTopbar>
-              <NavLink
-                to="signup"
-                className={({ isActive }) =>
-                  isActive
-                    ? "font-bold border-2 border-[--main-font-color] py-1 px-6 bg-[--main-font-color] text-[--third-color]"
-                    : `transition duration-200 border-2 py-1 px-6 hover:bg-[--main-font-color]
+            <div className=" laptop:flex gap-4 full:gap-8 items-center">
+              {!isLoading ? (
+                <>
+                  <NavlinkTopbar route="login">Log In</NavlinkTopbar>
+                  <NavLink
+                    to="signup"
+                    className={({ isActive }) =>
+                      isActive
+                        ? "font-bold border-2 border-[--main-font-color] py-1 px-6 bg-[--main-font-color] text-[--third-color]"
+                        : `transition duration-200 border-2 py-1 px-6 hover:bg-[--main-font-color]
               border-[--secundary-color] hover:text-[--third-color]`
-                }
-              >
-                Sing Up
-              </NavLink>
-            </>
+                    }
+                  >
+                    Sing Up
+                  </NavLink>
+                </>
+              ) : (
+                <div className="w-full grid place-content-center">
+                  <ClipLoader size={45} loading={true} color={"#ffffff"} />
+                </div>
+              )}
+            </div>
           ) : (
-            <div className={` relative bottom-[35%] translate-y-[35%]`}>
+            <div className={` relative bottom-[36%] translate-y-[36%]`}>
               <button
-                className="flex items-center gap-3 group"
-                onClick={() => setIsProfileOpen((prev) => !prev)}
+                className="flex items-center gap-3 group pb-4 cursor-auto"
+                onMouseEnter={() => setIsProfileOpen(true)}
+                onMouseLeave={() => setIsProfileOpen(false)}
               >
                 <span className="px-3 py-2 rounded-full bg-[--bg-icons]">
-                  AD
+                  {name.slice(0, 1).toLocaleUpperCase()}
+                  {surname.slice(0, 1).toLocaleUpperCase()}
                 </span>
                 <span
                   className={`transition duration-200 group-hover:text-[--main-font-color]
-              ${isProfileOpen ? "text-[--main-font-color]" : "text-[--secundary-color]"}`}
+              ${
+                isProfileOpen
+                  ? "text-[--main-font-color]"
+                  : "text-[--secundary-color]"
+              }`}
                 >
                   My Account
                 </span>
                 <FaChevronDown
                   className={` transition-all duration-200 group-hover:text-[--main-font-color] scale-x-[0.8]
               ${
-                isProfileOpen ? "rotate-180 text-[--main-font-color]" : "rotate-0 text-[--secundary-color]"
+                isProfileOpen
+                  ? "rotate-180 text-[--main-font-color]"
+                  : "rotate-0 text-[--secundary-color]"
               }`}
                 />
               </button>
               <ul
-                ref={dropdown}
-                className={`bg-[--main-font-color] text-[--third-color] mt-3 transition-all duration-200 
+                className={` bg-black/80 text-white mt-0 transition-all duration-200
             ${isProfileOpen ? "visible opacity-100" : "invisible opacity-0"}`}
+                onMouseEnter={() => setIsProfileOpen(true)}
+                onMouseLeave={() => setIsProfileOpen(false)}
               >
-                <li className="border-b py-2">
+                <li className="border-b border-[#7e7e7e3d] py-3">
                   <Link
                     to="profile"
-                    className="block text-center transition-all duration-200 hover:font-bold"
+                    className="flex items-center justify-center gap-8 transition-all duration-200 hover:font-bold"
                     onClick={() => setIsProfileOpen(false)}
                   >
+                    <FaUser />
                     My Profile
                   </Link>
                 </li>
-                <li className="border-b py-2">
+                <li className="border-b border-[#7e7e7e3d] py-3">
                   <button
-                    className="block w-full text-center transition-all duration-200 hover:font-bold"
+                    className="flex w-full items-center justify-center gap-8 transition-all duration-200 hover:font-bold"
                     onClick={() => {
                       setIsProfileOpen(false);
-                      dispatch(toggleLogIn(false));
+                      dispatch(logout());
                     }}
                   >
+                    <FaArrowRightFromBracket />
                     Sign Out
                   </button>
                 </li>

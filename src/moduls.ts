@@ -83,3 +83,15 @@ export interface IFAQ {
   question: string,
   answer: string
 }
+
+export interface INewUser {
+  signupName: string,
+  signupSurname: string,
+  signupEmail: string,
+  signupPassword: string,
+  signupConfirm: string,
+}
+export interface ILogin {
+  loginEmail: string,
+  loginPassword: string
+}
