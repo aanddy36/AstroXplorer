@@ -7,10 +7,12 @@ import { SpecificTour } from "./pages/SpecificTour";
 import { SignUp } from "./pages/SignUp";
 import { Profile } from "./pages/Profile";
 import { LogIn } from "./pages/LogIn";
+import { ScrollToTop } from "./features/ScrollToTop";
 
 function App() {
   return (
     <BrowserRouter>
+    <ScrollToTop/>
       <Routes>
         <Route element={<Layout />}>
           <Route index element={<Home />} />

@@ -1,23 +1,27 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import supabase from "../../services/supabase";
-import { ILogin } from "../../moduls";
+import { ILogin, INewUser } from "../../moduls";
 
 type IAuth = {
   isLoggedIn: boolean;
   isLoading: boolean;
   id: string;
-  error: boolean;
+  errorLogin: string;
+  errorSignup: string;
   name: string;
   surname: string;
+  isRegistering: boolean;
 };
 
 const initialState: IAuth = {
   isLoggedIn: false,
   isLoading: false,
   id: "",
-  error: false,
+  errorLogin: "",
+  errorSignup: "",
   name: "",
   surname: "",
+  isRegistering: false,
 };
 
 export const login = createAsyncThunk(
@@ -29,9 +33,8 @@ export const login = createAsyncThunk(
         password: loginPassword,
       });
       if (error) {
-        return thunkAPI.rejectWithValue(error);
+        return thunkAPI.rejectWithValue(error.message);
       }
-      thunkAPI.dispatch(retrieveNames(data.user.id));
       return data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
@@ -39,18 +42,27 @@ export const login = createAsyncThunk(
   }
 );
 
-export const retrieveNames = createAsyncThunk(
-  "auth/retrieveNames",
-  async (id: string, thunkAPI) => {
+export const createUser = createAsyncThunk(
+  "auth/createUser",
+  async (
+    {
+      signupName: name,
+      signupSurname: surname,
+      signupEmail: email,
+      signupPassword: password,
+    }: INewUser,
+    thunkAPI
+  ) => {
     try {
-      const { data: usersInfo, error } = await supabase
-        .from("usersInfo")
-        .select("name,surname")
-        .eq("users_id", id);
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: { data: { name, surname } },
+      });
       if (error) {
-        return thunkAPI.rejectWithValue(error);
+        return thunkAPI.rejectWithValue(error.message);
       }
-      return usersInfo;
+      return data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -65,9 +77,8 @@ export const getCurrentUser = createAsyncThunk(
       if (!session.session) return null;
       const { data, error } = await supabase.auth.getUser();
       if (error) {
-        return thunkAPI.rejectWithValue(error);
+        return thunkAPI.rejectWithValue(error.message);
       }
-      thunkAPI.dispatch(retrieveNames(data.user.id));
       return data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
@@ -89,46 +100,50 @@ export const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    resetErrors: (state)=>{
+      state.errorLogin = "",
+      state.errorSignup = ""
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(login.pending, (state) => {
         state.isLoading = true;
-        state.error = false;
+        state.errorLogin = "";
         state.isLoggedIn = false;
       })
       .addCase(login.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isLoggedIn = action.payload?.user.role === "authenticated";
         state.id = action.payload.user.id;
-        state.error = false;
+        state.errorLogin = "";
+        state.name = action.payload.user.user_metadata.name;
+        state.surname = action.payload.user.user_metadata.surname;
       })
-      .addCase(login.rejected, (state) => {
+      .addCase(login.rejected, (state,action) => {
+        console.log(action.payload);
+        
         state.isLoading = false;
-        state.error = true;
+        state.errorLogin = action.payload as string;
         state.isLoggedIn = false;
-      })
-      .addCase(retrieveNames.fulfilled, (state, action) => {
-        console.log(action.payload[0]);
-        state.name = action.payload[0].name;
-        state.surname = action.payload[0].surname;
       })
       .addCase(getCurrentUser.pending, (state) => {
         state.isLoading = true;
-        state.error = false;
+        state.errorLogin = "";
         state.isLoggedIn = false;
       })
       .addCase(getCurrentUser.fulfilled, (state, action) => {
-        console.log(action.payload);
-
         state.isLoading = false;
         state.isLoggedIn = action.payload?.user.role === "authenticated";
         state.id = action.payload?.user.id as string;
-        state.error = false;
+        state.errorLogin = "";
+        state.name = action.payload?.user.user_metadata.name;
+        state.surname = action.payload?.user.user_metadata.surname;
       })
-      .addCase(getCurrentUser.rejected, (state) => {
+      .addCase(getCurrentUser.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = true;
+        state.errorLogin = action.payload as string;
         state.isLoggedIn = false;
       })
       .addCase(logout.pending, (state) => {
@@ -136,9 +151,27 @@ const authSlice = createSlice({
       })
       .addCase(logout.fulfilled, () => {
         return { ...initialState };
+      })
+      .addCase(createUser.pending, (state) => {        
+        state.isRegistering = true;
+        state.errorSignup = "";
+      })
+      .addCase(createUser.fulfilled, (state, action) => {
+        console.log(action.payload);
+        state.isRegistering = false;
+        state.isLoggedIn = action.payload.user?.role === "authenticated";
+        state.id = action.payload?.user?.id as string;
+        state.errorSignup = "";
+        state.name = action.payload?.user?.user_metadata.name;
+        state.surname = action.payload?.user?.user_metadata.surname;
+      })
+      .addCase(createUser.rejected, (state, action) => {
+        console.log(action.payload);
+        state.isRegistering = false;
+        state.errorSignup = action.payload as string;
       });
   },
 });
 
-//export const { logout } = authSlice.actions;
+export const {resetErrors} = authSlice.actions
 export default authSlice.reducer;

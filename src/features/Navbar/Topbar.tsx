@@ -102,19 +102,19 @@ export const Topbar = () => {
                 onMouseEnter={() => setIsProfileOpen(true)}
                 onMouseLeave={() => setIsProfileOpen(false)}
               >
-                <li className="border-b border-[#7e7e7e3d] py-3">
+                <li className="border-b border-[#7e7e7e3d]">
                   <Link
                     to="profile"
-                    className="flex items-center justify-center gap-8 transition-all duration-200 hover:font-bold"
+                    className="flex items-center justify-center gap-8 transition-all duration-200 hover:bg-[#1b1b1b] py-3"
                     onClick={() => setIsProfileOpen(false)}
                   >
                     <FaUser />
                     My Profile
                   </Link>
                 </li>
-                <li className="border-b border-[#7e7e7e3d] py-3">
+                <li className="border-b border-[#7e7e7e3d]">
                   <button
-                    className="flex w-full items-center justify-center gap-8 transition-all duration-200 hover:font-bold"
+                    className="flex w-full items-center justify-center gap-8 transition-all duration-200 hover:bg-[#1b1b1b] py-3"
                     onClick={() => {
                       setIsProfileOpen(false);
                       dispatch(logout());

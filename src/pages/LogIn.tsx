@@ -22,20 +22,19 @@ export const LogIn = () => {
     reset,
   } = useForm();
 
-  const { isLoading, name, surname, error, isLoggedIn } = useSelector(
+  const { isLoading, name, surname, errorLogin, isLoggedIn } = useSelector(
     (store: RootState) => store.auth
   );
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (error) {
+    if (errorLogin) {
       reset();
     }
     if (isLoggedIn) {
       navigate("/");
     }
-    console.log(isLoading);
-  }, [isLoading, name, surname, error, isLoggedIn]);
+  }, [isLoading, name, surname, errorLogin, isLoggedIn]);
 
   const onSubmit = (data: ILogin) => {
     console.log(data);
@@ -56,9 +55,11 @@ export const LogIn = () => {
         translate-x-[-50%] justify-start"
       >
         <h1 className="font-semibold text-4xl text-white mb-7">Log In</h1>
-        {error && (
-          <span className="bg-[#ff2020] text-sm mb-5 p-2">
-            Provided email or password are incorrect
+        {errorLogin && (
+          <span className="bg-[#ff2020] text-sm mb-5 py-2 px-4">
+            <span className="font-semibold tracking-wide">{errorLogin}</span>. Please
+            try again or you can{" "}
+            <a className="underline cursor-pointer">reset your password.</a>
           </span>
         )}
         <form

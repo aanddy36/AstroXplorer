@@ -1,47 +1,50 @@
 import { FaIdCard, FaEnvelope, FaLock } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { INewUser } from "../moduls";
+import { useDispatch, useSelector } from "react-redux";
+import { AnyAction, ThunkDispatch } from "@reduxjs/toolkit";
+import { RootState } from "../store";
+import { useEffect } from "react";
+import { MiniSpinner } from "../ui/MiniSpinner";
+import { createUser } from "../features/Auth/authSlice";
 
 export const SignUp = () => {
+  const dispatch = useDispatch() as ThunkDispatch<
+    RootState,
+    undefined,
+    AnyAction
+  >;
   const {
     register,
     handleSubmit,
     getValues,
     formState: { errors },
+    reset,
   } = useForm();
-  //console.log(errors);
+
+  const { isLoggedIn, isRegistering, errorSignup } = useSelector(
+    (store: RootState) => store.auth
+  );
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (errorSignup) {
+      reset();
+    }
+    if (isLoggedIn) {
+      navigate("/");
+    }
+  }, [errorSignup, isRegistering, isLoggedIn]);
 
   const onSubmit = (data: INewUser) => {
-    console.log(data);
+    dispatch(createUser(data));
   };
   return (
     <div
       className="h-0 laptop:h-[800px] relative z-[1] w-full bg-[url('src/images/bgImages/nasa.jpg')] bg-cover bg-top
     before:content-[''] before:absolute before:inset-0 before:bg-black/50"
     >
-      {/*<div className="inline-block relative top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%] text-white">
-      {!isLoggedIn ? (
-          <button
-            className="border text-3xl py-3 px-6 transition duration-200 hover:bg-[--main-font-color] hover:text-[--third-color]"
-            onClick={() => dispatch(toggleLogIn(true))}
-          >
-            Sign Up
-          </button>
-        ) : (
-          <div className="flex flex-col gap-9">
-            <div className="flex items-center text-3xl gap-4">
-              <FaCircleUser className="text-[--secundary-color]"/> Welcome, Andres
-            </div>
-            <button
-              className="border text-3xl py-3 px-6 transition duration-200 hover:bg-[--main-font-color] hover:text-[--third-color]"
-              onClick={() => dispatch(toggleLogIn(false))}
-            >
-              Sign Down
-            </button>
-          </div>
-        )}
-      </div>*/}
       <div className="text-2xl font-spacex absolute z-[2] left-8 laptop:left-16 top-8 laptop:top-10 text-white">
         <Link to="/">astroX</Link>
       </div>
@@ -61,6 +64,12 @@ export const SignUp = () => {
             Already a member? <span className="text-yellow-500">Log In</span>
           </Link>
         </div>
+        {errorSignup && (
+          <span className="bg-[#ff2020] text-sm mb-5 py-2 px-4 ">
+            <span className="font-semibold tracking-wide">{errorSignup}</span>. Please
+            try again or you can <a className="underline cursor-pointer">reset your password.</a>
+          </span>
+        )}
         <form
           className="flex flex-col justify-between text-white/40"
           onSubmit={handleSubmit(onSubmit as SubmitHandler<FieldValues>)}
@@ -82,7 +91,7 @@ export const SignUp = () => {
                     ? "border-[#ff2020] focus:border-[#ff2020]"
                     : "border-white/40 focus:border-white/80"
                 }  pl-10 pr-4 py-[6px] focus:outline-none text-white placeholder:text-white/40  peer transition 
-              duration-200 w-full`}
+              duration-200 w-full disabled:cursor-not-allowed`}
                 type="text"
                 maxLength={20}
                 placeholder="John"
@@ -92,7 +101,12 @@ export const SignUp = () => {
                     value: 3,
                     message: "Minimum 3 characters",
                   },
+                  pattern: {
+                    value: /^(?! $)([A-Za-z]+ ?)*[A-Za-z]+$/,
+                    message: "Name must contain only letters",
+                  },
                 })}
+                disabled={isRegistering}
               />
               <span className="cursor-pointer peer-focus:text-white transition duration-200">
                 First Name
@@ -115,7 +129,7 @@ export const SignUp = () => {
                     ? "border-[#ff2020] focus:border-[#ff2020]"
                     : "border-white/40 focus:border-white/80"
                 }  pl-10 pr-4 py-[6px] focus:outline-none text-white placeholder:text-white/40  peer transition 
-              duration-200 w-full`}
+              duration-200 w-full disabled:cursor-not-allowed`}
                 type="text"
                 maxLength={20}
                 placeholder="Doe"
@@ -125,7 +139,12 @@ export const SignUp = () => {
                     value: 3,
                     message: "Minimum 3 characters",
                   },
+                  pattern: {
+                    value: /^(?! $)([A-Za-z]+ ?)*[A-Za-z]+$/,
+                    message: "Last name must contain only letters",
+                  },
                 })}
+                disabled={isRegistering}
               />
               <span className="cursor-pointer peer-focus:text-white transition duration-200">
                 Last Name
@@ -149,12 +168,13 @@ export const SignUp = () => {
                   ? "border-[#ff2020] focus:border-[#ff2020]"
                   : "border-white/40 focus:border-white/80"
               }  pl-10 pr-4 py-[6px] focus:outline-none text-white placeholder:text-white/40  peer transition 
-            duration-200 w-full`}
+            duration-200 w-full disabled:cursor-not-allowed`}
               type="email"
               placeholder="Enter Email"
               {...register("signupEmail", {
                 required: "This field is required" as unknown as boolean,
               })}
+              disabled={isRegistering}
             />
             <span className="cursor-pointer peer-focus:text-white transition duration-200">
               Email
@@ -176,7 +196,7 @@ export const SignUp = () => {
                   ? "border-[#ff2020] focus:border-[#ff2020]"
                   : "border-white/40 focus:border-white/80"
               }  pl-10 pr-4 py-[6px] focus:outline-none text-white placeholder:text-white/40  peer transition 
-            duration-200 w-full`}
+            duration-200 w-full disabled:cursor-not-allowed`}
               id="signupPassword"
               type="password"
               placeholder="Enter Password"
@@ -191,6 +211,7 @@ export const SignUp = () => {
                   message: "Password must have maximum 16 characters",
                 },
               })}
+              disabled={isRegistering}
             />
             <span className="cursor-pointer peer-focus:text-white transition duration-200">
               Password
@@ -212,7 +233,7 @@ export const SignUp = () => {
                   ? "border-[#ff2020] focus:border-[#ff2020]"
                   : "border-white/40 focus:border-white/80"
               }  pl-10 pr-4 py-[6px] focus:outline-none text-white placeholder:text-white/40  peer transition 
-            duration-200 w-full`}
+            duration-200 w-full disabled:cursor-not-allowed`}
               id="signupConfirm"
               type="password"
               placeholder="Repeat Password"
@@ -222,6 +243,7 @@ export const SignUp = () => {
                   value === getValues().signupPassword ||
                   "Passwords don't match",
               })}
+              disabled={isRegistering}
             />
             <span className="cursor-pointer peer-focus:text-white transition duration-200">
               Confirm Password
@@ -230,9 +252,10 @@ export const SignUp = () => {
           </label>
           <button
             className="px-4 mt-8 py-[6px] transition duration-300 bg-yellow-500 text-black font-semibold text-base
-          hover:bg-yellow-200"
+          hover:bg-yellow-200 disabled:cursor-not-allowed"
+            disabled={isRegistering}
           >
-            Create account
+            {isRegistering ? <MiniSpinner /> : "Create account"}
           </button>
         </form>
       </div>

@@ -89,7 +89,7 @@ export interface INewUser {
   signupSurname: string,
   signupEmail: string,
   signupPassword: string,
-  signupConfirm: string,
+  signupConfirm?: string,
 }
 export interface ILogin {
   loginEmail: string,
