@@ -2,8 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import { Coordinates, ITours } from "../../moduls";
 import { ImageCont } from "../../ui/ImageCont";
 import { BlurBall } from "../../ui/BlurBall";
+import { Link } from "react-router-dom";
 
-export const TourCard = ({ cardImage, price, title, duration }: ITours) => {
+export const TourCard = ({ cardImage, price, title, duration, id }: ITours) => {
   const ref = useRef<HTMLDivElement | null>(null);
   const [{ offsetX, offsetY }, setOffset] = useState<Coordinates>({
     offsetX: 0,
@@ -54,14 +55,13 @@ export const TourCard = ({ cardImage, price, title, duration }: ITours) => {
             </div>
             <div className="flex justify-between items-end">
               <span className="font-bold">From ${price}.*</span>
-              <a href="" target="_blank">
-                <button
-                  className="px-3 py-2 border-2 border-white/50 bg-transparent hover:bg-white/90 hover:text-black
+              <Link
+                to={String(id)}
+                className="px-3 py-2 border-2 border-white/50 bg-transparent hover:bg-white/90 hover:text-black
                 transition duration-200"
-                >
-                  View Tour
-                </button>
-              </a>
+              >
+                View Tour
+              </Link>
             </div>
           </div>
         </div>

@@ -30,10 +30,15 @@ export const SignUp = () => {
 
   useEffect(() => {
     if (errorSignup) {
-      reset();
+      reset({
+        signupName: "",
+        signupSurname: "",
+        signupPassword: "",
+        signupConfirm: "",
+      });
     }
     if (isLoggedIn) {
-      navigate("/");
+      navigate("..");
     }
   }, [errorSignup, isRegistering, isLoggedIn]);
 
@@ -66,8 +71,8 @@ export const SignUp = () => {
         </div>
         {errorSignup && (
           <span className="bg-[#ff2020] text-sm mb-5 py-2 px-4 ">
-            <span className="font-semibold tracking-wide">{errorSignup}</span>. Please
-            try again or you can <a className="underline cursor-pointer">reset your password.</a>
+            <span className="font-semibold tracking-wide">{errorSignup}</span>.
+            Please try again.
           </span>
         )}
         <form

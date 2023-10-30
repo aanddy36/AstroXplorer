@@ -9,7 +9,7 @@ export interface ITours {
   id: number;
   name?: string;
   isPlanet?: boolean;
-  gravity?: number;
+  gravity: number;
   aroundPlanet?: string;
   title?: string;
   description?: string;
@@ -17,6 +17,7 @@ export interface ITours {
   groupSize?: string;
   duration: string;
   cardImage?: string;
+  tourImage: string;
 }
 
 export interface Coordinates {
@@ -80,18 +81,18 @@ export interface IReviewsHome {
 }
 
 export interface IFAQ {
-  question: string,
-  answer: string
+  question: string;
+  answer: string;
 }
 
 export interface INewUser {
-  signupName: string,
-  signupSurname: string,
-  signupEmail: string,
-  signupPassword: string,
-  signupConfirm?: string,
+  signupName: string;
+  signupSurname: string;
+  signupEmail: string;
+  signupPassword: string;
+  signupConfirm?: string;
 }
 export interface ILogin {
-  loginEmail: string,
-  loginPassword: string
+  loginEmail: string;
+  loginPassword: string;
 }

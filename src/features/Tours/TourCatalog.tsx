@@ -24,6 +24,7 @@ export const TourCatalog = () => {
   const { page, addedFilters, filteredTours, isLoading } = useSelector(
     (store: RootState) => store.filterSorting
   );
+  
   const filterNSort = useRef<null | HTMLDivElement>(null);
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {

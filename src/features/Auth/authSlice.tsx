@@ -101,10 +101,9 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    resetErrors: (state)=>{
-      state.errorLogin = "",
-      state.errorSignup = ""
-    }
+    resetErrors: (state) => {
+      (state.errorLogin = ""), (state.errorSignup = "");
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -121,9 +120,9 @@ const authSlice = createSlice({
         state.name = action.payload.user.user_metadata.name;
         state.surname = action.payload.user.user_metadata.surname;
       })
-      .addCase(login.rejected, (state,action) => {
+      .addCase(login.rejected, (state, action) => {
         console.log(action.payload);
-        
+
         state.isLoading = false;
         state.errorLogin = action.payload as string;
         state.isLoggedIn = false;
@@ -152,7 +151,7 @@ const authSlice = createSlice({
       .addCase(logout.fulfilled, () => {
         return { ...initialState };
       })
-      .addCase(createUser.pending, (state) => {        
+      .addCase(createUser.pending, (state) => {
         state.isRegistering = true;
         state.errorSignup = "";
       })
@@ -169,9 +168,9 @@ const authSlice = createSlice({
         console.log(action.payload);
         state.isRegistering = false;
         state.errorSignup = action.payload as string;
-      });
+      })
   },
 });
 
-export const {resetErrors} = authSlice.actions
+export const { resetErrors } = authSlice.actions;
 export default authSlice.reducer;

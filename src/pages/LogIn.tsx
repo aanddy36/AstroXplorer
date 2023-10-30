@@ -29,10 +29,10 @@ export const LogIn = () => {
 
   useEffect(() => {
     if (errorLogin) {
-      reset();
+      reset({ loginPassword: "" });
     }
     if (isLoggedIn) {
-      navigate("/");
+      navigate("..");
     }
   }, [isLoading, name, surname, errorLogin, isLoggedIn]);
 
@@ -57,9 +57,8 @@ export const LogIn = () => {
         <h1 className="font-semibold text-4xl text-white mb-7">Log In</h1>
         {errorLogin && (
           <span className="bg-[#ff2020] text-sm mb-5 py-2 px-4">
-            <span className="font-semibold tracking-wide">{errorLogin}</span>. Please
-            try again or you can{" "}
-            <a className="underline cursor-pointer">reset your password.</a>
+            <span className="font-semibold tracking-wide">{errorLogin}</span>.
+            Please try again.
           </span>
         )}
         <form
@@ -123,12 +122,6 @@ export const LogIn = () => {
             </span>
             <FaLock className="absolute top-[35px] left-[14px] peer-focus:text-yellow-500" />
           </label>
-          <button
-            className="text-sm flex w-fit transition duration-200 hover:text-white"
-            type="button"
-          >
-            FORGOT PASSWORD?
-          </button>
           <button
             className="px-4 mt-8 py-2 transition duration-300 bg-yellow-500 text-black font-semibold text-base
           hover:bg-yellow-200 disabled:cursor-not-allowed"

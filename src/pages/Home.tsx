@@ -5,6 +5,14 @@ import { Services } from "../features/Services";
 import { HomePhoto } from "../ui/HomePhoto";
 import { motion } from "framer-motion";
 export const Home = () => {
+  /*ERRORS TO SOLVE
+  1. Hishori Tanaka review in CELULAR devices
+  2. FAQ 2nd & 3rd question in CELULAR devices
+  3. Initial circle in the sidebar in CELULAR DEVICES
+  4. Search bar in Tour page must have greater z than Filter & Sort menu
+  5. Add reset password functionality in Log In and Sign Up page
+  6. At the end erase all cardImages and tourImages as they are extracted from supabase, not from the project
+  */
   return (
     <div className="bg-[url('src/images/bgImages/starred-bg.jpg')]">
       <article className="h-[100vh] relative z-[1] ">
