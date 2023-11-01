@@ -24,7 +24,7 @@ export const TourCatalog = () => {
   const { page, addedFilters, filteredTours, isLoading } = useSelector(
     (store: RootState) => store.filterSorting
   );
-  
+
   const filterNSort = useRef<null | HTMLDivElement>(null);
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
@@ -79,7 +79,9 @@ export const TourCatalog = () => {
             {addedFilters.map((filter) => (
               <FilterTag key={filter} text={filter} />
             ))}
-            {addedFilters.length && (
+            {!addedFilters.length ? (
+              ""
+            ) : (
               <button
                 className="text-white font-light transition-all duration-300 underline tracking-wider
               hover:text-[18px]"

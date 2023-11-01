@@ -8,17 +8,30 @@ import { SignUp } from "./pages/SignUp";
 import { Profile } from "./pages/Profile";
 import { LogIn } from "./pages/LogIn";
 import { ScrollToTop } from "./features/ScrollToTop";
+import { WrongPage } from "./pages/WrongPage";
+import { Overview } from "./features/Overview";
+import { Itinerary } from "./features/Itinerary";
+import { MeetingPoint } from "./features/MeetingPoint";
+import { Dates } from "./features/Dates";
+import { ReviewsTour } from "./features/ReviewsTour";
 function App() {
   return (
     <BrowserRouter>
-    <ScrollToTop/>
+      <ScrollToTop />
       <Routes>
         <Route element={<Layout />}>
+          <Route path="*" element={<WrongPage />} />
           <Route index element={<Home />} />
           <Route path="tours" element={<Tours />} />
-          <Route path="tours/:id" element={<SpecificTour />} />
           <Route path="about" element={<About />} />
           <Route path="profile" element={<Profile />} />
+          <Route path="tours/:id" element={<SpecificTour />}>
+            <Route index element={<Overview/>}/>
+            <Route path="itinerary" element={<Itinerary/>}/>
+            <Route path="meeting" element={<MeetingPoint/>}/>
+            <Route path="dates" element={<Dates/>}/>
+            <Route path="reviews" element={<ReviewsTour/>}/>
+          </Route>
         </Route>
         <Route path="login" element={<LogIn />} />
         <Route path="signup" element={<SignUp />} />

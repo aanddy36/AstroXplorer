@@ -19,6 +19,9 @@ input:-webkit-autofill:focus {
 input[data-autocompleted] {
     background-color: transparent !important;
 }
+.loaded{
+  width: 100px;
+}
 @layer components{
       .active{
         @apply translate-x-[0%]

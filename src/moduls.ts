@@ -7,16 +7,16 @@ export interface IHomeBg {
 
 export interface ITours {
   id: number;
-  name?: string;
-  isPlanet?: boolean;
+  name: string;
+  isPlanet: boolean;
   gravity: number;
-  aroundPlanet?: string;
-  title?: string;
-  description?: string;
+  aroundPlanet: string;
+  title: string;
+  description: string;
   price: number;
-  groupSize?: string;
+  groupSize: string;
   duration: string;
-  cardImage?: string;
+  cardImage: string;
   tourImage: string;
 }
 
@@ -95,4 +95,13 @@ export interface INewUser {
 export interface ILogin {
   loginEmail: string;
   loginPassword: string;
+}
+
+export interface ISingleReview {
+  id: number;
+  rating: number;
+  review: string;
+  date: string;
+  userName: string;
+  tour_id: number;
 }

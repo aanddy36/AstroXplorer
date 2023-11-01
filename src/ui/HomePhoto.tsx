@@ -8,9 +8,9 @@ export const HomePhoto = () => {
   const [photos, setPhotos] = useState(homeImages);
   const [isStoped, setIsStoped] = useState(false);
   const urls = [
-    "bg-[url('src/images/bgImages/mars-bg.jpg')]",
-    "bg-[url('src/images/bgImages/mercury-bg.jpg')]",
-    "bg-[url('src/images/bgImages/europe-bg.jpg')]",
+    "bg-[url('/src/images/bgImages/mars-bg.jpg')]",
+    "bg-[url('/src/images/bgImages/mercury-bg.jpg')]",
+    "bg-[url('/src/images/bgImages/europe-bg.jpg')]",
   ];
   useEffect(() => {
     let timerImage: any;
@@ -57,7 +57,7 @@ export const HomePhoto = () => {
         return (
           <div
             key={index}
-            className={`transition-[transform] duration-300 absolute h-full w-full bg-[url('src/images/bgImages/${image}.jpg')] bg-cover bg-bottom
+            className={`transition-[transform] duration-300 absolute h-full w-full bg-[url('/src/images/bgImages/${image}.jpg')] bg-cover bg-bottom
             before:content-[''] before:absolute before:inset-0 before:bg-black/50 ${position}`}
           >
             <motion.div

@@ -4,7 +4,7 @@ import { Footer } from "./Footer";
 
 export const Layout = () => {
   return (
-    <main>
+    <main className="bg-[url('/src/images/bgImages/starred-bg.jpg')] bg-black">
       <Navbar />
       <Outlet />
       <Footer />

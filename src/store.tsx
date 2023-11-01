@@ -3,6 +3,7 @@ import navbarReducer from "./features/Navbar/navbarSlice";
 import filterSortingReducer from "./features/FilterAndSorting/filterSortingSlice";
 import filterSidebarReducer from "./features/FilterSidebar/filterSidebarSlice";
 import authReducer from "./features/Auth/authSlice";
+import currentTourReducer from "./features/CurrentTour.tsx/currentTourSlice";
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     filterSorting: filterSortingReducer,
     filterSidebar: filterSidebarReducer,
     auth: authReducer,
+    currentTour: currentTourReducer
   },
 });
 export type RootState = ReturnType<typeof store.getState>;

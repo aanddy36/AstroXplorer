@@ -47,10 +47,10 @@ export const Tours = () => {
   }, [dispatch]);
 
   return (
-    <main className="relative bg-[url('src/images/bgImages/starred-bg.jpg')] ">
+    <main className="relative">
       <TourSidebar />
       <div
-        className="h-[400px] relative z-[1] w-full bg-[url('src/images/bgImages/titan-bg.jpg')] bg-cover bg-center
+        className="h-[400px] relative z-[1] w-full bg-[url('/src/images/bgImages/titan-bg.jpg')] bg-cover bg-center
         before:content-[''] before:absolute before:inset-0 before:bg-black/50"
       >
         <motion.h1
