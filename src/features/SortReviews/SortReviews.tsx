@@ -22,11 +22,10 @@ export const SortReviews = () => {
   
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { id } = e.target;
+      const { id } = e.target;
     if (id !== sortingMethod) {
       dispatch(newSorting(id))
     }
-    setIsOpen(false);
   };
   return (
     <motion.div
@@ -43,7 +42,9 @@ export const SortReviews = () => {
         Sort by
         <FaSort />
       </button>
-      <ul className="border border-[#ffffff34] mt-3 bg-black absolute w-full z-[3] flex flex-col">
+      <ul className="border border-[#ffffff34] mt-3 bg-black absolute w-full z-[3] flex flex-col"
+      onClick={()=>setIsOpen(false)
+      }>
         <label
           className={`flex justify-start items-center gap-4 font-light cursor-pointer py-3 pl-3 transition duration-200
           hover:bg-white/20 ${

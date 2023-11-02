@@ -1,14 +1,14 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Outlet, useParams } from "react-router-dom";
 import { RootState } from "../store";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { FaArrowLeft, FaChevronRight } from "react-icons/fa6";
 import { motion } from "framer-motion";
 import { StarRating } from "../ui/StarRating";
 import { AnyAction, ThunkDispatch } from "@reduxjs/toolkit";
 import {
   retrieveOneTour,
-  retrieveReviews,
+
 } from "../features/CurrentTour.tsx/currentTourSlice";
 import { Spinner } from "../ui/Spinner";
 import { GravityStatement } from "../ui/GravityStatement";
@@ -36,7 +36,6 @@ export const SpecificTour = () => {
   }, [id]);
 
   useEffect(() => {
-
     
     //const date = new Date(reviewsTour[0]?.date)
     //const finishDate = new Date(date)

@@ -17,6 +17,7 @@ export const Home = () => {
   9. In tours, the section Tours > TITLE, there is a bug for mobile: the padding is not added when it goes to the next line. Ej: Saturn tour.
   10. Remove scroll bar height for the submenu of Specific Tour
   11. When i go back from the Specific tour, the Search bar keeps the previous text. That shouldnt pass.
+  12. BUG: Cuando hay 4 reviews, en la seccion Reviews de SpecificTour en Mobile no se ve por completo.
   */
 
   return (

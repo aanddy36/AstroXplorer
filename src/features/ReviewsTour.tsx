@@ -72,7 +72,7 @@ export const ReviewsTour = () => {
         <SortReviews />
       </div>
       <div
-        className="overflow-hidden h-[1100px] relative"
+        className={`overflow-hidden relative ${reviewsTour.length < 3 ? "h-[200px]": " h-[1100px]"}`}
         ref={reviewsCont}
         style={{
           height:
