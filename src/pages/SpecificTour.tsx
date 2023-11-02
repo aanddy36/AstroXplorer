@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink, Outlet, useParams } from "react-router-dom";
+import { Link, Outlet, useParams } from "react-router-dom";
 import { RootState } from "../store";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { FaChevronRight } from "react-icons/fa6";
+import { useEffect, useState } from "react";
+import { FaArrowLeft, FaChevronRight } from "react-icons/fa6";
 import { motion } from "framer-motion";
 import { StarRating } from "../ui/StarRating";
 import { AnyAction, ThunkDispatch } from "@reduxjs/toolkit";
@@ -25,10 +25,9 @@ export const SpecificTour = () => {
   if (Number(id) < 1 || Number(id) > 25) {
     return <WrongPage />;
   }
-  const { currentTour, isRetrieving, reviewsTour } = useSelector(
+  const { currentTour, isRetrieving, reviewsTour, avgReview } = useSelector(
     (store: RootState) => store.currentTour
   );
-  const [promReview, setPromReview] = useState(0);
 
   useEffect(() => {
     if (id) {
@@ -37,14 +36,8 @@ export const SpecificTour = () => {
   }, [id]);
 
   useEffect(() => {
-    setPromReview(() => {
-      if (!reviewsTour.length) {
-        return 0;
-      }
-      let avg = 0;
-      reviewsTour.forEach((review) => (avg += review.rating));
-      return avg / reviewsTour.length;
-    });
+
+    
     //const date = new Date(reviewsTour[0]?.date)
     //const finishDate = new Date(date)
     //finishDate.setDate(finishDate.getDate() + 50)
@@ -55,7 +48,7 @@ export const SpecificTour = () => {
     //console.log(date.getDate());
   }, [reviewsTour]);
 
-  const miniBgs = [
+  /*const miniBgs = [
     "/src/images/toursImages/mini-amalthea.jpg",
     "/src/images/toursImages/mini-callisto.jpg",
     "/src/images/toursImages/mini-deimos.jpg",
@@ -81,7 +74,19 @@ export const SpecificTour = () => {
     "/src/images/toursImages/mini-triton.jpg",
     "/src/images/toursImages/mini-uranus.jpg",
     "/src/images/toursImages/mini-venus.jpg",
-  ];
+  ];*/
+  /*useEffect(() => {
+    const handleScrollMovement = () => {
+      console.log(navbar.current?.getBoundingClientRect().y);
+      if (window.scrollY > 795 && window.scrollY < 2000) {
+        setIsFixed(true);
+      } else {
+        setIsFixed(false);
+      }
+    };
+    window.addEventListener("scroll", handleScrollMovement);
+    return () => removeEventListener("scroll", handleScrollMovement);
+  }, []);*/
   if (isRetrieving) {
     return (
       <main className="relative pt-32 px-[8%]">
@@ -91,12 +96,22 @@ export const SpecificTour = () => {
   }
 
   return (
-    <main className="relative pt-32 px-[8%]">
-      <span className=" text-[--secundary-color] gap-2">
-        Tours <FaChevronRight className="scale-[0.7] inline-block" />{" "}
-        <span className="text-white">{currentTour.title}</span>
-      </span>
-      <div className="grid grid-cols-1 full:grid-cols-2 gap-16 mt-16">
+    <main className="relative pt-32">
+      <div className="flex text-[--secundary-color] gap-5 px-[8%] flex-col laptop:flex-row justify-between">
+        <span className="gap-2">
+          Tours <FaChevronRight className="scale-[0.7] inline-block" />{" "}
+          <span className="text-white">{currentTour.title}</span>
+        </span>
+        <Link
+          to="/tours"
+          className="border-b border-white/40 transition duration-200 hover:text-white flex items-center gap-2
+          w-fit"
+        >
+          <FaArrowLeft/>
+          Get back
+        </Link>
+      </div>
+      <div className="grid grid-cols-1 full:grid-cols-2 gap-16 mt-16 px-[8%]">
         <div
           className={`bg-contain bg-no-repeat relative`}
           style={{
@@ -119,28 +134,28 @@ export const SpecificTour = () => {
               {currentTour.title}
             </h1>
             <div className="flex items-center gap-3">
-              <StarRating rating={promReview} />
+              <StarRating rating={avgReview} />
               <span className="text-white/40 text-sm">
-                {!promReview
+                {!avgReview
                   ? "( No reviews yet )"
                   : `( ${reviewsTour.length} reviews )`}
               </span>
             </div>
-            <div className="flex items-center justify-start gap-10 border-y border-white/20 w-full py-6">
+            <div className="flex items-start justify-start gap-5 tablet:gap-10 border-y border-white/20 w-full py-6">
               <div className="flex flex-col gap-2 items-start">
-                <h2 className="font-light">Duration</h2>
+                <h2 className="font-light whitespace-nowrap">Duration</h2>
                 <h2 className="font-semibold text-lg">
                   {currentTour.duration} days
                 </h2>
               </div>
-              <div className="flex flex-col gap-2 items-start">
-                <h2 className="font-light">Group Size</h2>
-                <h2 className="font-semibold text-lg">
+              <div className="flex flex-col gap-2 items-center tablet:items-start text-center ">
+                <h2 className="font-light whitespace-nowrap">Group Size</h2>
+                <h2 className="font-semibold text-lg w-fit max-w-[100px] tablet:max-w-fit">
                   {currentTour.groupSize} travelers
                 </h2>
               </div>
               <div className="flex flex-col gap-2 items-start">
-                <h2 className="font-light">Body Type</h2>
+                <h2 className="font-light whitespace-nowrap">Body Type</h2>
                 <h2 className="font-semibold text-lg">
                   {currentTour.isPlanet ? "Planet" : "Moon"}
                 </h2>
@@ -163,8 +178,11 @@ export const SpecificTour = () => {
           </div>
         </div>
       </div>
-      <div className="text-white pt-24">
-        <ul className="text-white/40 flex gap-10 border-b px-4 border-b-white/20">
+      <div className="text-white pt-24 relative">
+        <ul
+          className={` text-white/40 flex border-b px-[5%] laptop:px-[0%] laptop:mx-[8%] border-b-white/20
+           flex-nowrap overflow-auto gap-10 whitespace-nowrap`}
+        >
           <NavLinkTour route="." end={true}>
             Overview
           </NavLinkTour>
@@ -173,7 +191,9 @@ export const SpecificTour = () => {
           <NavLinkTour route="dates">Dates & Prices</NavLinkTour>
           <NavLinkTour route="reviews">Reviews</NavLinkTour>
         </ul>
-        <Outlet />
+        <div className="px-[8%]">
+          <Outlet />
+        </div>
       </div>
     </main>
   );

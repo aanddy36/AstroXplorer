@@ -14,6 +14,9 @@ export const Home = () => {
   6. At the end erase all cardImages and tourImages as they are extracted from supabase, not from the project
   7. BUG:When im in the SpecificTour page and then I click back to Tour, the search bar, gets fixed at the exact top
   8. Bg images of Login and Signup page is not showing up
+  9. In tours, the section Tours > TITLE, there is a bug for mobile: the padding is not added when it goes to the next line. Ej: Saturn tour.
+  10. Remove scroll bar height for the submenu of Specific Tour
+  11. When i go back from the Specific tour, the Search bar keeps the previous text. That shouldnt pass.
   */
 
   return (

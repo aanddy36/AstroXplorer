@@ -101,7 +101,17 @@ export interface ISingleReview {
   id: number;
   rating: number;
   review: string;
+  title: string;
   date: string;
   userName: string;
   tour_id: number;
+  isSuggested: boolean;
+}
+export interface IItinerary {
+  id: number;
+  tour_id: number;
+  title: string;
+  startDay: number;
+  endDay: number;
+  activities: string[];
 }

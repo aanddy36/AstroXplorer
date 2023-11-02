@@ -22,6 +22,27 @@ input[data-autocompleted] {
 .loaded{
   width: 100px;
 }
+::-webkit-scrollbar {
+    width: 8px; /* Set the width of the scrollbar track */
+    height: 4px;
+  }
+  
+  /* Scrollbar Track Background */
+  ::-webkit-scrollbar-track {
+    background: #000000; /* Set the background color of the scrollbar track */
+  }
+  
+  /* Scrollbar Thumb */
+  ::-webkit-scrollbar-thumb {
+    background: #5c5c5c; /* Set the color of the scrollbar thumb */
+    border-radius: 6px; /* Round the corners of the thumb */
+  }
+  
+  /* Scrollbar Thumb on Hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #a1a1a1; /* Change the color of the thumb on hover */
+  }
+  
 @layer components{
       .active{
         @apply translate-x-[0%]
