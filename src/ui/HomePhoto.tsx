@@ -3,15 +3,17 @@ import { FaLocationDot } from "react-icons/fa6";
 import { homeImages } from "../utils/homeImages";
 import { IHomeBg } from "../moduls";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 export const HomePhoto = () => {
   const [photos, setPhotos] = useState(homeImages);
   const [isStoped, setIsStoped] = useState(false);
-  const urls = [
+  const navigate = useNavigate()
+  /*const urls = [
     "bg-[url('/src/images/bgImages/mars-bg.jpg')]",
     "bg-[url('/src/images/bgImages/mercury-bg.jpg')]",
     "bg-[url('/src/images/bgImages/europe-bg.jpg')]",
-  ];
+  ];*/
   useEffect(() => {
     let timerImage: any;
     if (!isStoped) {
@@ -44,10 +46,11 @@ export const HomePhoto = () => {
         transition={{ duration: 1.0 }}
         onMouseEnter={() => setIsStoped(true)}
         onMouseLeave={() => setIsStoped(false)}
-        className="absolute right-[50%] translate-x-[50%] min-[490px]:max-[1000px]:right-[10%] 
+        className="absolute right-[35%] translate-x-[50%] min-[490px]:max-[1000px]:right-[10%] full:right-[50%] 
         min-[490px]:max-[1000px]:translate-x-[0] tablet:bottom-7 text-white z-[2] transition-colors duration-200 
         border-2 py-1 hover:bg-[--main-font-color] w-[120px] border-[--secundary-color] hover:text-[--third-color] 
         hover:font-bold bottom-28"
+        onClick={()=>navigate("/tours")}
       >
         View More
       </motion.button>

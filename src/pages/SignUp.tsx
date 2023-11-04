@@ -38,7 +38,7 @@ export const SignUp = () => {
       });
     }
     if (isLoggedIn) {
-      navigate("..");
+      navigate(-1);
     }
   }, [errorSignup, isRegistering, isLoggedIn]);
 
@@ -47,7 +47,7 @@ export const SignUp = () => {
   };
   return (
     <div
-      className="h-0 laptop:h-[800px] relative z-[1] w-full bg-[url('src/images/bgImages/nasa.jpg')] bg-cover bg-top
+      className="h-0 laptop:h-[800px] relative z-[1] w-full bg-[url('/src/images/bgImages/nasa.jpg')] bg-cover bg-top
     before:content-[''] before:absolute before:inset-0 before:bg-black/50"
     >
       <div className="text-2xl font-spacex absolute z-[2] left-8 laptop:left-16 top-8 laptop:top-10 text-white">

@@ -3,6 +3,7 @@ export interface IHomeBg {
   price: string;
   image: string;
   position: string;
+  id: number;
 }
 
 export interface ITours {
@@ -78,6 +79,7 @@ export interface IReviewsHome {
   review: string;
   date: string;
   tourTitle: string;
+  id: number;
 }
 
 export interface IFAQ {
@@ -115,3 +117,26 @@ export interface IItinerary {
   endDay: number;
   activities: string[];
 }
+export interface IDate {
+  id: number;
+  tour_id: number;
+  startDate: string;
+  price: number;
+}
+
+export interface IFavTour {
+  id: number,
+  created_at: string,
+  user_id:number,
+  tour_id:number,
+  tours:IInfoFavTour
+}
+
+export interface IInfoFavTour {
+  name: string;
+  title: string;
+  price: number;
+  duration: string;
+  cardImage: string;
+}
+

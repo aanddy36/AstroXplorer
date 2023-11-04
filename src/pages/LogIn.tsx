@@ -32,18 +32,17 @@ export const LogIn = () => {
       reset({ loginPassword: "" });
     }
     if (isLoggedIn) {
-      navigate("..");
+      navigate(-1);
     }
   }, [isLoading, name, surname, errorLogin, isLoggedIn]);
 
   const onSubmit = (data: ILogin) => {
-    console.log(data);
     dispatch(login(data));
   };
 
   return (
     <div
-      className="h-0 laptop:min-h-[600px] laptop:h-[100vh] relative z-[1] w-full bg-[url('src/images/bgImages/nasa.jpg')] bg-cover bg-top
+      className="h-0 laptop:min-h-[600px] laptop:h-[100vh] relative z-[1] w-full bg-[url('/src/images/bgImages/nasa.jpg')] bg-cover bg-top
     before:content-[''] before:absolute before:inset-0 before:bg-black/50"
     >
       <div className="text-2xl font-spacex absolute z-[2] left-8 laptop:left-16 top-8 laptop:top-10 text-white">

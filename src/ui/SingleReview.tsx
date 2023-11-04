@@ -17,7 +17,7 @@ export const SingleReview = ({
   const formattedDate = `${month}/${day}/${year}`;
 
   return (
-    <li className="py-10 border-b border-white/20 flex flex-col gap-4 laptop:gap-2 items-start">
+    <>
       <div className="flex w-full items-center justify-between">
         <StarRating rating={rating} />
         <span className=" font-light text-white/60">{formattedDate}</span>
@@ -36,6 +36,6 @@ export const SingleReview = ({
           {userName.split(" ")[0]} doesn't suggest this tour
         </div>
       )}
-    </li>
+    </>
   );
 };

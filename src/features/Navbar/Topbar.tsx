@@ -57,7 +57,7 @@ export const Topbar = () => {
               border-[--secundary-color] hover:text-[--third-color]`
                     }
                   >
-                    Sing Up
+                    Sign Up
                   </NavLink>
                 </>
               ) : (
@@ -67,9 +67,9 @@ export const Topbar = () => {
               )}
             </div>
           ) : (
-            <div className={` relative bottom-[36%] translate-y-[36%]`}>
+            <div className="relative h-12">
               <button
-                className="flex items-center gap-3 group pb-4 cursor-auto"
+                className="flex items-center gap-3 group mb-4 cursor-auto "
                 onMouseEnter={() => setIsProfileOpen(true)}
                 onMouseLeave={() => setIsProfileOpen(false)}
               >
@@ -97,7 +97,7 @@ export const Topbar = () => {
                 />
               </button>
               <ul
-                className={` bg-black/80 text-white mt-0 transition-all duration-200
+                className={` bg-[#1f1f1f] text-white mt-0 transition-all duration-200
             ${isProfileOpen ? "visible opacity-100" : "invisible opacity-0"}`}
                 onMouseEnter={() => setIsProfileOpen(true)}
                 onMouseLeave={() => setIsProfileOpen(false)}
@@ -105,16 +105,16 @@ export const Topbar = () => {
                 <li className="border-b border-[#7e7e7e3d]">
                   <Link
                     to="profile"
-                    className="flex items-center justify-center gap-8 transition-all duration-200 hover:bg-[#1b1b1b] py-3"
+                    className="flex items-center justify-center gap-8 transition-all duration-200 hover:bg-[#646464] py-3"
                     onClick={() => setIsProfileOpen(false)}
                   >
                     <FaUser />
                     My Profile
                   </Link>
                 </li>
-                <li className="border-b border-[#7e7e7e3d]">
+                <li>
                   <button
-                    className="flex w-full items-center justify-center gap-8 transition-all duration-200 hover:bg-[#1b1b1b] py-3"
+                    className="flex w-full items-center justify-center gap-8 transition-all duration-200 hover:bg-[#646464] py-3"
                     onClick={() => {
                       setIsProfileOpen(false);
                       dispatch(logout());

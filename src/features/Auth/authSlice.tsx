@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import supabase from "../../services/supabase";
 import { ILogin, INewUser } from "../../moduls";
+import { noUsers, retrieveIdFavoriteTours } from "../UserTours/userToursSlice";
 
 type IAuth = {
   isLoggedIn: boolean;
@@ -35,6 +36,7 @@ export const login = createAsyncThunk(
       if (error) {
         return thunkAPI.rejectWithValue(error.message);
       }
+      thunkAPI.dispatch(retrieveIdFavoriteTours(data.user.id))
       return data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
@@ -92,6 +94,7 @@ export const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
     if (error) {
       return thunkAPI.rejectWithValue(error);
     }
+      thunkAPI.dispatch(noUsers())
   } catch (error: any) {
     return thunkAPI.rejectWithValue(error.message);
   }

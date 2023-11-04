@@ -1,10 +1,22 @@
 import { useEffect, useRef, useState } from "react";
-import { Coordinates, ITours } from "../../moduls";
+import { Coordinates } from "../../moduls";
 import { ImageCont } from "../../ui/ImageCont";
 import { BlurBall } from "../../ui/BlurBall";
 import { Link } from "react-router-dom";
 
-export const TourCard = ({ cardImage, price, title, duration, id }: ITours) => {
+export const TourCard = ({
+  cardImage,
+  price,
+  title,
+  duration,
+  id,
+}: {
+  cardImage: string;
+  price: number;
+  title: string;
+  duration: string;
+  id: number;
+}) => {
   const ref = useRef<HTMLDivElement | null>(null);
   const [{ offsetX, offsetY }, setOffset] = useState<Coordinates>({
     offsetX: 0,
@@ -33,7 +45,6 @@ export const TourCard = ({ cardImage, price, title, duration, id }: ITours) => {
     const offsetY = e.clientY - top;
     setOffset({ offsetX, offsetY });
   }
-
   return (
     <>
       <div
@@ -47,7 +58,7 @@ export const TourCard = ({ cardImage, price, title, duration, id }: ITours) => {
           from-[#0303037a] to-[#00000081]"
         >
           <BlurBall offsetX={offsetX} offsetY={offsetY} />
-          <ImageCont cardImage={cardImage} />
+          <ImageCont cardImage={cardImage} id={id}/>
           <div className="relative h-full flex flex-col flex-1 gap-5 laptop:gap-3 justify-between">
             <div className="flex flex-col items-start gap-2">
               <h1 className="font-bold text-lg text-left">{title}</h1>
@@ -66,6 +77,7 @@ export const TourCard = ({ cardImage, price, title, duration, id }: ITours) => {
           </div>
         </div>
       </div>
+      {/*<div className="border-2 w-[100vw] h-[100vh] absolute">AAAA</div>*/}
     </>
   );
 };

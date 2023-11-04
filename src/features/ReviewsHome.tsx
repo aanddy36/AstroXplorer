@@ -24,7 +24,8 @@ export const ReviewsHome = () => {
   }, [isOver]);
 
   return (
-    <div className="text-white flex flex-col gap-4 relative border-red-500 pb-5">
+    <div className="text-white flex flex-col gap-4 relative border-red-500 pb-5 px-[10%] full:px-[3%]
+     min-[1200px]:px-[10%]">
       <motion.h1
         initial={{ opacity: 0, translateY: "100%" }}
         whileInView={{ opacity: 1, translateY: "0%" }}
@@ -69,14 +70,12 @@ export const ReviewsHome = () => {
               />
             </div>
             <div className="grid gap-4 mt-4 full:mt-0">
-              <p className="font-light text-center laptop:px-8 h-[130px]">
-                {review.review}
-              </p>
+              <p className="font-light text-center h-fit">{review.review}</p>
               <p className="text-2xl laptop:text-3xl text-center mt-5 laptop:mt-0">
                 - {review.name} -
               </p>
               <p className="text-center font-light">{review.date}</p>
-              <Link to="about">
+              <Link to={`/tours/${review.id}`}>
                 <p className="underline text-center transition-all duration-200 hover:text-yellow-500">
                   View more about {review.tourTitle}
                 </p>

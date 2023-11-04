@@ -17,14 +17,24 @@ import { ToursFoundText } from "../../ui/ToursFoundText";
 import { FilterTag } from "../../ui/FilterTag";
 import { ITours } from "../../moduls";
 import { TourCard } from "./TourCard";
+import { AnyAction, ThunkDispatch } from "@reduxjs/toolkit";
 
 export const TourCatalog = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch() as ThunkDispatch<
+    RootState,
+    undefined,
+    AnyAction
+  >;
   const { isOpen } = useSelector((store: RootState) => store.filterSidebar);
   const { page, addedFilters, filteredTours, isLoading } = useSelector(
     (store: RootState) => store.filterSorting
   );
-
+  const { idFavoriteTours } = useSelector(
+    (store: RootState) => store.userTours
+  );
+  useEffect(() => {
+    //console.log(idFavoriteTours);
+  }, [idFavoriteTours]);
   const filterNSort = useRef<null | HTMLDivElement>(null);
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
@@ -47,7 +57,7 @@ export const TourCatalog = () => {
         viewport={{ once: true }}
         className="text-white shadow-md shadow-black/30 grid grid-cols-5
           h-[60px] text-lg text-[--third-color] bg-white/20 border-[#ffffff34] mb-4 
-          relative z-[10]"
+          relative z-[1]"
         ref={filterNSort}
       >
         {filterOptions.map((btn) => (
@@ -97,7 +107,14 @@ export const TourCatalog = () => {
                 {filteredTours
                   ?.slice((page - 1) * 9, page * 9)
                   .map((tour: ITours) => (
-                    <TourCard key={tour.id} {...tour} />
+                    <TourCard
+                      key={tour.id}
+                      id={tour.id}
+                      cardImage={tour.cardImage}
+                      price={tour.price}
+                      title={tour.title}
+                      duration={tour.duration}
+                    />
                   ))}
               </div>
               {filteredTours?.length > 8 && (

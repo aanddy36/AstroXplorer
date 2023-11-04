@@ -22,7 +22,7 @@ export const FAQ = () => {
   const [areFAQOpen, setAreFAQOpen] = useState<IAreFAQOpen>(initialState);
   const listItemRefs = useRef<HTMLLIElement[] | []>([]);
   return (
-    <div className="text-white flex flex-col gap-4 min-[1200px]:pl-8">
+    <div className="text-white flex flex-col gap-4 min-[1200px]:pl-8 px-[5%] full:px-[3%] min-[1200px]:px-[10%]">
       <motion.h1
         initial={{ opacity: 0, translateY: "100%" }}
         whileInView={{ opacity: 1, translateY: "0%" }}
@@ -46,7 +46,7 @@ export const FAQ = () => {
         whileInView={{ opacity: 1, translateY: "0%" }}
         transition={{ duration: 0.5 }}
         viewport={{ once: true }}
-        className="font-light border-t border-white/80 mt-12"
+        className="font-light border-t border-white/20 mt-12"
       >
         {faqHome.map((section, index) => {
           const { question, answer } = section;
@@ -56,7 +56,7 @@ export const FAQ = () => {
               ref={(el) => (listItemRefs.current[index] = el as HTMLLIElement)}
               animate={{ height: areFAQOpen[index] ? listItemRefs.current[index]?.scrollHeight : "60px" }}
               transition={{ duration: 0.2 }}
-              className="text-white border-b border-white/80 overflow-hidden py-4 px-4 faq"
+              className="text-white border-b border-white/20 overflow-hidden py-4 px-4 faq"
             >
               <button
                 className="font-semibold text-lg tablet:text-xl flex items-center justify-between w-full"

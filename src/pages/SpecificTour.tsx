@@ -2,18 +2,22 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, Outlet, useParams } from "react-router-dom";
 import { RootState } from "../store";
 import { useEffect } from "react";
-import { FaArrowLeft, FaChevronRight } from "react-icons/fa6";
+import {
+  FaArrowLeft,
+  FaChevronRight,
+  FaRegBookmark,
+  FaRegCalendar,
+  FaRegTrashCan,
+} from "react-icons/fa6";
 import { motion } from "framer-motion";
 import { StarRating } from "../ui/StarRating";
 import { AnyAction, ThunkDispatch } from "@reduxjs/toolkit";
-import {
-  retrieveOneTour,
-
-} from "../features/CurrentTour.tsx/currentTourSlice";
+import { retrieveOneTour } from "../features/CurrentTour.tsx/currentTourSlice";
 import { Spinner } from "../ui/Spinner";
 import { GravityStatement } from "../ui/GravityStatement";
 import { WrongPage } from "./WrongPage";
 import { NavLinkTour } from "../ui/NavLinkTour";
+import { toggleModal } from "../features/Modal/modalSlice";
 
 export const SpecificTour = () => {
   const dispatch = useDispatch() as ThunkDispatch<
@@ -28,6 +32,10 @@ export const SpecificTour = () => {
   const { currentTour, isRetrieving, reviewsTour, avgReview } = useSelector(
     (store: RootState) => store.currentTour
   );
+  const { isLoggedIn } = useSelector((store: RootState) => store.auth);
+  const { idFavoriteTours } = useSelector(
+    (store: RootState) => store.userTours
+  );
 
   useEffect(() => {
     if (id) {
@@ -36,7 +44,6 @@ export const SpecificTour = () => {
   }, [id]);
 
   useEffect(() => {
-    
     //const date = new Date(reviewsTour[0]?.date)
     //const finishDate = new Date(date)
     //finishDate.setDate(finishDate.getDate() + 50)
@@ -86,6 +93,12 @@ export const SpecificTour = () => {
     window.addEventListener("scroll", handleScrollMovement);
     return () => removeEventListener("scroll", handleScrollMovement);
   }, []);*/
+  useEffect(() => {
+    if (id) {
+      console.log(idFavoriteTours);
+      
+    }
+  }, [idFavoriteTours]);
   if (isRetrieving) {
     return (
       <main className="relative pt-32 px-[8%]">
@@ -104,9 +117,9 @@ export const SpecificTour = () => {
         <Link
           to="/tours"
           className="border-b border-white/40 transition duration-200 hover:text-white flex items-center gap-2
-          w-fit"
+          w-fit cursor-pointer"
         >
-          <FaArrowLeft/>
+          <FaArrowLeft />
           Get back
         </Link>
       </div>
@@ -164,16 +177,34 @@ export const SpecificTour = () => {
           <div className="text-white flex flex-col w-full gap-5 pt-2">
             <button
               className="transition duration-200 p-2 bg-yellow-500 hover:bg-yellow-200 text-black 
-            font-semibold"
+            font-semibold flex items-center justify-center gap-4"
             >
               See dates & prices
+              <FaRegCalendar />
             </button>
-            <button
-              className="transition duration-200 bg-transparent border-2 border-white p-2 hover:bg-white 
-            font-semibold hover:text-black"
-            >
-              Add to Favorite Tours
-            </button>
+            {!idFavoriteTours.some(fav => fav.tour_id === Number(id)) ? (
+              <button
+                className="transition duration-200 bg-transparent border-2 border-white p-2 hover:bg-white 
+            font-semibold hover:text-black flex items-center justify-center gap-4"
+                onClick={() => {
+                  if (!isLoggedIn) dispatch(toggleModal(true));
+                }}
+              >
+                Add to Favorite Tours
+                <FaRegBookmark />
+              </button>
+            ) : (
+              <button
+                className="transition duration-200 bg-transparent border-2 border-white p-2 hover:bg-white 
+            font-semibold hover:text-black flex items-center justify-center gap-4"
+                onClick={() => {
+                  if (!isLoggedIn) dispatch(toggleModal(true));
+                }}
+              >
+                Delete from Favorite Tours
+                <FaRegTrashCan/>
+              </button>
+            )}
           </div>
         </div>
       </div>

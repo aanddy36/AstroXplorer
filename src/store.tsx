@@ -5,6 +5,8 @@ import filterSidebarReducer from "./features/FilterSidebar/filterSidebarSlice";
 import authReducer from "./features/Auth/authSlice";
 import currentTourReducer from "./features/CurrentTour.tsx/currentTourSlice";
 import sortReviewsReducer from "./features/SortReviews/sortReviewsSlice";
+import userToursReducer from "./features/UserTours/userToursSlice";
+import modalReducer from "./features/Modal/modalSlice";
 
 export const store = configureStore({
   reducer: {
@@ -13,7 +15,9 @@ export const store = configureStore({
     filterSidebar: filterSidebarReducer,
     auth: authReducer,
     currentTour: currentTourReducer,
-    sortReviews: sortReviewsReducer
+    sortReviews: sortReviewsReducer,
+    userTours: userToursReducer,
+    modal: modalReducer,
   },
 });
 export type RootState = ReturnType<typeof store.getState>;

@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 import { resetErrors } from "./Auth/authSlice";
 import { resetPages } from "./FilterAndSorting/filterSortingSlice";
 import { resetSorting } from "./SortReviews/sortReviewsSlice";
+import { toggleModal } from "./Modal/modalSlice";
 
 export function ScrollToTop() {
   const location = useLocation();
@@ -16,15 +17,22 @@ export function ScrollToTop() {
     let newArray = location.pathname.split("/");
     let actualPage = newArray[newArray.length - 1];
 
-    if (!nonScrollableLinks.includes(actualPage) && !nonScrollableLinks.includes(previousPath)) {
-     
+    if (
+      !nonScrollableLinks.includes(actualPage) &&
+      !nonScrollableLinks.includes(previousPath)
+    ) {
       window.scrollTo(0, 0);
     }
     dispatch(resetErrors());
     dispatch(resetPages());
-    dispatch(resetSorting())
-    setPreviousPath(actualPage)
+    dispatch(resetSorting());
+    dispatch(toggleModal(false))
+    setPreviousPath(actualPage);
   }, [location.pathname]);
+
+  useEffect(() => {
+    //console.log(previousPath);
+  }, [previousPath]);
 
   return null;
 }

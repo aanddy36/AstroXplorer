@@ -71,6 +71,8 @@ const filterSortingSlice = createSlice({
     },
     resetPages: (state) => {
       state.page = initialState.page;
+      state.isFixed = initialState.isFixed;
+      state.searchText = initialState.searchText;
     },
     changePage: (state, { payload }: { payload: "next" | "previous" }) => {
       if (payload === "next") {
@@ -83,7 +85,6 @@ const filterSortingSlice = createSlice({
       state.areTheyOpen = initialState.areTheyOpen;
     },
     openOneOfThem: (state, { payload }) => {
-      
       return {
         ...state,
         areTheyOpen: {
@@ -95,9 +96,9 @@ const filterSortingSlice = createSlice({
     clearAllFilters: (state) => {
       state.addedFilters = [];
       state.page = initialState.page;
-      state.filteredTours = state.allTours
+      state.filteredTours = state.allTours;
     },
-    addOrDeleteFilter: (state, { payload }: { payload: Filters }) => {    
+    addOrDeleteFilter: (state, { payload }: { payload: Filters }) => {
       if (state.addedFilters.includes(payload)) {
         state.addedFilters = state.addedFilters.filter(
           (filter) => filter !== payload
@@ -105,13 +106,21 @@ const filterSortingSlice = createSlice({
       } else {
         state.addedFilters.push(payload);
       }
-      state.filteredTours = filterAndSort(state.addedFilters, state.currentSorting, state.allTours) as ITours[]
+      state.filteredTours = filterAndSort(
+        state.addedFilters,
+        state.currentSorting,
+        state.allTours
+      ) as ITours[];
       state.searchText = "";
     },
     changeCurrentSorting: (state, { payload }: { payload: ISorting }) => {
       state.currentSorting = payload;
       state.searchText = initialState.searchText;
-      state.filteredTours = filterAndSort(state.addedFilters, state.currentSorting, state.allTours) as ITours[]
+      state.filteredTours = filterAndSort(
+        state.addedFilters,
+        state.currentSorting,
+        state.allTours
+      ) as ITours[];
     },
   },
   extraReducers: (builder) => {
@@ -122,7 +131,11 @@ const filterSortingSlice = createSlice({
       .addCase(getAllTours.fulfilled, (state, action) => {
         state.isLoading = false;
         state.allTours = action.payload;
-        state.filteredTours = filterAndSort(state.addedFilters, state.currentSorting, action.payload) as ITours[]
+        state.filteredTours = filterAndSort(
+          state.addedFilters,
+          state.currentSorting,
+          action.payload
+        ) as ITours[];
       })
       .addCase(getAllTours.rejected, (state, action) => {
         state.isLoading = false;

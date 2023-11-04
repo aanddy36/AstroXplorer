@@ -1,32 +1,21 @@
-import { ChangeEvent, useEffect } from "react";
+import { ChangeEvent } from "react";
 import { FaMagnifyingGlass, FaXmark } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { changeText, cleanSearchBar, toggleFixing } from "./filterSortingSlice";
+import { changeText, cleanSearchBar } from "./filterSortingSlice";
 
 export const TourSearchBar = () => {
   const { searchText, isFixed } = useSelector(
     (store: RootState) => store.filterSorting
   );
   const dispatch = useDispatch();
-  useEffect(() => {
-    const handleSearchBarMovement = () => {      
-      if (window.scrollY > 360 && window.scrollY < 2000) {
-        dispatch(toggleFixing(true));
-      } else {
-        dispatch(toggleFixing(false));
-      }
-    };
-    window.addEventListener("scroll", handleSearchBarMovement);
-    return () => removeEventListener("scroll", handleSearchBarMovement);
-  }, []);
   return (
     <div
       className={`bg-[#dbdbdb96] w-[90%] tablet:w-[75%] full:w-[60%] left-[50%] translate-x-[-50%]
           h-[50px] laptop:h-[60px] p-[3px] ${
             isFixed
-              ? `fixed top-[10px] z-[4]`
-              : ` absolute z-[2] bottom-[-25px] laptop:bottom-[-30px]`
+              ? `fixed top-[10px] z-[10]`
+              : ` absolute z-[2] top-[-25px] laptop:top-[-30px]`
           }`}
     >
       <input

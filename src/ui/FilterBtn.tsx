@@ -23,7 +23,7 @@ export const FilterBtn = ({
   const dispatch = useDispatch();
   return (
     <div
-      className={`relative h-[60px] w-full bg-transparent hidden full:block z-[10] ${
+      className={`relative h-[60px] w-full bg-transparent hidden full:block z-[1] ${
         areTheyOpen[name] ? "overflow-visible" : "overflow-hidden"
       }`}
     >

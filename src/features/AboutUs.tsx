@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 export const AboutUs = () => {
+  const navigate = useNavigate()
   return (
     <div
       className="pt-24 full:px-[3%] min-[1200px]:px-[10%] flex 
@@ -44,6 +46,7 @@ export const AboutUs = () => {
           viewport={{ once: true }}
           className="border-2 border-white py-1 px-3 text-lg w-fit transition-colors duration-200 
             hover:bg-white border-[--secundary-color] hover:text-black hover:font-semibold"
+            onClick={()=>navigate("/about")}
         >
           Read more
         </motion.button>

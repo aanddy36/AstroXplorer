@@ -3,7 +3,7 @@
     /*src: url('SpaceX.ttf') format('ttf');*/
     src: url('SpaceX.eot'); /* IE9 Compat Modes */
     src: url('SpaceX.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-         url('SpaceX.woff') format('woff'), /* Modern Browsers */
+         /*url('SpaceX.woff') format('woff'), /* Modern Browsers */
          url('SpaceX.ttf')  format('truetype'), /* Safari, Android, iOS */
          url('SpaceX.svg#svgFontName') format('svg');
 }

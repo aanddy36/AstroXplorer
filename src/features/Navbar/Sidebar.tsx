@@ -44,7 +44,7 @@ export const Sidebar = () => {
       h-screen absolute z-[3] right-0`}
     >
       <div
-        className={` bg-[--third-color] w-full min-w-[300px] tablet:min-w-[240px] absolute right-0
+        className={`bg-[#1f1f1f] w-full min-w-[300px] tablet:min-w-[240px] absolute right-0
            h-screen laptop:hidden text-[--main-font-color] pt-[30px] text-right`}
         ref={sidebar}
       >
@@ -82,13 +82,13 @@ export const Sidebar = () => {
                   className="flex w-full transiton duration-300 hover:pr-4 justify-between items-center"
                   onClick={() => setIsProfileToggleOpen((prev) => !prev)}
                 >
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-4 tablet:gap-3">
                     <FaChevronDown
                       className={`scale-x-[0.7] scale-y-[0.9] transiton duration-300 ${
                         isProfileToggleOpen ? "rotate-180" : "rotate-0"
                       }`}
                     />
-                    <span className="text-base bg-[#7e7e7e3d] py-2 px-3 rounded-full">
+                    <span className="text-base bg-[#7e7e7e3d] py-[10px] px-3 rounded-full">
                       {name.slice(0, 1).toLocaleUpperCase()}
                       {surname.slice(0, 1).toLocaleUpperCase()}
                     </span>

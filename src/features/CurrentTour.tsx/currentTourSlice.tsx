@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { IItinerary, ISingleReview, ITours } from "../../moduls";
+import { IDate, IItinerary, ISingleReview, ITours } from "../../moduls";
 import supabase from "../../services/supabase";
 
 type ICurrentTour = {
@@ -8,7 +8,8 @@ type ICurrentTour = {
   isRetrieving: boolean;
   reviewsTour: ISingleReview[];
   itinerary: IItinerary[];
-  avgReview: number
+  avgReview: number;
+  dates: IDate[];
 };
 
 const initialState: ICurrentTour = {
@@ -17,7 +18,8 @@ const initialState: ICurrentTour = {
   isRetrieving: false,
   reviewsTour: [],
   itinerary: [],
-  avgReview: 0
+  avgReview: 0,
+  dates: [],
 };
 
 export const retrieveOneTour = createAsyncThunk(
@@ -32,7 +34,8 @@ export const retrieveOneTour = createAsyncThunk(
         return thunkAPI.rejectWithValue(error.message);
       }
       thunkAPI.dispatch(retrieveReviews(id));
-      thunkAPI.dispatch(retrieveItinerary(id))
+      thunkAPI.dispatch(retrieveItinerary(id));
+      thunkAPI.dispatch(retrieveDates(id));
       return tour;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
@@ -75,6 +78,24 @@ export const retrieveItinerary = createAsyncThunk(
   }
 );
 
+export const retrieveDates = createAsyncThunk(
+  "currentTour/retrieveDates",
+  async (id: string, thunkAPI) => {
+    try {
+      const { data: itinerary, error } = await supabase
+        .from("dates")
+        .select("*")
+        .eq("tour_id", id);
+      if (error) {
+        return thunkAPI.rejectWithValue(error.message);
+      }
+      return itinerary;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
 const currentTourSlice = createSlice({
   name: "currentTour",
   initialState,
@@ -104,8 +125,8 @@ const currentTourSlice = createSlice({
       .addCase(retrieveReviews.fulfilled, (state, action) => {
         state.isRetrieving = false;
         state.reviewsTour = action.payload;
-        if(!action.payload.length){
-          state.avgReview = 0
+        if (!action.payload.length) {
+          state.avgReview = 0;
         }
         let avg = 0;
         action.payload.forEach((review) => (avg += review.rating));
@@ -124,6 +145,18 @@ const currentTourSlice = createSlice({
         state.itinerary = action.payload;
       })
       .addCase(retrieveItinerary.rejected, (state, action) => {
+        state.isRetrieving = false;
+        state.error = action.payload as string;
+      })
+      .addCase(retrieveDates.pending, (state) => {
+        state.isRetrieving = true;
+        state.error = "";
+      })
+      .addCase(retrieveDates.fulfilled, (state, action) => {
+        state.isRetrieving = false;
+        state.dates = action.payload;
+      })
+      .addCase(retrieveDates.rejected, (state, action) => {
         state.isRetrieving = false;
         state.error = action.payload as string;
       });

@@ -16,9 +16,8 @@ export const ReviewsTour = () => {
   const { sortedReviews } = useSortReviews(reviewsTour, sortingMethod);
   const [finalReviews, setFinalReviews] = useState(sortedReviews);
   const reviewsCont = useRef<HTMLDivElement | null>(null);
-  const [actualHeight, setActualHeight] = useState(
-    reviewsCont.current?.clientHeight as number
-  );
+  const [actualHeight, setActualHeight] = useState(0);
+  const listItems = useRef<HTMLLIElement[]>([]);
   useEffect(() => {
     setFinalReviews(sortedReviews);
   }, [sortedReviews]);
@@ -28,9 +27,24 @@ export const ReviewsTour = () => {
   const handleShowMore = () => {
     setActualHeight((prev) => (prev as number) + 800);
   };
-  useEffect(() => {
+  /*useEffect(() => {
     setActualHeight(1100);
-  }, [sortingMethod]);
+  }, [sortingMethod]);*/
+  useEffect(() => {
+    if (listItems.current.length) {
+      let cuttedArray = listItems.current.slice(0, 4);
+      let he = 0;
+      for (let i = 0; i < cuttedArray.length; i++) {
+        he += cuttedArray[i]?.scrollHeight;
+      }
+      setActualHeight(he)
+      console.log(he);
+    }
+  }, [listItems, sortingMethod]);
+    useEffect(() => {
+    //console.log(`visible height:${actualHeight}`);
+    //console.log(`total height:${reviewsCont.current?.scrollHeight}`);
+  }, [actualHeight]);
   if (!reviewsTour.length) {
     return (
       <div className="py-28 flex flex-col gap-10 items-center">
@@ -72,21 +86,31 @@ export const ReviewsTour = () => {
         <SortReviews />
       </div>
       <div
-        className={`overflow-hidden relative ${reviewsTour.length < 3 ? "h-[200px]": " h-[1100px]"}`}
+        className={`overflow-hidden relative h-[${
+          actualHeight + 200
+        }px]`}
         ref={reviewsCont}
         style={{
           height:
             actualHeight < (reviewsCont.current?.scrollHeight as number)
-              ? `${actualHeight}px`
+              ? `${actualHeight + 200}px`
               : `${reviewsCont.current?.scrollHeight as number}px`,
         }}
       >
         <ul>
           {finalReviews.map((review, index) => {
-            return <SingleReview key={index} {...review} />;
+            return (
+              <li
+                key={index}
+                className="py-10 border-b border-white/20 flex flex-col gap-4 laptop:gap-2 items-start"
+                ref={(el) => (listItems.current[index] = el as HTMLLIElement)}
+              >
+                <SingleReview {...review} />
+              </li>
+            );
           })}
         </ul>
-        {actualHeight < (reviewsCont.current?.scrollHeight as number) && (
+        {(reviewsCont.current?.scrollHeight as number) - actualHeight > 250 && (
           <div
             className="absolute bottom-0 z-[2] bg-gradient-to-t from-black from-[12%] via-transparent via-25%
            h-[1100px] w-full"
