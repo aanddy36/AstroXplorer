@@ -15,8 +15,8 @@ const sortReviewsSlice = createSlice({
     newSorting: (state, action) => {
       state.sortingMethod = action.payload;
     },
-    resetSorting: (state)=>{
-        state = initialState
+    resetSorting: ()=>{
+        return {...initialState}
     }
   },
 });

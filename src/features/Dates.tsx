@@ -1,9 +1,10 @@
-import { useSelector } from "react-redux";
-import { RootState } from "../store";
-import { useEffect } from "react";
+
+//import { useSelector } from "react-redux";
+//import { RootState } from "../store";
+//import { useEffect } from "react";
 
 export const Dates = () => {
-  const { dates } = useSelector((store: RootState) => store.currentTour);
+//  const { dates } = useSelector((store: RootState) => store.currentTour);
   //useEffect(() => console.log(dates));
   return (
     <div className="py-24 text-3xl text-center">

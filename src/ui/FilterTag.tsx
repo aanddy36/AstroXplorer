@@ -1,12 +1,12 @@
 import { FaXmark } from "react-icons/fa6";
 import { useDispatch } from "react-redux";
 import { addOrDeleteFilter } from "../features/FilterAndSorting/filterSortingSlice";
-import { Sorts } from "../moduls";
+import { Filters } from "../moduls";
 
 export const FilterTag = ({
   text,
 }: {
-  text: Sorts;
+  text: Filters;
 }) => {
   const dispatch = useDispatch();
   return (
