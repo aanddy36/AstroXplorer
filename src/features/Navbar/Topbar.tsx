@@ -97,7 +97,7 @@ export const Topbar = () => {
                 />
               </button>
               <ul
-                className={` bg-[#1f1f1f] text-white mt-0 transition-all duration-200
+                className={` bg-[#1f1f1f] text-white mt-0 transition-all duration-200 shadow-lg shadow-black
             ${isProfileOpen ? "visible opacity-100" : "invisible opacity-0"}`}
                 onMouseEnter={() => setIsProfileOpen(true)}
                 onMouseLeave={() => setIsProfileOpen(false)}

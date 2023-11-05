@@ -15,7 +15,9 @@ export const Sidebar = () => {
     AnyAction
   >;
   const { isOpen } = useSelector((store: RootState) => store.navbar);
-  const { isLoggedIn, name, surname } = useSelector((store: RootState) => store.auth);
+  const { isLoggedIn, name, surname } = useSelector(
+    (store: RootState) => store.auth
+  );
   const sidebar = useRef<null | HTMLDivElement>(null);
   const [isProfileToggleOpen, setIsProfileToggleOpen] = useState(false);
 
@@ -35,10 +37,18 @@ export const Sidebar = () => {
     document.addEventListener("scroll", handleScroll, true);
     return () => document.removeEventListener("scroll", handleScroll, true);
   }, []);
-
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 750) {
+        dispatch(closeSidebar());
+      }
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   return (
     <div
-      className={`transition-all duration-300 overflow-hidden ${
+      className={`transition-all duration-300 overflow-hidden shadow-xl shadow-black ${
         isOpen ? "w-[80%] tablet:w-[50%]" : "w-0"
       }
       h-screen absolute z-[3] right-0`}

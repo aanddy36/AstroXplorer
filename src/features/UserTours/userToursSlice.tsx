@@ -83,6 +83,7 @@ export const deleteFavoriteTour = createAsyncThunk(
         return thunkAPI.rejectWithValue(error.message);
       }
       thunkAPI.dispatch(retrieveFavoriteTours(user_id));
+      thunkAPI.dispatch(retrieveIdFavoriteTours(user_id));
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -104,6 +105,9 @@ export const addFavoriteTour = createAsyncThunk(
         return thunkAPI.rejectWithValue(error.message);
       }
       thunkAPI.dispatch(retrieveFavoriteTours(user_id));
+      thunkAPI.dispatch(retrieveIdFavoriteTours(user_id));
+      console.log(data);
+      
       return data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);

@@ -8,10 +8,10 @@ export const Home = () => {
   /*ERRORS TO SOLVE
   NOTE: At the end erase all cardImages and tourImages as they are extracted from supabase, not from the project
   NOTE: Remove scroll bar height for the submenu of Specific Tour
-  1. In Tours the Filter menu is behind (z) of the Favorite button.
-  2. In Tour: MOBILE, the Seatchbar is higher (z) than the Sidebar Filer Menu when the Searchbar is Fixed, 
-  3. In Tour: MOBILE: In the Tour Sidebar Filter Menu, changue the height of each of the options to be auto using .scrollHeight
+  1. ALL SIDEBARS: When they are open and the window is full width, the shadow remains in the screen.
+  5. Sort Btn hasnt been added to the sidebar tour.
   4. When refreshing the Profile page, it sends me to the Home page, but it should leave me in the same page.
+  5. When refreshing the Profile page, it sends me to the Log in page, and even if I login, it doesnt proceed.
   */
 
   return (

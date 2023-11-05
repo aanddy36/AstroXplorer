@@ -43,22 +43,29 @@ export const SortBtn = () => {
         {sortingOptions.map((option) => {
           return (
             <label
-              key={option.id}
+              key={option.idFull}
               className="flex justify-start items-center gap-4 font-light cursor-pointer"
-              htmlFor={option.id}
+              htmlFor={option.idFull}
             >
+              <span className={`h-5 w-5 rounded-full border-2 absolute`}>
+                <span
+                  className={`absolute inset-1 rounded-full ${
+                    currentSorting === option.idShared ? "bg-white" : "bg-transparent"
+                  }`}
+                ></span>
+              </span>
               <input
                 type="radio"
-                id={option.id}
+                id={option.idFull}
                 name="sort"
-                value={currentSorting}
+                value={option.idShared}
                 onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  dispatch(changeCurrentSorting(e.target.id as ISorting))
+                  dispatch(changeCurrentSorting(e.target.value as ISorting))
                 }
-                checked={currentSorting === option.id}
-                className="check-form cursor-pointer"
+                checked={currentSorting === option.idShared}
+                className="check-form cursor-pointer invisible"
               />
-              {option.id}
+              {option.idShared}
             </label>
           );
         })}

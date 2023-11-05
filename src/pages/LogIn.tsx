@@ -40,6 +40,12 @@ export const LogIn = () => {
     dispatch(login(data));
   };
 
+  useEffect(()=>{
+    if(isLoggedIn){
+      navigate(-1)
+    }
+  },[isLoggedIn])
+
   return (
     <div
       className="h-0 laptop:min-h-[600px] laptop:h-[100vh] relative z-[1] w-full bg-[url('/src/images/bgImages/nasa.jpg')] bg-cover bg-top

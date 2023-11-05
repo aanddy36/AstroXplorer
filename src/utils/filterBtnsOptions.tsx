@@ -1,5 +1,5 @@
 import { IFilterBtn, ISortingOptions } from "../moduls";
-import { nanoid } from 'nanoid'
+import { nanoid } from "nanoid";
 
 export const filterOptions: IFilterBtn[] = [
   {
@@ -7,18 +7,18 @@ export const filterOptions: IFilterBtn[] = [
     name: "groupSize",
     options: [
       {
-        idFull:nanoid(),
-        idSidebar:nanoid(),
+        idFull: nanoid(),
+        idSidebar: nanoid(),
         idShared: "40 people or less",
       },
       {
-        idFull:nanoid(),
-        idSidebar:nanoid(),
+        idFull: nanoid(),
+        idSidebar: nanoid(),
         idShared: "41 - 80 people",
       },
       {
-        idFull:nanoid(),
-        idSidebar:nanoid(),
+        idFull: nanoid(),
+        idSidebar: nanoid(),
         idShared: "81 people or more",
       },
     ],
@@ -28,23 +28,23 @@ export const filterOptions: IFilterBtn[] = [
     name: "duration",
     options: [
       {
-        idFull:nanoid(),
-        idSidebar:nanoid(),
+        idFull: nanoid(),
+        idSidebar: nanoid(),
         idShared: "60 days or less",
       },
       {
-        idFull:nanoid(),
-        idSidebar:nanoid(),
+        idFull: nanoid(),
+        idSidebar: nanoid(),
         idShared: "61 - 99 days",
       },
       {
-        idFull:nanoid(),
-        idSidebar:nanoid(),
+        idFull: nanoid(),
+        idSidebar: nanoid(),
         idShared: "100 - 140 days",
       },
       {
-        idFull:nanoid(),
-        idSidebar:nanoid(),
+        idFull: nanoid(),
+        idSidebar: nanoid(),
         idShared: "141 days or more",
       },
     ],
@@ -54,23 +54,23 @@ export const filterOptions: IFilterBtn[] = [
     name: "price",
     options: [
       {
-        idFull:nanoid(),
-        idSidebar:nanoid(),
+        idFull: nanoid(),
+        idSidebar: nanoid(),
         idShared: "$300k or less",
       },
       {
-        idFull:nanoid(),
-        idSidebar:nanoid(),
+        idFull: nanoid(),
+        idSidebar: nanoid(),
         idShared: "$301k - $499k",
       },
       {
-        idFull:nanoid(),
-        idSidebar:nanoid(),
+        idFull: nanoid(),
+        idSidebar: nanoid(),
         idShared: "$500k - $799k",
       },
       {
-        idFull:nanoid(),
-        idSidebar:nanoid(),
+        idFull: nanoid(),
+        idSidebar: nanoid(),
         idShared: "$800k or more",
       },
     ],
@@ -80,13 +80,13 @@ export const filterOptions: IFilterBtn[] = [
     name: "bodyType",
     options: [
       {
-        idFull:nanoid(),
-        idSidebar:nanoid(),
+        idFull: nanoid(),
+        idSidebar: nanoid(),
         idShared: "Planet",
       },
       {
-        idFull:nanoid(),
-        idSidebar:nanoid(),
+        idFull: nanoid(),
+        idSidebar: nanoid(),
         idShared: "Moon",
       },
     ],
@@ -95,19 +95,29 @@ export const filterOptions: IFilterBtn[] = [
 
 export const sortingOptions: ISortingOptions[] = [
   {
-    id: "Featured",
+    idFull: nanoid(),
+    idSidebar: nanoid(),
+    idShared: "Featured",
   },
   {
-    id: "Price: Low to high",
+    idFull: nanoid(),
+    idSidebar: nanoid(),
+    idShared: "Price: Low to high",
   },
   {
-    id: "Rating: High to low",
+    idFull: nanoid(),
+    idSidebar: nanoid(),
+    idShared: "Rating: High to low",
   },
   {
-    id: "Duration: Long to short",
+    idFull: nanoid(),
+    idSidebar: nanoid(),
+    idShared: "Duration: Long to short",
   },
   {
-    id: "Duration: Short to long",
+    idFull: nanoid(),
+    idSidebar: nanoid(),
+    idShared: "Duration: Short to long",
   },
 ];
 export const options = [

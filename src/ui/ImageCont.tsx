@@ -4,17 +4,28 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toggleModal } from "../features/Modal/modalSlice";
 import { RootState } from "../store";
+import {
+  addFavoriteTour,
+  deleteFavoriteTour,
+} from "../features/UserTours/userToursSlice";
+import { AnyAction, ThunkDispatch } from "@reduxjs/toolkit";
 
 export const ImageCont = ({
   cardImage,
-  id,
+  id: tour_id,
 }: {
   cardImage?: string;
   id: number;
 }) => {
-  const dispatch = useDispatch();
-  const { isLoggedIn } = useSelector((store: RootState) => store.auth);
-  const { idFavoriteTours } = useSelector(
+  const dispatch = useDispatch() as ThunkDispatch<
+    RootState,
+    undefined,
+    AnyAction
+  >;
+  const { isLoggedIn, id: user_id } = useSelector(
+    (store: RootState) => store.auth
+  );
+  const { idFavoriteTours, favoriteTours, isAdding, isDeleting } = useSelector(
     (store: RootState) => store.userTours
   );
   const ref = useRef<HTMLDivElement | null>(null);
@@ -36,8 +47,16 @@ export const ImageCont = ({
     return () => window.removeEventListener("resize", adjustHeight);
   }, []);
   const handleClickFavorite = () => {
-    if (!idFavoriteTours.some((tour) => tour.tour_id === id) && !isLoggedIn) {
-      dispatch(toggleModal(true));
+    if (!isLoggedIn) {
+      return dispatch(toggleModal(true));
+    }
+    if (idFavoriteTours.some((tour) => tour.tour_id === tour_id)) {
+      let favorite_id = String(
+        favoriteTours.filter((fav) => fav.tour_id === tour_id)[0]?.id
+      );
+      dispatch(deleteFavoriteTour({ favorite_id, user_id }));
+    } else {
+      dispatch(addFavoriteTour({ tour_id, user_id }));
     }
   };
   return (
@@ -46,26 +65,27 @@ export const ImageCont = ({
       ref={ref}
     >
       <span
-        className="absolute top-3 right-3 h-10 w-10 z-[5] bg-white/40 flex items-center justify-center 
+        className="absolute top-3 right-3 h-10 w-10 z-[1] bg-white/40 flex items-center justify-center 
       rounded-full transition duration-200 hover:scale-[1.1]"
         //onClick={() => setIsFavorite(!isFavorite)}
       >
-        <span
-          className="p-[6px] relative text-white/90"
+        <button
+          className="p-[6px] relative text-white/90 disabled:cursor-not-allowed"
           onClick={handleClickFavorite}
+          disabled={isAdding || isDeleting}
         >
-          {!idFavoriteTours.some((tour) => tour.tour_id === id) ? (
+          {!idFavoriteTours.some((tour) => tour.tour_id === tour_id) ? (
             <FaRegBookmark className="scale-[1.3]" />
           ) : (
             <FaBookmark className="scale-[1.3]" />
           )}
-        </span>
+        </button>
       </span>
       <img
         src={cardImage}
         className="relative object-contain"
         loading="lazy"
-        onClick={() => navigate(`/tours/${id}`)}
+        onClick={() => navigate(`/tours/${tour_id}`)}
       />
     </div>
   );

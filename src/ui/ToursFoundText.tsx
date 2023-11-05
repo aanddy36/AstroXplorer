@@ -1,12 +1,10 @@
-import { ITours } from "../moduls";
+import { useSelector } from "react-redux";
+import { RootState } from "../store";
 
-export const ToursFoundText = ({
-  filteredTours,
-  page,
-}: {
-  filteredTours: ITours[];
-  page: number;
-}) => {
+export const ToursFoundText = () => {
+  const { page, filteredTours } = useSelector(
+    (store: RootState) => store.filterSorting
+  );
   if (!filteredTours?.length) {
     return (
       <span className="text-white/60 font-light">Showing 0 of 0 results</span>

@@ -94,9 +94,14 @@ const filterSortingSlice = createSlice({
       };
     },
     clearAllFilters: (state) => {
+      console.log(state.currentSorting);
       state.addedFilters = [];
       state.page = initialState.page;
-      state.filteredTours = state.allTours;
+      state.filteredTours = filterAndSort(
+        state.addedFilters,
+        state.currentSorting,
+        state.allTours
+      ) as ITours[];
     },
     addOrDeleteFilter: (state, { payload }: { payload: Filters }) => {
       if (state.addedFilters.includes(payload)) {

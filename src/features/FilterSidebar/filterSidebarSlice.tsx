@@ -25,7 +25,6 @@ const filterSidebar = createSlice({
       state.isOpen = payload;
     },
     openOrClose: (state, { payload }) => {
-      console.log({ ...state.areTheyOpenSidebar });
       return {
         ...state,
         areTheyOpenSidebar: {

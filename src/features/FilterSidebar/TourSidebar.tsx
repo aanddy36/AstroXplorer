@@ -5,6 +5,7 @@ import { FilterBtnSidebar } from "../../ui/FilterBtnSidebar";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { closeThemAllSidebar, toggleFilterSidebar } from "./filterSidebarSlice";
+import { SortSidebarBtn } from "../../ui/SortSidebarBtn";
 
 export const TourSidebar = () => {
   const sidebar = useRef<null | HTMLDivElement>(null);
@@ -21,16 +22,24 @@ export const TourSidebar = () => {
     document.addEventListener("click", handleClick, true);
     return () => document.removeEventListener("click", handleClick, true);
   }, []);
-
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 750) {
+        dispatch(toggleFilterSidebar(false));
+      }
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   return (
     <main
-      className={`transition-all duration-300 overflow-hidden fixed ${
+      className={`transition-all duration-300 overflow-hidden fixed shadow-xl shadow-black ${
         isOpen ? "w-[80%] tablet:w-[50%]" : "w-0"
       }
-      h-screen z-[3] right-0`}
+      h-screen z-[11] right-0`}
     >
       <div
-        className={` bg-[#1f1f1f] w-full min-w-[300px] tablet:min-w-[240px] absolute inset-0
+        className={` bg-[#1f1f1f] w-full min-w-[300px] tablet:min-w-[240px] absolute inset-0 z-[11]
            h-screen full:hidden text-[--main-font-color] pt-[30px] text-right `}
         ref={sidebar}
       >
@@ -51,6 +60,7 @@ export const TourSidebar = () => {
               />
             );
           })}
+          <SortSidebarBtn/>
         </ul>
       </div>
     </main>

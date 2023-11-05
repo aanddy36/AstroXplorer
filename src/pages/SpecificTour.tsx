@@ -18,6 +18,11 @@ import { GravityStatement } from "../ui/GravityStatement";
 import { WrongPage } from "./WrongPage";
 import { NavLinkTour } from "../ui/NavLinkTour";
 import { toggleModal } from "../features/Modal/modalSlice";
+import {
+  addFavoriteTour,
+  deleteFavoriteTour,
+} from "../features/UserTours/userToursSlice";
+import { MiniSpinner } from "../ui/MiniSpinner";
 
 export const SpecificTour = () => {
   const dispatch = useDispatch() as ThunkDispatch<
@@ -32,8 +37,10 @@ export const SpecificTour = () => {
   const { currentTour, isRetrieving, reviewsTour, avgReview } = useSelector(
     (store: RootState) => store.currentTour
   );
-  const { isLoggedIn } = useSelector((store: RootState) => store.auth);
-  const { idFavoriteTours } = useSelector(
+  const { isLoggedIn, id: user_id } = useSelector(
+    (store: RootState) => store.auth
+  );
+  const { idFavoriteTours, favoriteTours, isAdding, isDeleting } = useSelector(
     (store: RootState) => store.userTours
   );
 
@@ -93,10 +100,26 @@ export const SpecificTour = () => {
     window.addEventListener("scroll", handleScrollMovement);
     return () => removeEventListener("scroll", handleScrollMovement);
   }, []);*/
+  const handleClickFavorite = () => {
+    console.log("entre");
+
+    if (!isLoggedIn) {
+      return dispatch(toggleModal(true));
+    }
+    if (idFavoriteTours.some((tour) => tour.tour_id === Number(id))) {
+      let favorite_id = String(
+        favoriteTours.filter((fav) => fav.tour_id === Number(id))[0]?.id
+      );
+      dispatch(deleteFavoriteTour({ favorite_id, user_id }));
+    } else {
+      console.log("AAAAA");
+
+      dispatch(addFavoriteTour({ tour_id: Number(id), user_id }));
+    }
+  };
   useEffect(() => {
     if (id) {
       console.log(idFavoriteTours);
-      
     }
   }, [idFavoriteTours]);
   if (isRetrieving) {
@@ -182,29 +205,31 @@ export const SpecificTour = () => {
               See dates & prices
               <FaRegCalendar />
             </button>
-            {!idFavoriteTours.some(fav => fav.tour_id === Number(id)) ? (
-              <button
-                className="transition duration-200 bg-transparent border-2 border-white p-2 hover:bg-white 
-            font-semibold hover:text-black flex items-center justify-center gap-4"
-                onClick={() => {
-                  if (!isLoggedIn) dispatch(toggleModal(true));
-                }}
-              >
-                Add to Favorite Tours
-                <FaRegBookmark />
-              </button>
-            ) : (
-              <button
-                className="transition duration-200 bg-transparent border-2 border-white p-2 hover:bg-white 
-            font-semibold hover:text-black flex items-center justify-center gap-4"
-                onClick={() => {
-                  if (!isLoggedIn) dispatch(toggleModal(true));
-                }}
-              >
-                Delete from Favorite Tours
-                <FaRegTrashCan/>
-              </button>
-            )}
+            <button
+              className="transition duration-200 bg-transparent border-2 border-white p-2 hover:bg-white 
+            font-semibold hover:text-black flex items-center justify-center gap-4 disabled:cursor-not-allowed"
+              onClick={handleClickFavorite} disabled={isAdding || isDeleting}
+            >
+              {isAdding || isDeleting ? (
+                <MiniSpinner />
+              ) : (
+                <>
+                  {!idFavoriteTours.some(
+                    (fav) => fav.tour_id === Number(id)
+                  ) ? (
+                    <>
+                      Add to Favorite Tours
+                      <FaRegBookmark />
+                    </>
+                  ) : (
+                    <>
+                      Delete from Favorite Tours
+                      <FaRegTrashCan />
+                    </>
+                  )}
+                </>
+              )}
+            </button>
           </div>
         </div>
       </div>

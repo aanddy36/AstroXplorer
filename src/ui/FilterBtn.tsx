@@ -47,9 +47,18 @@ export const FilterBtn = ({
           return (
             <label
               key={option.idFull}
-              className="flex justify-start items-center gap-4 font-light cursor-pointer"
+              className="flex justify-start items-center gap-4 font-light cursor-pointer relative"
               htmlFor={option.idFull}
             >
+              <span className={`h-5 w-5 rounded-full border-2 absolute`}>
+                <span
+                  className={`absolute inset-1 rounded-full ${
+                    addedFilters.includes(option.idShared)
+                      ? "bg-white"
+                      : "bg-transparent"
+                  }`}
+                ></span>
+              </span>
               <input
                 type="checkbox"
                 id={option.idFull}
@@ -57,8 +66,8 @@ export const FilterBtn = ({
                 onChange={(e: ChangeEvent<HTMLInputElement>) =>
                   dispatch(addOrDeleteFilter(e.target.value as Filters))
                 }
-                checked={addedFilters.includes(option.idShared)}                                                                                          
-                className="check-form cursor-pointer border"
+                checked={addedFilters.includes(option.idShared)}
+                className="check-form cursor-pointer border invisible"
               />
               {option.idShared}
             </label>

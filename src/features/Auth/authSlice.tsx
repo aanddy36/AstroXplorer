@@ -6,6 +6,7 @@ import { noUsers, retrieveIdFavoriteTours } from "../UserTours/userToursSlice";
 type IAuth = {
   isLoggedIn: boolean;
   isLoading: boolean;
+  isGettingCurrentUser: boolean;
   id: string;
   errorLogin: string;
   errorSignup: string;
@@ -17,6 +18,7 @@ type IAuth = {
 const initialState: IAuth = {
   isLoggedIn: false,
   isLoading: false,
+  isGettingCurrentUser: false,
   id: "",
   errorLogin: "",
   errorSignup: "",
@@ -81,6 +83,7 @@ export const getCurrentUser = createAsyncThunk(
       if (error) {
         return thunkAPI.rejectWithValue(error.message);
       }
+      thunkAPI.dispatch(retrieveIdFavoriteTours(data.user.id))
       return data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
@@ -131,12 +134,12 @@ const authSlice = createSlice({
         state.isLoggedIn = false;
       })
       .addCase(getCurrentUser.pending, (state) => {
-        state.isLoading = true;
+        state.isGettingCurrentUser = true;
         state.errorLogin = "";
         state.isLoggedIn = false;
       })
       .addCase(getCurrentUser.fulfilled, (state, action) => {
-        state.isLoading = false;
+        state.isGettingCurrentUser = false;
         state.isLoggedIn = action.payload?.user.role === "authenticated";
         state.id = action.payload?.user.id as string;
         state.errorLogin = "";
@@ -144,7 +147,7 @@ const authSlice = createSlice({
         state.surname = action.payload?.user.user_metadata.surname;
       })
       .addCase(getCurrentUser.rejected, (state, action) => {
-        state.isLoading = false;
+        state.isGettingCurrentUser = false;
         state.errorLogin = action.payload as string;
         state.isLoggedIn = false;
       })

@@ -41,7 +41,6 @@ export const SignUp = () => {
       navigate(-1);
     }
   }, [errorSignup, isRegistering, isLoggedIn]);
-
   const onSubmit = (data: INewUser) => {
     dispatch(createUser(data));
   };

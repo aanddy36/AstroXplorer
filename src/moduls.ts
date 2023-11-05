@@ -46,7 +46,9 @@ export interface OptionsFilter {
   idFull: string;
 }
 export interface ISortingOptions {
-  id: string;
+  idShared: string;
+  idSidebar: string;
+  idFull: string;
 }
 
 export type IBodyType = "Planet" | "Moon";
@@ -125,11 +127,11 @@ export interface IDate {
 }
 
 export interface IFavTour {
-  id: number,
-  created_at: string,
-  user_id:number,
-  tour_id:number,
-  tours:IInfoFavTour
+  id: number;
+  created_at: string;
+  user_id: number;
+  tour_id: number;
+  tours: IInfoFavTour;
 }
 
 export interface IInfoFavTour {
@@ -139,4 +141,3 @@ export interface IInfoFavTour {
   duration: string;
   cardImage: string;
 }
-
