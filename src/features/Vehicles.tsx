@@ -1,4 +1,6 @@
 import { motion } from "framer-motion";
+import nauru from "../images/aboutUs/spacecraft-1.png"
+import dragon from "../images/aboutUs/spacecraft-3.png"
 export const Vehicles = () => {
   return (
     <div className="text-white">
@@ -34,7 +36,8 @@ export const Vehicles = () => {
           </motion.p>
         </div>
         <img
-          src="src/images/aboutUs/spacecraft-1.png"
+          src={dragon}
+          alt="Dragon Spacecraft"
           className="h-[300px] full:h-[500px]"
         />
       </div>
@@ -43,7 +46,8 @@ export const Vehicles = () => {
       gap-8 laptop:gap-0"
       >
         <img
-          src="src/images/aboutUs/spacecraft-3.png"
+          src={nauru}
+          alt="Nauru Spacecraft"
           className="h-[300px] full:h-[500px]"
         />
         <div className="flex flex-col justify-between gap-5 laptop:pl-16 full:pl-24">

@@ -1,4 +1,6 @@
 import { motion } from "framer-motion";
+import groupOfAstronauts from "../images/aboutUs/group-of-astronauts-2.jpg"
+import groupOfAstronauts2 from "../images/aboutUs/astronaut-2.jpg"
 export const CompanyDescription = () => {
   return (
     <>
@@ -32,7 +34,8 @@ export const CompanyDescription = () => {
           </motion.p>
         </div>
         <img
-          src="src/images/aboutUs/group-of-astronauts-2.jpg"
+          src={groupOfAstronauts}
+          alt="Group of astronauts"
           className="h-[300px] full:h-[400px]"
         />
       </div>
@@ -41,7 +44,8 @@ export const CompanyDescription = () => {
       gap-8 laptop:gap-0"
       >
         <img
-          src="src/images/aboutUs/astronaut-2.jpg"
+          src={groupOfAstronauts2}
+          alt="Group of astronauts 2"
           className="h-[300px] full:h-[400px]"
         />
         <div className="flex flex-col justify-between gap-5 laptop:pl-16 full:pl-32">

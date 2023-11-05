@@ -58,7 +58,7 @@ export const TourCard = ({
           from-[#0303037a] to-[#00000081]"
         >
           <BlurBall offsetX={offsetX} offsetY={offsetY} />
-          <ImageCont cardImage={cardImage} id={id}/>
+          <ImageCont cardImage={cardImage} id={id} title={title}/>
           <div className="relative h-full flex flex-col flex-1 gap-5 laptop:gap-3 justify-between">
             <div className="flex flex-col items-start gap-2">
               <h1 className="font-bold text-lg text-left">{title}</h1>

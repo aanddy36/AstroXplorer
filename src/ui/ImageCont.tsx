@@ -13,9 +13,11 @@ import { AnyAction, ThunkDispatch } from "@reduxjs/toolkit";
 export const ImageCont = ({
   cardImage,
   id: tour_id,
+  title,
 }: {
   cardImage?: string;
   id: number;
+  title: string;
 }) => {
   const dispatch = useDispatch() as ThunkDispatch<
     RootState,
@@ -82,6 +84,7 @@ export const ImageCont = ({
       </span>
       <img
         src={cardImage}
+        alt={title}
         className="relative object-contain"
         loading="lazy"
         onClick={() => navigate(`/tours/${tour_id}`)}

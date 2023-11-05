@@ -1,4 +1,9 @@
 import { motion } from "framer-motion";
+import ceo from "../images/aboutUs/ceo.png"
+import kurt from "../images/aboutUs/kurt.jpg"
+import annie from "../images/aboutUs/annie.jpg"
+import tyrone from "../images/aboutUs/tyrone.jpg"
+import jisoo from "../images/aboutUs/jisoo.jpg"
 export const TeamMembers = () => {
   return (
     <div className="text-white px-8 laptop:px-[10%] pb-28">
@@ -26,7 +31,8 @@ export const TeamMembers = () => {
           whileInView={{ opacity: 1, translateY: "0%" }}
           transition={{ duration: 0.5 }}
           viewport={{ once: true }}
-          src="src/images/aboutUs/ceo.png"
+          src={ceo}
+          alt="CEO of AstroXplorer"
           className="h-[175px] rounded-full"
         />
         <motion.div
@@ -57,7 +63,8 @@ export const TeamMembers = () => {
               whileInView={{ opacity: 1, translateY: "0%" }}
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
-              src="src/images/aboutUs/kurt.jpg"
+              src={kurt}
+              alt="Kurt Tour Guide"
               className="h-[125px] tablet:h-[175px] rounded-full"
             />
             <motion.div
@@ -79,7 +86,8 @@ export const TeamMembers = () => {
               whileInView={{ opacity: 1, translateY: "0%" }}
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
-              src="src/images/aboutUs/annie.jpg"
+              src={annie}
+              alt="Annie Tour Guide"
               className="h-[125px] tablet:h-[175px] rounded-full"
             />
             <motion.div
@@ -101,7 +109,8 @@ export const TeamMembers = () => {
               whileInView={{ opacity: 1, translateY: "0%" }}
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
-              src="src/images/aboutUs/tyrone.jpg"
+              src={tyrone}
+              alt="Tyrone Tour Guide"
               className="h-[125px] tablet:h-[175px] rounded-full"
             />
             <motion.div
@@ -123,7 +132,8 @@ export const TeamMembers = () => {
               whileInView={{ opacity: 1, translateY: "0%" }}
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
-              src="src/images/aboutUs/jisoo.jpg"
+              src={jisoo}
+              alt="Jisoo Tour Guide"
               className="h-[125px] tablet:h-[175px] rounded-full"
             />
             <motion.div

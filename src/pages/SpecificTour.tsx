@@ -152,6 +152,7 @@ export const SpecificTour = () => {
             animate={{ opacity: 1 }}
             transition={{ duration: 1.5 }}
             src={currentTour.tourImage}
+            alt={currentTour.name}
             className="bg-cover w-full absolute inset-0"
           />
         </div>

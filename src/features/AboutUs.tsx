@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import temp1 from "../images/aboutUs/temp-1.jpg"
+import temp2 from "../images/aboutUs/temp-2.jpg"
 export const AboutUs = () => {
   const navigate = useNavigate()
   return (
@@ -57,7 +59,8 @@ export const AboutUs = () => {
           whileInView={{ opacity: 1 }}
           transition={{ duration: 1 }}
           viewport={{ once: true }}
-          src="/src/images/aboutUs/temp-1.jpg"
+          src={temp1}
+          alt="Titan image"
           className="full:h-[300px]"
         />
         <motion.img
@@ -65,7 +68,8 @@ export const AboutUs = () => {
           whileInView={{ opacity: 1 }}
           transition={{ duration: 1 }}
           viewport={{ once: true }}
-          src="/src/images/aboutUs/temp-2.jpg"
+          src={temp2}
+          alt="Nereid image"
           className="full:h-[300px] full:mt-12"
         />
       </div>
