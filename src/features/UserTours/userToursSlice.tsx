@@ -106,8 +106,7 @@ export const addFavoriteTour = createAsyncThunk(
       }
       thunkAPI.dispatch(retrieveFavoriteTours(user_id));
       thunkAPI.dispatch(retrieveIdFavoriteTours(user_id));
-      console.log(data);
-      
+
       return data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
@@ -120,7 +119,7 @@ const userToursSlice = createSlice({
   initialState,
   reducers: {
     noUsers: () => {
-      return {...initialState}
+      return { ...initialState };
     },
   },
   extraReducers: (builder) => {

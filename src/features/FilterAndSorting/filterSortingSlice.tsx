@@ -57,13 +57,21 @@ const filterSortingSlice = createSlice({
       state.searchText = payload;
       state.addedFilters = [];
       state.page = initialState.page;
-      state.filteredTours = state.allTours?.filter((tour: ITours) =>
+      state.filteredTours = (filterAndSort(
+        state.addedFilters,
+        state.currentSorting,
+        state.allTours
+      ) as ITours[])?.filter((tour: ITours) =>
         tour.title?.toLocaleLowerCase().includes(payload.toLowerCase())
       );
     },
     cleanSearchBar: (state) => {
       state.searchText = "";
-      state.filteredTours = state.allTours;
+      state.filteredTours = filterAndSort(
+        state.addedFilters,
+        state.currentSorting,
+        state.allTours
+      ) as ITours[];
       state.page = initialState.page;
     },
     toggleFixing: (state, { payload }) => {

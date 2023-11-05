@@ -8,6 +8,7 @@ import { RootState } from "../store";
 import { useEffect } from "react";
 import { MiniSpinner } from "../ui/MiniSpinner";
 import { createUser } from "../features/Auth/authSlice";
+import { motion } from "framer-motion";
 
 export const SignUp = () => {
   const dispatch = useDispatch() as ThunkDispatch<
@@ -52,9 +53,12 @@ export const SignUp = () => {
       <div className="text-2xl font-spacex absolute z-[2] left-8 laptop:left-16 top-8 laptop:top-10 text-white">
         <Link to="/">astroX</Link>
       </div>
-      <div
+      <motion.div
         className="w-full laptop:w-[490px] bg-black laptop:bg-black/90 text-white absolute z-[1] laptop:mt-24 
         px-8 laptop:py-8 pb-16 pt-28 flex flex-col justify-between left-[50%] translate-x-[-50%]"
+        initial={{ opacity: 0, translateX: "-100%" }}
+        animate={{ opacity: 1, translateX: "-50%" }}
+        transition={{ duration: 0.5 }}
       >
         <div className=" flex flex-col gap-2 mb-10 text-sm text-white/40">
           <span>START FOR FREE</span>
@@ -262,7 +266,7 @@ export const SignUp = () => {
             {isRegistering ? <MiniSpinner /> : "Create account"}
           </button>
         </form>
-      </div>
+      </motion.div>
     </div>
   );
 };

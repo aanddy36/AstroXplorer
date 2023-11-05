@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import supabase from "../../services/supabase";
 import { ILogin, INewUser } from "../../moduls";
-import { noUsers, retrieveIdFavoriteTours } from "../UserTours/userToursSlice";
+import { noUsers, retrieveFavoriteTours, retrieveIdFavoriteTours } from "../UserTours/userToursSlice";
 
 type IAuth = {
   isLoggedIn: boolean;
@@ -39,6 +39,7 @@ export const login = createAsyncThunk(
         return thunkAPI.rejectWithValue(error.message);
       }
       thunkAPI.dispatch(retrieveIdFavoriteTours(data.user.id))
+      thunkAPI.dispatch(retrieveFavoriteTours(data.user.id))
       return data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
@@ -84,6 +85,7 @@ export const getCurrentUser = createAsyncThunk(
         return thunkAPI.rejectWithValue(error.message);
       }
       thunkAPI.dispatch(retrieveIdFavoriteTours(data.user.id))
+      thunkAPI.dispatch(retrieveFavoriteTours(data.user.id))
       return data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
@@ -127,8 +129,6 @@ const authSlice = createSlice({
         state.surname = action.payload.user.user_metadata.surname;
       })
       .addCase(login.rejected, (state, action) => {
-        console.log(action.payload);
-
         state.isLoading = false;
         state.errorLogin = action.payload as string;
         state.isLoggedIn = false;
@@ -162,7 +162,6 @@ const authSlice = createSlice({
         state.errorSignup = "";
       })
       .addCase(createUser.fulfilled, (state, action) => {
-        console.log(action.payload);
         state.isRegistering = false;
         state.isLoggedIn = action.payload.user?.role === "authenticated";
         state.id = action.payload?.user?.id as string;
@@ -171,7 +170,6 @@ const authSlice = createSlice({
         state.surname = action.payload?.user?.user_metadata.surname;
       })
       .addCase(createUser.rejected, (state, action) => {
-        console.log(action.payload);
         state.isRegistering = false;
         state.errorSignup = action.payload as string;
       })

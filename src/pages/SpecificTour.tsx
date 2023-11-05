@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Outlet, useParams } from "react-router-dom";
 import { RootState } from "../store";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import {
   FaArrowLeft,
   FaChevronRight,
@@ -43,6 +43,7 @@ export const SpecificTour = () => {
   const { idFavoriteTours, favoriteTours, isAdding, isDeleting } = useSelector(
     (store: RootState) => store.userTours
   );
+  const navbar = useRef<HTMLUListElement | null>(null);
 
   useEffect(() => {
     if (id) {
@@ -100,9 +101,8 @@ export const SpecificTour = () => {
     window.addEventListener("scroll", handleScrollMovement);
     return () => removeEventListener("scroll", handleScrollMovement);
   }, []);*/
-  const handleClickFavorite = () => {
-    console.log("entre");
 
+  const handleClickFavorite = () => {
     if (!isLoggedIn) {
       return dispatch(toggleModal(true));
     }
@@ -112,16 +112,9 @@ export const SpecificTour = () => {
       );
       dispatch(deleteFavoriteTour({ favorite_id, user_id }));
     } else {
-      console.log("AAAAA");
-
       dispatch(addFavoriteTour({ tour_id: Number(id), user_id }));
     }
   };
-  useEffect(() => {
-    if (id) {
-      console.log(idFavoriteTours);
-    }
-  }, [idFavoriteTours]);
   if (isRetrieving) {
     return (
       <main className="relative pt-32 px-[8%]">
@@ -198,17 +191,27 @@ export const SpecificTour = () => {
             </div>
           </div>
           <div className="text-white flex flex-col w-full gap-5 pt-2">
-            <button
+            <Link
+              to="dates"
+              onClick={() =>
+                window.scrollTo({
+                  top:
+                    (navbar.current?.getBoundingClientRect().top as number) +
+                    window.scrollY,
+                  behavior: "smooth",
+                })
+              }
               className="transition duration-200 p-2 bg-yellow-500 hover:bg-yellow-200 text-black 
             font-semibold flex items-center justify-center gap-4"
             >
               See dates & prices
               <FaRegCalendar />
-            </button>
+            </Link>
             <button
               className="transition duration-200 bg-transparent border-2 border-white p-2 hover:bg-white 
             font-semibold hover:text-black flex items-center justify-center gap-4 disabled:cursor-not-allowed"
-              onClick={handleClickFavorite} disabled={isAdding || isDeleting}
+              onClick={handleClickFavorite}
+              disabled={isAdding || isDeleting}
             >
               {isAdding || isDeleting ? (
                 <MiniSpinner />
@@ -237,6 +240,7 @@ export const SpecificTour = () => {
         <ul
           className={` text-white/40 flex border-b px-[5%] laptop:px-[0%] laptop:mx-[8%] border-b-white/20
            flex-nowrap overflow-auto gap-10 whitespace-nowrap`}
+          ref={navbar}
         >
           <NavLinkTour route="." end={true}>
             Overview

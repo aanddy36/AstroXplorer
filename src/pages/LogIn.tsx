@@ -1,13 +1,14 @@
-import { FaEnvelope, FaLock } from "react-icons/fa6";
+import { FaEnvelope, FaLock, FaXmark } from "react-icons/fa6";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { ILogin } from "../moduls";
 import { login } from "../features/Auth/authSlice";
 import { RootState } from "../store";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { AnyAction, ThunkDispatch } from "@reduxjs/toolkit";
 import { MiniSpinner } from "../ui/MiniSpinner";
+import { motion } from "framer-motion";
 
 export const LogIn = () => {
   const dispatch = useDispatch() as ThunkDispatch<
@@ -26,6 +27,7 @@ export const LogIn = () => {
     (store: RootState) => store.auth
   );
   const navigate = useNavigate();
+  const [warningMessage, setWarningMessage] = useState(true);
 
   useEffect(() => {
     if (errorLogin) {
@@ -40,24 +42,42 @@ export const LogIn = () => {
     dispatch(login(data));
   };
 
-  useEffect(()=>{
-    if(isLoggedIn){
-      navigate(-1)
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate(-1);
     }
-  },[isLoggedIn])
+  }, [isLoggedIn]);
 
   return (
     <div
       className="h-0 laptop:min-h-[600px] laptop:h-[100vh] relative z-[1] w-full bg-[url('/src/images/bgImages/nasa.jpg')] bg-cover bg-top
     before:content-[''] before:absolute before:inset-0 before:bg-black/50"
     >
+      <div
+        className={`h-16 fixed top-0 w-full bg-orange-500 flex justify-between text-white items-center text-xl px-10
+       z-[999] py-2 ${warningMessage ? "block" : "hidden"}`}
+      >
+        <span>
+          👋 You can use this default account to test the user functionalities,
+          or you can create yours.
+        </span>
+        <button
+          className=" cursor-pointer"
+          onClick={() => setWarningMessage(false)}
+        >
+          <FaXmark className="scale-[1.5]" />
+        </button>
+      </div>
       <div className="text-2xl font-spacex absolute z-[2] left-8 laptop:left-16 top-8 laptop:top-10 text-white">
         <Link to="/">astroX</Link>
       </div>
-      <div
+      <motion.div
         className="h-[100vh] laptop:h-auto w-full laptop:w-[490px] bg-black laptop:bg-black/90 text-white 
         absolute z-[1] laptop:mt-24 px-8 laptop:py-8 pb-16 pt-28 flex flex-col laptop:justify-between left-[50%]
         translate-x-[-50%] justify-start"
+        initial={{ opacity: 0, translateX: "-100%" }}
+        animate={{ opacity: 1, translateX: "-50%" }}
+        transition={{ duration: 0.5 }}
       >
         <h1 className="font-semibold text-4xl text-white mb-7">Log In</h1>
         {errorLogin && (
@@ -92,6 +112,7 @@ export const LogIn = () => {
                 required: "This field is required" as unknown as boolean,
               })}
               disabled={isLoading}
+              defaultValue={"demo@example.com"}
             />
             <span className="cursor-pointer peer-focus:text-white transition duration-200">
               Email
@@ -121,6 +142,7 @@ export const LogIn = () => {
                 required: "This field is required" as unknown as boolean,
               })}
               disabled={isLoading}
+              defaultValue={"12345678"}
             />
             <span className="cursor-pointer peer-focus:text-white transition duration-200">
               Password
@@ -142,7 +164,7 @@ export const LogIn = () => {
             <span className="text-yellow-500">Sign up</span>
           </Link>
         </form>
-      </div>
+      </motion.div>
     </div>
   );
 };

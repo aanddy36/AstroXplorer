@@ -5,6 +5,7 @@ import { SingleReview } from "../ui/SingleReview";
 import { SortReviews } from "./SortReviews/SortReviews";
 import { useSortReviews } from "../services/useSortReviews";
 import { useEffect, useRef, useState } from "react";
+import { FaXmark } from "react-icons/fa6";
 
 export const ReviewsTour = () => {
   const { reviewsTour, avgReview } = useSelector(
@@ -18,6 +19,7 @@ export const ReviewsTour = () => {
   const reviewsCont = useRef<HTMLDivElement | null>(null);
   const [actualHeight, setActualHeight] = useState(0);
   const listItems = useRef<HTMLLIElement[]>([]);
+  const [isPopup, setIsPopup] = useState(false)
   useEffect(() => {
     setFinalReviews(sortedReviews);
   }, [sortedReviews]);
@@ -38,7 +40,6 @@ export const ReviewsTour = () => {
         he += cuttedArray[i]?.scrollHeight;
       }
       setActualHeight(he)
-      console.log(he);
     }
   }, [listItems, sortingMethod]);
     useEffect(() => {
@@ -54,6 +55,7 @@ export const ReviewsTour = () => {
         <button
           className="bg-yellow-500 text-lg py-3 px-6 text-black transition duration-200
          hover:bg-yellow-200 font-semibold"
+         onClick={()=>setIsPopup(true)}
         >
           ADD REVIEW
         </button>
@@ -62,6 +64,20 @@ export const ReviewsTour = () => {
   }
   return (
     <div className="py-8 flex flex-col">
+      {isPopup && <div
+        className="bg-[#1f1f1f] h-[220px] w-[350px] tablet:w-[400px] laptop:w-[500px] fixed left-[50%] 
+          translate-x-[-50%] top-[50%] translate-y-[-50%] flex flex-col gap-12 text-white items-center p-5
+           shadow-xl shadow-black z-[999]"
+      >
+        <div className="w-full flex justify-end">
+          <FaXmark className="scale-[1.4] transition duration-200 hover:rotate-90 cursor-pointer" 
+           onClick={()=>setIsPopup(false)}/>
+        </div>
+        <h1 className="text-2xl font-semibold text-center">
+          This functionality is not available yet, but soon it will be, so try
+          again soon!
+        </h1>
+      </div>}
       <div
         className="flex items-start tablet:items-center justify-between py-6 border-b border-white/20 
       tablet:flex-row flex-col gap-6 tablet:gap-0"
@@ -78,6 +94,7 @@ export const ReviewsTour = () => {
         <button
           className="bg-yellow-500 transiton duration-200 hover:bg-yellow-200 text-black py-2 px-4 
         font-semibold"
+        onClick={()=>setIsPopup(true)}
         >
           ADD REVIEW
         </button>

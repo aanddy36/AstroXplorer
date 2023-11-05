@@ -67,7 +67,6 @@ export const ImageCont = ({
       <span
         className="absolute top-3 right-3 h-10 w-10 z-[1] bg-white/40 flex items-center justify-center 
       rounded-full transition duration-200 hover:scale-[1.1]"
-        //onClick={() => setIsFavorite(!isFavorite)}
       >
         <button
           className="p-[6px] relative text-white/90 disabled:cursor-not-allowed"
