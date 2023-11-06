@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import { FaXmark } from "react-icons/fa6";
 
 export const ReviewsTour = () => {
-  const { reviewsTour, avgReview } = useSelector(
+  const { reviewsTour, currentTour } = useSelector(
     (store: RootState) => store.currentTour
   );
   const { sortingMethod } = useSelector(
@@ -83,11 +83,11 @@ export const ReviewsTour = () => {
       tablet:flex-row flex-col gap-6 tablet:gap-0"
       >
         <div className="gap-4 flex items-end justify-between tablet:justify-start w-full tablet:w-fit">
-          <h2 className="text-6xl font-semibold">{avgReview}</h2>
+          <h2 className="text-6xl font-semibold">{Number(currentTour.avgreview.toFixed(1))}</h2>
           <div className="flex flex-col gap-0 items-start">
-            <StarRating rating={avgReview} />
+            <StarRating rating={currentTour.avgreview} />
             <span className="text-white/60 font-light">
-              ( {reviewsTour.length} reviews )
+              ( {currentTour.totalreviews} reviews )
             </span>
           </div>
         </div>

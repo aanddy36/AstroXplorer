@@ -89,11 +89,7 @@ export const TourCatalog = () => {
                     .map((tour: ITours) => (
                       <TourCard
                         key={tour.id}
-                        id={tour.id}
-                        cardImage={tour.cardImage}
-                        price={tour.price}
-                        title={tour.title}
-                        duration={tour.duration}
+                        {...tour}
                       />
                     ))}
                 </div>

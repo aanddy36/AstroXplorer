@@ -191,8 +191,9 @@ function sort(sortingMethod: ISorting, tours: ITours[]) {
       return newArray?.sort((a, b) => b.id - a.id);
     case "Price: Low to high":
       return newArray?.sort((a, b) => a.price - b.price);
+      case "Rating: High to low":
+        return newArray?.sort((a,b)=>b.avgreview - a.avgreview)
     case "Duration: Long to short":
-      //console.log(newArray?.sort((a, b) => Number(b.duration) - Number(a.duration)));
       return newArray?.sort((a, b) => Number(b.duration) - Number(a.duration));
     case "Duration: Short to long":
       return newArray?.sort((a, b) => Number(a.duration) - Number(b.duration));

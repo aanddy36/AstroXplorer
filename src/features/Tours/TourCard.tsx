@@ -3,6 +3,7 @@ import { Coordinates } from "../../moduls";
 import { ImageCont } from "../../ui/ImageCont";
 import { BlurBall } from "../../ui/BlurBall";
 import { Link } from "react-router-dom";
+import { StarRating } from "../../ui/StarRating";
 
 export const TourCard = ({
   cardImage,
@@ -10,12 +11,16 @@ export const TourCard = ({
   title,
   duration,
   id,
+  avgreview,
+  totalreviews,
 }: {
   cardImage: string;
   price: number;
   title: string;
   duration: string;
   id: number;
+  avgreview: number;
+  totalreviews: number;
 }) => {
   const ref = useRef<HTMLDivElement | null>(null);
   const [{ offsetX, offsetY }, setOffset] = useState<Coordinates>({
@@ -58,11 +63,19 @@ export const TourCard = ({
           from-[#0303037a] to-[#00000081]"
         >
           <BlurBall offsetX={offsetX} offsetY={offsetY} />
-          <ImageCont cardImage={cardImage} id={id} title={title}/>
+          <ImageCont cardImage={cardImage} id={id} title={title} />
           <div className="relative h-full flex flex-col flex-1 gap-5 laptop:gap-3 justify-between">
             <div className="flex flex-col items-start gap-2">
               <h1 className="font-bold text-lg text-left">{title}</h1>
               <p className="font-light text-white/50">{duration} days</p>
+              {!totalreviews ? (
+                <span className="font-light text-white/70 italic">No reviews yet</span>
+              ) : (
+                <div className="flex gap-3 font-light text-white/70 items-center">
+                  <StarRating rating={avgreview} />{" "}
+                  <span className="mb-1">{`(${totalreviews})`}</span>
+                </div>
+              )}
             </div>
             <div className="flex justify-between items-end">
               <span className="font-bold">From ${price}.*</span>

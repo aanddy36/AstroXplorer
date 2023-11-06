@@ -8,7 +8,6 @@ type ICurrentTour = {
   isRetrieving: boolean;
   reviewsTour: ISingleReview[];
   itinerary: IItinerary[];
-  avgReview: number;
   dates: IDate[];
 };
 
@@ -18,7 +17,6 @@ const initialState: ICurrentTour = {
   isRetrieving: false,
   reviewsTour: [],
   itinerary: [],
-  avgReview: 0,
   dates: [],
 };
 
@@ -27,7 +25,7 @@ export const retrieveOneTour = createAsyncThunk(
   async (id: string, thunkAPI) => {
     try {
       const { data: tour, error } = await supabase
-        .from("tours")
+        .from("tours_and_reviews")
         .select("*")
         .eq("id", id);
       if (error) {
@@ -125,12 +123,8 @@ const currentTourSlice = createSlice({
       .addCase(retrieveReviews.fulfilled, (state, action) => {
         state.isRetrieving = false;
         state.reviewsTour = action.payload;
-        if (!action.payload.length) {
-          state.avgReview = 0;
-        }
         let avg = 0;
         action.payload.forEach((review) => (avg += review.rating));
-        state.avgReview = Number((avg / action.payload.length).toFixed(1));
       })
       .addCase(retrieveReviews.rejected, (state, action) => {
         state.isRetrieving = false;

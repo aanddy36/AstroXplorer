@@ -7,12 +7,14 @@ interface IUserTours {
     id: number;
     tour_id: number;
     user_id: number;
-    tours: {
+    tours_and_reviews: {
       cardImage: string;
       duration: string;
       name: string;
       price: number;
       title: string;
+      avgreview: number;
+      totalreviews: number;
     };
   }[];
   idFavoriteTours: { tour_id: number }[];
@@ -38,7 +40,7 @@ export const retrieveFavoriteTours = createAsyncThunk(
       const { data, error } = await supabase
         .from("favorites")
         .select(
-          "id, created_at, user_id, tour_id, tours( name, title, price, duration, cardImage )"
+          "id, created_at, user_id, tour_id, tours_and_reviews( name, title, price, duration, cardImage, avgreview, totalreviews )"
         )
         .eq("user_id", user_id);
       if (error) {

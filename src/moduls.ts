@@ -19,6 +19,8 @@ export interface ITours {
   duration: string;
   cardImage: string;
   tourImage: string;
+  totalreviews: number;
+  avgreview: number;
 }
 
 export interface Coordinates {
