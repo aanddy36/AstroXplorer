@@ -4,6 +4,7 @@ import { ImageCont } from "../../ui/ImageCont";
 import { BlurBall } from "../../ui/BlurBall";
 import { Link } from "react-router-dom";
 import { StarRating } from "../../ui/StarRating";
+//asdsadas
 
 export const TourCard = ({
   cardImage,
