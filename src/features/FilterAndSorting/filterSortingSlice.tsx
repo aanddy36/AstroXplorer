@@ -38,7 +38,9 @@ export const getAllTours = createAsyncThunk(
   "tours/getMyTours",
   async (_, thunkAPI) => {
     try {
-      const { data, error } = await supabase.from("tours").select("*");
+      const { data, error } = await supabase
+        .from("tours_and_reviews")
+        .select("*");
       if (error) {
         return thunkAPI.rejectWithValue(error);
       }
@@ -57,11 +59,13 @@ const filterSortingSlice = createSlice({
       state.searchText = payload;
       state.addedFilters = [];
       state.page = initialState.page;
-      state.filteredTours = (filterAndSort(
-        state.addedFilters,
-        state.currentSorting,
-        state.allTours
-      ) as ITours[])?.filter((tour: ITours) =>
+      state.filteredTours = (
+        filterAndSort(
+          state.addedFilters,
+          state.currentSorting,
+          state.allTours
+        ) as ITours[]
+      )?.filter((tour: ITours) =>
         tour.title?.toLocaleLowerCase().includes(payload.toLowerCase())
       );
     },
@@ -102,7 +106,6 @@ const filterSortingSlice = createSlice({
       };
     },
     clearAllFilters: (state) => {
-      console.log(state.currentSorting);
       state.addedFilters = [];
       state.page = initialState.page;
       state.filteredTours = filterAndSort(

@@ -18,7 +18,7 @@ export const Profile = () => {
   const { favoriteTours, isRetrieving } = useSelector(
     (store: RootState) => store.userTours
   );
-  const [isPopup, setIsPopup] = useState(false)
+  const [isPopup, setIsPopup] = useState(false);
 
   useEffect(() => {
     dispatch(retrieveFavoriteTours(id));
@@ -37,20 +37,24 @@ export const Profile = () => {
   }
   return (
     <div className="relative pt-32 text-white">
-      {isPopup && <div
-        className="bg-[#1f1f1f] h-[220px] w-[350px] tablet:w-[400px] laptop:w-[500px] fixed left-[50%] 
+      {isPopup && (
+        <div
+          className="bg-[#1f1f1f] h-[220px] w-[350px] tablet:w-[400px] laptop:w-[500px] fixed left-[50%] 
           translate-x-[-50%] top-[50%] translate-y-[-50%] flex flex-col gap-12 text-white items-center p-5
            shadow-xl shadow-black z-[999]"
-      >
-        <div className="w-full flex justify-end">
-          <FaXmark className="scale-[1.4] transition duration-200 hover:rotate-90 cursor-pointer" 
-           onClick={()=>setIsPopup(false)}/>
+        >
+          <div className="w-full flex justify-end">
+            <FaXmark
+              className="scale-[1.4] transition duration-200 hover:rotate-90 cursor-pointer"
+              onClick={() => setIsPopup(false)}
+            />
+          </div>
+          <h1 className="text-2xl font-semibold text-center">
+            This functionality is not available yet, but soon it will be, so try
+            again soon!
+          </h1>
         </div>
-        <h1 className="text-2xl font-semibold text-center">
-          This functionality is not available yet, but soon it will be, so try
-          again soon!
-        </h1>
-      </div>}
+      )}
       <section
         className="border-y border-white/20 h-24 flex items-center justify-between px-[5%] tablet:px-[10%]
        pr-[10%]"
@@ -64,11 +68,13 @@ export const Profile = () => {
             {surname.slice(0, 1).toLocaleUpperCase()}
           </span>
           <span className="text-xl laptop:text-2xl font-semibold tracking-wider">
-            {name}{" "}
-            {surname}
+            {name} {surname}
           </span>
         </div>
-        <button className="flex items-center gap-5 group text-white/80" onClick={()=>setIsPopup(true)}>
+        <button
+          className="flex items-center gap-5 group text-white/80"
+          onClick={() => setIsPopup(true)}
+        >
           <span className="text-xl group-hover:underline group-hover:text-white hidden laptop:inline-block">
             Account settings
           </span>
@@ -133,8 +139,16 @@ export const Profile = () => {
             <ul className="pt-20 grid grid-cols-1 laptop:grid-cols-2 full:grid-cols-3 gap-8">
               {favoriteTours.map((tour) => {
                 const {
-                  tour_id, id,
-                  tours: { cardImage, price, title, duration },
+                  tour_id,
+                  id,
+                  tours_and_reviews: {
+                    cardImage,
+                    price,
+                    title,
+                    duration,
+                    avgreview,
+                    totalreviews,
+                  },
                 } = tour;
                 return (
                   <TourCard
@@ -144,6 +158,8 @@ export const Profile = () => {
                     price={price}
                     title={title}
                     duration={duration}
+                    avgreview={avgreview}
+                    totalreviews={totalreviews}
                   />
                 );
               })}

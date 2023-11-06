@@ -34,7 +34,7 @@ export const SpecificTour = () => {
   if (Number(id) < 1 || Number(id) > 25) {
     return <WrongPage />;
   }
-  const { currentTour, isRetrieving, reviewsTour, avgReview } = useSelector(
+  const { currentTour, isRetrieving, reviewsTour } = useSelector(
     (store: RootState) => store.currentTour
   );
   const { isLoggedIn, id: user_id } = useSelector(
@@ -163,11 +163,11 @@ export const SpecificTour = () => {
               {currentTour.title}
             </h1>
             <div className="flex items-center gap-3">
-              <StarRating rating={avgReview} />
-              <span className="text-white/40 text-sm">
-                {!avgReview
+              <StarRating rating={currentTour.avgreview} />
+              <span className="text-white/60 text-base mb-1 font-light">
+                {!currentTour.avgreview
                   ? "( No reviews yet )"
-                  : `( ${reviewsTour.length} reviews )`}
+                  : `( ${currentTour.totalreviews} reviews )`}
               </span>
             </div>
             <div className="flex items-start justify-start gap-5 tablet:gap-10 border-y border-white/20 w-full py-6">

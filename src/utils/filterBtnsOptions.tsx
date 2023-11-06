@@ -103,12 +103,12 @@ export const sortingOptions: ISortingOptions[] = [
     idFull: nanoid(),
     idSidebar: nanoid(),
     idShared: "Price: Low to high",
-  },/*
+  },
   {
     idFull: nanoid(),
     idSidebar: nanoid(),
     idShared: "Rating: High to low",
-  },*/
+  },
   {
     idFull: nanoid(),
     idSidebar: nanoid(),
