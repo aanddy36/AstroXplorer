@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import supabase from "../../services/supabase";
+import { IPurchasedTour } from "../../moduls";
 
 interface IUserTours {
   favoriteTours: {
@@ -18,7 +19,7 @@ interface IUserTours {
     };
   }[];
   idFavoriteTours: { tour_id: number }[];
-  purchasedTours: any;
+  purchasedTours: IPurchasedTour[];
   isRetrieving: boolean;
   isDeleting: boolean;
   isAdding: boolean;
@@ -77,7 +78,7 @@ export const retrievePurchasedTours = createAsyncThunk(
   async (user_id: string, thunkAPI) => {
     try {
       const { data, error } = await supabase
-        .from("purchased_tours")
+        .from("purchased_tours_full")
         .select("*")
         .eq("user_id", user_id);
       if (error) {

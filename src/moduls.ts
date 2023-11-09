@@ -144,3 +144,17 @@ export interface IInfoFavTour {
   duration: string;
   cardImage: string;
 }
+
+export interface IPurchasedTour {
+  id: number,
+  cardImage: string,
+  created_at: string,
+  date_id: number,
+  isSuitPremium: boolean,
+  numTravelers: number,
+  title: string,
+  totalPrice: number,
+  tour_id: number,
+  user_id: string,
+  startDate:string,
+}

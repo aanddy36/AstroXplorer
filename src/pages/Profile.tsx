@@ -10,6 +10,7 @@ import {
   retrievePurchasedTours,
 } from "../features/UserTours/userToursSlice";
 import { TourCard } from "../features/Tours/TourCard";
+import { PurchasedTourCard } from "../features/Tours/PurchasedTourCard";
 
 export const Profile = () => {
   const { name, surname, id } = useSelector((store: RootState) => store.auth);
@@ -88,7 +89,7 @@ export const Profile = () => {
       <section className="grid grid-cols-1 px-[5%] tablet:px-[10%] py-12 gap-10">
         <div
           className={`relative bg-transparent border border-white/20 rounded-lg px-12 pt-12 flex flex-col ${
-            favoriteTours.length ? "h-[500px] pb-0" : "h-fit pb-12"
+            !purchasedTours.length ? "h-[500px] pb-0" : "h-fit pb-12"
           }`}
         >
           <div className="flex justify-between items-center">
@@ -114,7 +115,11 @@ export const Profile = () => {
               </Link>
             </div>
           ) : (
-            <ul className="pt-20 grid grid-cols-1 laptop:grid-cols-2 full:grid-cols-3 gap-8"></ul>
+            <ul className="pt-20 grid grid-cols-1">
+              {purchasedTours.map(tour =>{
+                return <PurchasedTourCard key={tour.id} {...tour}/>
+              })}
+            </ul>
           )}
         </div>
         <div
