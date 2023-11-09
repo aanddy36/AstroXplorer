@@ -126,6 +126,7 @@ export interface IDate {
   tour_id: number;
   startDate: string;
   price: number;
+  duration: string;
 }
 
 export interface IFavTour {

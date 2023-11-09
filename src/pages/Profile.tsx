@@ -5,7 +5,10 @@ import { FaBookmark, FaGear, FaRocket, FaXmark } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { AnyAction, ThunkDispatch } from "@reduxjs/toolkit";
 import { useEffect, useState } from "react";
-import { retrieveFavoriteTours } from "../features/UserTours/userToursSlice";
+import {
+  retrieveFavoriteTours,
+  retrievePurchasedTours,
+} from "../features/UserTours/userToursSlice";
 import { TourCard } from "../features/Tours/TourCard";
 
 export const Profile = () => {
@@ -15,18 +18,19 @@ export const Profile = () => {
     undefined,
     AnyAction
   >;
-  const { favoriteTours, isRetrieving } = useSelector(
+  const { favoriteTours, isRetrieving, purchasedTours } = useSelector(
     (store: RootState) => store.userTours
   );
   const [isPopup, setIsPopup] = useState(false);
 
   useEffect(() => {
     dispatch(retrieveFavoriteTours(id));
+    dispatch(retrievePurchasedTours(id));
   }, [id]);
 
   useEffect(() => {
-    //console.log(favoriteTours);
-  }, [favoriteTours]);
+    console.log(purchasedTours);
+  }, [purchasedTours]);
 
   if (isRetrieving) {
     return (
@@ -91,23 +95,27 @@ export const Profile = () => {
             <FaRocket className="scale-[2] text-yellow-500" />
             <h1 className="text-4xl text-center font-bold">MY TOURS</h1>
           </div>
-          <div className="flex grow flex-col items-center justify-center gap-6">
-            <h1 className=" font-semibold text-xl text-center">
-              Where is going to be your next destination?
-            </h1>
-            <span className=" font-light text-white/60 text-center">
-              Looks like it's time to get a trip on the calendar! Experience new
-              destinations like an insider thanks to our interplanetary
-              connections.
-            </span>
-            <Link
-              to="/tours"
-              className="border-2 px-3 py-2 w-fit transition duration-200 hover:bg-white hover:text-black
+          {!purchasedTours.length ? (
+            <div className="flex grow flex-col items-center justify-center gap-6">
+              <h1 className=" font-semibold text-xl text-center">
+                Where is going to be your next destination?
+              </h1>
+              <span className=" font-light text-white/60 text-center">
+                Looks like it's time to get a trip on the calendar! Experience
+                new destinations like an insider thanks to our interplanetary
+                connections.
+              </span>
+              <Link
+                to="/tours"
+                className="border-2 px-3 py-2 w-fit transition duration-200 hover:bg-white hover:text-black
               hover:font-semibold mt-7"
-            >
-              View tours
-            </Link>
-          </div>
+              >
+                View tours
+              </Link>
+            </div>
+          ) : (
+            <ul className="pt-20 grid grid-cols-1 laptop:grid-cols-2 full:grid-cols-3 gap-8"></ul>
+          )}
         </div>
         <div
           className={`relative bg-transparent border border-white/20 rounded-lg px-12 pt-12 flex flex-col ${

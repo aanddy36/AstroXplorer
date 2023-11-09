@@ -18,6 +18,7 @@ interface IUserTours {
     };
   }[];
   idFavoriteTours: { tour_id: number }[];
+  purchasedTours: any;
   isRetrieving: boolean;
   isDeleting: boolean;
   isAdding: boolean;
@@ -27,6 +28,7 @@ interface IUserTours {
 const initialState: IUserTours = {
   favoriteTours: [],
   idFavoriteTours: [],
+  purchasedTours: [],
   isRetrieving: false,
   isDeleting: false,
   isAdding: false,
@@ -59,6 +61,24 @@ export const retrieveIdFavoriteTours = createAsyncThunk(
       const { data, error } = await supabase
         .from("favorites")
         .select("tour_id")
+        .eq("user_id", user_id);
+      if (error) {
+        return thunkAPI.rejectWithValue(error.message);
+      }
+      return data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+export const retrievePurchasedTours = createAsyncThunk(
+  "userTours/retrievePurchasedTours",
+  async (user_id: string, thunkAPI) => {
+    try {
+      const { data, error } = await supabase
+        .from("purchased_tours")
+        .select("*")
         .eq("user_id", user_id);
       if (error) {
         return thunkAPI.rejectWithValue(error.message);
@@ -162,6 +182,20 @@ const userToursSlice = createSlice({
         state.error = "";
       })
       .addCase(retrieveIdFavoriteTours.rejected, (state, action) => {
+        state.isRetrieving = false;
+        state.error = action.payload as string;
+      })
+      .addCase(retrievePurchasedTours.pending, (state) => {
+        state.isRetrieving = true;
+        state.error = "";
+      })
+      .addCase(retrievePurchasedTours.fulfilled, (state, action) => {
+        console.log(action.payload);
+        state.purchasedTours = action.payload;
+        state.isRetrieving = false;
+        state.error = "";
+      })
+      .addCase(retrievePurchasedTours.rejected, (state, action) => {
         state.isRetrieving = false;
         state.error = action.payload as string;
       })

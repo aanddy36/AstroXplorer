@@ -79,7 +79,10 @@ export const TourCard = ({
               )}
             </div>
             <div className="flex justify-between items-end">
-              <span className="font-bold">From ${price}.*</span>
+              <span className="font-bold">From ${String(price).replace(
+                    /\B(?=(\d{3})+(?!\d))/g,
+                    ","
+                  )}.*</span>
               <Link
                 to={String(id)}
                 className="px-3 py-2 border-2 border-white/50 bg-transparent hover:bg-white/90 hover:text-black

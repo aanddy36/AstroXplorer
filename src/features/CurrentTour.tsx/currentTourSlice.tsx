@@ -80,14 +80,14 @@ export const retrieveDates = createAsyncThunk(
   "currentTour/retrieveDates",
   async (id: string, thunkAPI) => {
     try {
-      const { data: itinerary, error } = await supabase
-        .from("dates")
+      const { data: dates, error } = await supabase
+        .from("full_dates")
         .select("*")
         .eq("tour_id", id);
       if (error) {
         return thunkAPI.rejectWithValue(error.message);
       }
-      return itinerary;
+      return dates;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
     }
