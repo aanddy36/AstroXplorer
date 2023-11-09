@@ -15,6 +15,7 @@ import { MeetingPoint } from "./features/MeetingPoint";
 import { Dates } from "./features/Dates";
 import { ReviewsTour } from "./features/ReviewsTour";
 import { ProfileLayout } from "./features/ProfileLayout";
+import { PurchasedTour } from "./pages/PurchasedTour";
 function App() {
   return (
     <BrowserRouter>
@@ -27,6 +28,7 @@ function App() {
           <Route path="about" element={<About />} />
           <Route element={<ProfileLayout />}>
             <Route path="profile" element={<Profile />} />
+            <Route path="order/:orderId" element={<PurchasedTour />} />
           </Route>
           <Route path="tours/:id" element={<SpecificTour />}>
             <Route index element={<Overview />} />

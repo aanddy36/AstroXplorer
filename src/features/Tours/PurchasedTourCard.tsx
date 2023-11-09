@@ -8,6 +8,7 @@ export const PurchasedTourCard = ({
   cardImage,
   title,
   tour_id,
+  id,
   startDate,
 }: IPurchasedTour) => {
   const ref = useRef<HTMLDivElement | null>(null);
@@ -84,6 +85,7 @@ export const PurchasedTourCard = ({
         <span
           className=" underline relative z-[2] cursor-pointer w-fit h-fit transition duration-200 
       hover:text-yellow-200 whitespace-nowrap mb-5"
+      onClick={() => navigate(`/order/${id}`)}
         >
           View Details
         </span>

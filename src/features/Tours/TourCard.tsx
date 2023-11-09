@@ -52,7 +52,6 @@ export const TourCard = ({
     setOffset({ offsetX, offsetY });
   }
   return (
-    <>
       <div
         className="group relative overflow-hidden p-px mb-8 text-white bg-gradient-to-b
         from-white/20 to-white/0 hover:translate-x-1 hover:-translate-y-1 transition-all duration-200"
@@ -94,7 +93,5 @@ export const TourCard = ({
           </div>
         </div>
       </div>
-      {/*<div className="border-2 w-[100vw] h-[100vh] absolute">AAAA</div>*/}
-    </>
   );
 };
