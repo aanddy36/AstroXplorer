@@ -191,7 +191,6 @@ const userToursSlice = createSlice({
         state.error = "";
       })
       .addCase(retrievePurchasedTours.fulfilled, (state, action) => {
-        console.log(action.payload);
         state.purchasedTours = action.payload;
         state.isRetrieving = false;
         state.error = "";
