@@ -5,6 +5,7 @@ import { resetErrors } from "./Auth/authSlice";
 import { resetPages } from "./FilterAndSorting/filterSortingSlice";
 import { resetSorting } from "./SortReviews/sortReviewsSlice";
 import { toggleModal } from "./Modal/modalSlice";
+import { changeConfirmingPopup } from "./UserTours/userToursSlice";
 
 export function ScrollToTop() {
   const location = useLocation();
@@ -27,6 +28,7 @@ export function ScrollToTop() {
     dispatch(resetPages());
     dispatch(resetSorting());
     dispatch(toggleModal(false))
+    dispatch(changeConfirmingPopup(false))
     setPreviousPath(actualPage);
   }, [location.pathname]);
 

@@ -1,16 +1,34 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { RootState } from "../store";
-import { FaArrowLeft, FaRegPenToSquare, FaRegTrashCan } from "react-icons/fa6";
+import {
+  FaArrowLeft,
+  FaRegPenToSquare,
+  FaRegTrashCan,
+  FaXmark,
+} from "react-icons/fa6";
 import { useEffect, useState } from "react";
 import { IPurchasedTour } from "../moduls";
 import { daysOfWeek, monthAbbreviations } from "../utils/months";
+import { Spinner } from "../ui/Spinner";
+import { AnyAction, ThunkDispatch } from "@reduxjs/toolkit";
+import { deletePurchasedTour } from "../features/UserTours/userToursSlice";
+import { ConfirmDeleting } from "../ui/ConfirmDeleting";
 
 export const PurchasedTour = () => {
+  const [isPopup, setIsPopup] = useState(false);
   const { orderId } = useParams();
-  const { purchasedTours } = useSelector((store: RootState) => store.userTours);
+  const { purchasedTours, isRetrieving } = useSelector(
+    (store: RootState) => store.userTours
+  );
+  const { id: user_id } = useSelector((store: RootState) => store.auth);
   const navigate = useNavigate();
-  //console.log(purchasedTours);
+  const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false);
+  const dispatch = useDispatch() as ThunkDispatch<
+    RootState,
+    undefined,
+    AnyAction
+  >;
   const [actualOrder, setActualOrder] = useState({} as IPurchasedTour);
   const [missingTime, setMissingTime] = useState(0);
   useEffect(() => {
@@ -20,13 +38,22 @@ export const PurchasedTour = () => {
       )[0];
     });
   }, [purchasedTours]);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   useEffect(() => {
     setMissingTime(
       new Date(actualOrder?.startDate).getTime() - new Date().getTime()
     );
-    console.log(actualOrder);
   }, [actualOrder]);
+  useEffect(() => {
+    if (isConfirmDeleteOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [isConfirmDeleteOpen]);
 
   useEffect(() => {
     const handleTimer = () => {
@@ -37,6 +64,25 @@ export const PurchasedTour = () => {
       return () => clearInterval(myInterval);
     }
   }, [missingTime]);
+
+  const handleClick = () => {
+    dispatch(
+      deletePurchasedTour({
+        purchased_id: orderId as string,
+        user_id,
+      })
+    );
+    document.body.style.overflow = "auto";
+    navigate("/profile");
+  };
+
+  if (isRetrieving) {
+    return (
+      <main className="relative pt-32 px-[8%]">
+        <Spinner />
+      </main>
+    );
+  }
   return (
     <div className="relative pt-40 text-white px-[10%] flex flex-col gap-6">
       <div className="flex justify-between items-center">
@@ -54,8 +100,8 @@ export const PurchasedTour = () => {
       </div>
       <article className="border border-white/20 rounded-lg p-5">
         <section className="flex justify-between w-full flex-col laptop:flex-row gap-8 border-b pb-5 border-b-white/20">
-          <div className=" flex flex-col gap-2">
-            <div className="flex gap-3 items-center">
+          <div className=" flex flex-col gap-3">
+            <div className="flex flex-col tablet:flex-row gap-2 tablet:gap-3 items-start tablet:items-center">
               <h1 className="text-xl font-semibold">Order ID: #{orderId}</h1>
               <span className=" rounded-full bg-blue-300 px-4 text-blue-950 py-1 font-semibold">
                 Starts soon
@@ -219,20 +265,49 @@ export const PurchasedTour = () => {
           </div>
         </div>
         <div className="w-full flex justify-end mt-12 gap-8 laptop:gap-12">
-          <button className="border bg-transparent font-semibold py-2 w-[120px] laptop:w-[150px] text-sm laptop:text-base 
+          <button
+            className="border bg-transparent font-semibold py-2 w-[120px] laptop:w-[150px] text-sm laptop:text-base 
           transition duration-200 hover:bg-white hover:text-black flex items-center gap-2 tablet:gap-4 justify-center
-           border-white/20">
-            <FaRegPenToSquare/>
+           border-white/20"
+          >
+            <FaRegPenToSquare />
             Edit Tour
           </button>
-          <button className=" bg-red-600 bg-transparent font-semibold py-2 w-[120px] laptop:w-[150px] text-sm 
+          <button
+            className=" bg-red-600 font-semibold py-2 w-[120px] laptop:w-[150px] text-sm 
           laptop:text-base transition duration-200 hover:bg-red-200 flex items-center gap-2 tablet:gap-4 
-          justify-center">
-            <FaRegTrashCan/>
+          justify-center"
+            onClick={() => setIsConfirmDeleteOpen(true)}
+          >
+            <FaRegTrashCan />
             Delete Tour
           </button>
         </div>
       </article>
+      {isConfirmDeleteOpen && (
+        <ConfirmDeleting
+          handleClick={() => handleClick()}
+          setClose={() => setIsConfirmDeleteOpen(false)}
+        />
+      )}
+      {isPopup && (
+        <div
+          className="bg-[#1f1f1f] h-[220px] w-[350px] tablet:w-[400px] laptop:w-[500px] fixed left-[50%] 
+          translate-x-[-50%] top-[50%] translate-y-[-50%] flex flex-col gap-12 text-white items-center p-5
+           shadow-xl shadow-black z-[999]"
+        >
+          <div className="w-full flex justify-end">
+            <FaXmark
+              className="scale-[1.4] transition duration-200 hover:rotate-90 cursor-pointer"
+              onClick={() => setIsPopup(false)}
+            />
+          </div>
+          <h1 className="text-2xl font-semibold text-center">
+            This functionality is not available yet, but soon it will be, so try
+            again soon!
+          </h1>
+        </div>
+      )}
     </div>
   );
 };

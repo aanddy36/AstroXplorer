@@ -87,6 +87,7 @@ export const retrieveDates = createAsyncThunk(
       if (error) {
         return thunkAPI.rejectWithValue(error.message);
       }
+      
       return dates;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
@@ -148,7 +149,11 @@ const currentTourSlice = createSlice({
       })
       .addCase(retrieveDates.fulfilled, (state, action) => {
         state.isRetrieving = false;
-        state.dates = action.payload;
+        state.dates = action.payload.sort((a, b) => {
+          const date1 = new Date(a.startDate);
+          const date2 = new Date(b.startDate);
+          return date1.getTime() - date2.getTime();
+        });
       })
       .addCase(retrieveDates.rejected, (state, action) => {
         state.isRetrieving = false;

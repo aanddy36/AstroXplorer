@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import supabase from "../../services/supabase";
 import { ILogin, INewUser } from "../../moduls";
-import { noUsers, retrieveFavoriteTours, retrieveIdFavoriteTours } from "../UserTours/userToursSlice";
+import { changeConfirmingPopup, noUsers, retrieveFavoriteTours, retrieveIdFavoriteTours, retrievePurchasedTours } from "../UserTours/userToursSlice";
 
 type IAuth = {
   isLoggedIn: boolean;
@@ -40,6 +40,7 @@ export const login = createAsyncThunk(
       }
       thunkAPI.dispatch(retrieveIdFavoriteTours(data.user.id))
       thunkAPI.dispatch(retrieveFavoriteTours(data.user.id))
+      thunkAPI.dispatch(retrievePurchasedTours(data.user.id))
       return data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
@@ -86,6 +87,7 @@ export const getCurrentUser = createAsyncThunk(
       }
       thunkAPI.dispatch(retrieveIdFavoriteTours(data.user.id))
       thunkAPI.dispatch(retrieveFavoriteTours(data.user.id))
+      thunkAPI.dispatch(retrievePurchasedTours(data.user.id))
       return data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
@@ -100,6 +102,7 @@ export const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
       return thunkAPI.rejectWithValue(error);
     }
       thunkAPI.dispatch(noUsers())
+      thunkAPI.dispatch(changeConfirmingPopup(false))
   } catch (error: any) {
     return thunkAPI.rejectWithValue(error.message);
   }

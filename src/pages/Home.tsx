@@ -10,7 +10,7 @@ export const Home = () => {
   NOTE: Remove scroll bar height for the submenu of Specific Tour
   1. The Popup marker of the Leaflet map doesnt show in production.
   2. OPTIONAL:The navbar of the Specific Tour page should be fixed when exceed (like the search bar).
-  3. When I log in as soon as i enter the website in the Production app, the app takes you out of the page because of navigate(-1).
+  5. When im in Profile, log out and then Log in, the app breaks 
   */
 
   return (

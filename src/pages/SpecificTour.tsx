@@ -34,7 +34,7 @@ export const SpecificTour = () => {
   if (Number(id) < 1 || Number(id) > 25) {
     return <WrongPage />;
   }
-  const { currentTour, isRetrieving, reviewsTour } = useSelector(
+  const { currentTour, isRetrieving } = useSelector(
     (store: RootState) => store.currentTour
   );
   const { isLoggedIn, id: user_id } = useSelector(
@@ -50,17 +50,6 @@ export const SpecificTour = () => {
       dispatch(retrieveOneTour(id));
     }
   }, [id]);
-
-  useEffect(() => {
-    //const date = new Date(reviewsTour[0]?.date)
-    //const finishDate = new Date(date)
-    //finishDate.setDate(finishDate.getDate() + 50)
-    //console.log(date);
-    //console.log(finishDate);
-    //console.log(date.getFullYear());
-    //console.log(date.getMonth());
-    //console.log(date.getDate());
-  }, [reviewsTour]);
 
   /*const miniBgs = [
     "/src/images/toursImages/mini-amalthea.jpg",
@@ -89,18 +78,6 @@ export const SpecificTour = () => {
     "/src/images/toursImages/mini-uranus.jpg",
     "/src/images/toursImages/mini-venus.jpg",
   ];*/
-  /*useEffect(() => {
-    const handleScrollMovement = () => {
-      console.log(navbar.current?.getBoundingClientRect().y);
-      if (window.scrollY > 795 && window.scrollY < 2000) {
-        setIsFixed(true);
-      } else {
-        setIsFixed(false);
-      }
-    };
-    window.addEventListener("scroll", handleScrollMovement);
-    return () => removeEventListener("scroll", handleScrollMovement);
-  }, []);*/
 
   const handleClickFavorite = () => {
     if (!isLoggedIn) {

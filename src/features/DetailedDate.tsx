@@ -1,11 +1,18 @@
 import { IDate } from "../moduls";
-import { FaArrowRight, FaBed, FaXmark } from "react-icons/fa6";
-import { daysOfWeek, monthAbbreviations } from "../utils/months";
+import { FaBed, FaXmark } from "react-icons/fa6";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store";
-import { toggleModal } from "./Modal/modalSlice";
+import {
+  addPurchasedTour,
+  changeConfirmingPopup,
+  retrievePurchasedTours,
+} from "./UserTours/userToursSlice";
+import { useNavigate, useParams } from "react-router-dom";
+import { DatesInterval } from "../ui/DatesInterval";
+import { ConfirmPurchase } from "../ui/ConfirmPurchase";
+import { AnyAction, ThunkDispatch } from "@reduxjs/toolkit";
 
 export const DetailedDate = ({
   date,
@@ -20,28 +27,51 @@ export const DetailedDate = ({
       suit: "standard",
     },
   });
-  const { id: user_id, isLoggedIn } = useSelector(
-    (store: RootState) => store.auth
+  const { id: tour_id } = useParams();
+  const { id: user_id } = useSelector((store: RootState) => store.auth);
+  const { isConfirmingPurchase } = useSelector(
+    (store: RootState) => store.userTours
   );
-  const dispatch = useDispatch();
+  const dispatch = useDispatch() as ThunkDispatch<
+    RootState,
+    undefined,
+    AnyAction
+  >;
   const travelers = watch("numTravelers");
   const suit = watch("suit");
   const [totalValue, setTotalValue] = useState(0);
   const ten = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  const startDate = new Date(date.startDate);
-  const finishDate = new Date(startDate);
-  finishDate.setDate(finishDate.getDate() + Number(date.duration));
+  const navigate = useNavigate();
 
-  const onSubmit = (data: any) => {
-    if (!isLoggedIn) {
-      return dispatch(toggleModal(true));
-    }
-    console.log(data);
-    console.log(totalValue);
-    console.log(date.id);
-    console.log(user_id);
+  const onSubmit = (data: { numTravelers: number; suit: string }) => {
+    let randomId = Math.floor(Math.random() * 999999999);
+    dispatch(
+      addPurchasedTour({
+        id: randomId,
+        user_id,
+        date_id: date.id,
+        numTravelers: data.numTravelers,
+        isSuitPremium: data.suit === "premium",
+        totalPrice: totalValue,
+        tour_id: Number(tour_id),
+      })
+    ).then((actionResult) => {
+      if (addPurchasedTour.fulfilled.match(actionResult)) {
+        const newTourId = actionResult.payload[0].id;
+        dispatch(retrievePurchasedTours(user_id));
+        navigate(`/order/${newTourId}`);
+      } else {
+        console.error("Error adding purchased tour:", actionResult.error);
+      }
+    });
   };
-
+  useEffect(() => {
+    if (isConfirmingPurchase) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [isConfirmingPurchase]);
   const handleInputChange = () => {
     setTotalValue(() => {
       let total = 0;
@@ -56,9 +86,6 @@ export const DetailedDate = ({
   useEffect(() => {
     handleInputChange();
   }, [suit, travelers]);
-  useEffect(() => {
-    //console.log(totalValue);
-  }, [totalValue]);
   return (
     <main
       className=" bg-transparent border border-white/20 rounded-lg pt-12 relative px-5
@@ -78,21 +105,7 @@ export const DetailedDate = ({
         className="w-full flex flex-col gap-5 h-full pb-8"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <section className="border border-white/20 rounded-lg p-4 text-lg font-light flex items-center gap-10">
-          <div className="flex flex-col gap-0 font-light text-base">
-            <span>{`${daysOfWeek[startDate.getDay()]}`}</span>
-            <span className=" font-semibold text-xl">{`${startDate.getDate()} ${
-              monthAbbreviations[startDate.getMonth()]
-            }, ${startDate.getFullYear()}`}</span>
-          </div>
-          <FaArrowRight className="scale-[1.5]" />
-          <div className="flex flex-col gap-0 font-light text-base">
-            <span>{`${daysOfWeek[finishDate.getDay()]}`}</span>
-            <span className=" font-semibold text-xl">{`${finishDate.getDate()} ${
-              monthAbbreviations[finishDate.getMonth()]
-            }, ${finishDate.getFullYear()}`}</span>
-          </div>
-        </section>
+        <DatesInterval date={date.startDate} duration={date.duration} />
         <section className="border border-white/20 rounded-lg p-4 flex justify-between">
           <div className=" font-semibold text-lg tablet:text-xl flex gap-5 items-center leading-6">
             <span className="px-[10px] py-[2px] text-base bg-yellow-500 text-black">
@@ -271,10 +284,15 @@ export const DetailedDate = ({
         <button
           className="bg-yellow-500 text-black py-3 transition duration-200 text-xl font-semibold
          hover:bg-yellow-200"
+          type="button"
+          onClick={() => dispatch(changeConfirmingPopup(true))}
         >
           Book {travelers} space
         </button>
       </form>
+      {isConfirmingPurchase && (
+        <ConfirmPurchase onSubmit={handleSubmit(onSubmit)} />
+      )}
     </main>
   );
 };

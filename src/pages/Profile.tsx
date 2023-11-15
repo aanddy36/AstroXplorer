@@ -30,7 +30,7 @@ export const Profile = () => {
   }, [id]);
 
   useEffect(() => {
-    console.log(purchasedTours);
+    //console.log(purchasedTours);
   }, [purchasedTours]);
 
   if (isRetrieving) {
