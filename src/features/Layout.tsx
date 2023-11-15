@@ -34,7 +34,7 @@ export const Layout = () => {
               />
             </div>
             <h1 className="text-2xl font-semibold text-center">
-              Before you can add to your wish list, log in or register
+              Before you can proceed, log in or register
             </h1>
             <div className="flex flex-col items-center gap-4">
               <Link

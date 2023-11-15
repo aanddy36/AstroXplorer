@@ -4,6 +4,7 @@ import { ImageCont } from "../../ui/ImageCont";
 import { BlurBall } from "../../ui/BlurBall";
 import { Link } from "react-router-dom";
 import { StarRating } from "../../ui/StarRating";
+//asdsadas
 
 export const TourCard = ({
   cardImage,
@@ -51,7 +52,6 @@ export const TourCard = ({
     setOffset({ offsetX, offsetY });
   }
   return (
-    <>
       <div
         className="group relative overflow-hidden p-px mb-8 text-white bg-gradient-to-b
         from-white/20 to-white/0 hover:translate-x-1 hover:-translate-y-1 transition-all duration-200"
@@ -78,7 +78,10 @@ export const TourCard = ({
               )}
             </div>
             <div className="flex justify-between items-end">
-              <span className="font-bold">From ${price}.*</span>
+              <span className="font-bold">From ${String(price).replace(
+                    /\B(?=(\d{3})+(?!\d))/g,
+                    ","
+                  )}.*</span>
               <Link
                 to={`/tours/${String(id)}`}
                 className="px-3 py-2 border-2 border-white/50 bg-transparent hover:bg-white/90 hover:text-black
@@ -90,7 +93,5 @@ export const TourCard = ({
           </div>
         </div>
       </div>
-      {/*<div className="border-2 w-[100vw] h-[100vh] absolute">AAAA</div>*/}
-    </>
   );
 };

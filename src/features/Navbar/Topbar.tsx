@@ -73,7 +73,7 @@ export const Topbar = () => {
                 onMouseEnter={() => setIsProfileOpen(true)}
                 onMouseLeave={() => setIsProfileOpen(false)}
               >
-                <span className="px-3 py-2 rounded-full bg-[--bg-icons]">
+                <span className="px-3 py-2 rounded-full bg-[#3f3f3fdc]">
                   {name.slice(0, 1).toLocaleUpperCase()}
                   {surname.slice(0, 1).toLocaleUpperCase()}
                 </span>

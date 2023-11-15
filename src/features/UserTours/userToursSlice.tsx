@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import supabase from "../../services/supabase";
+import { IPurchasedTour, newPurchasedTour } from "../../moduls";
 
 interface IUserTours {
   favoriteTours: {
@@ -18,19 +19,25 @@ interface IUserTours {
     };
   }[];
   idFavoriteTours: { tour_id: number }[];
+  purchasedTours: IPurchasedTour[];
   isRetrieving: boolean;
   isDeleting: boolean;
   isAdding: boolean;
   error: string;
+  isConfirmingPurchase: boolean;
+  isPurchasing: boolean;
 }
 
 const initialState: IUserTours = {
   favoriteTours: [],
   idFavoriteTours: [],
+  purchasedTours: [],
   isRetrieving: false,
   isDeleting: false,
   isAdding: false,
   error: "",
+  isConfirmingPurchase: true,
+  isPurchasing: false,
 };
 
 export const retrieveFavoriteTours = createAsyncThunk(
@@ -63,6 +70,82 @@ export const retrieveIdFavoriteTours = createAsyncThunk(
       if (error) {
         return thunkAPI.rejectWithValue(error.message);
       }
+      return data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+export const retrievePurchasedTours = createAsyncThunk(
+  "userTours/retrievePurchasedTours",
+  async (user_id: string, thunkAPI) => {
+    try {
+      const { data, error } = await supabase
+        .from("purchased_tours_full")
+        .select("*")
+        .eq("user_id", user_id);
+      if (error) {
+        return thunkAPI.rejectWithValue(error.message);
+      }
+      return data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+export const addPurchasedTour = createAsyncThunk(
+  "userTours/addPurchasedTour",
+  async (
+    {
+      id,
+      user_id,
+      date_id,
+      numTravelers,
+      isSuitPremium,
+      totalPrice,
+      tour_id,
+    }: newPurchasedTour,
+    thunkAPI
+  ) => {
+    try {
+      const { data, error } = await supabase
+        .from("purchased_tours")
+        .insert({
+          id,
+          user_id,
+          date_id,
+          numTravelers,
+          isSuitPremium,
+          totalPrice,
+          tour_id,
+        })
+        .select();
+      if (error) {
+        return thunkAPI.rejectWithValue(error.message);
+      }
+      thunkAPI.dispatch(changeConfirmingPopup(false));
+      return data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+export const deletePurchasedTour = createAsyncThunk(
+  "userTours/deletePurchasedTour",
+  async (
+    { purchased_id, user_id }: { purchased_id: string; user_id: string },
+    thunkAPI
+  ) => {
+    try {
+      const { data, error } = await supabase
+        .from("purchased_tours")
+        .delete()
+        .eq("id", purchased_id);
+      if (error) {
+        return thunkAPI.rejectWithValue(error.message);
+      }
+      thunkAPI.dispatch(retrievePurchasedTours(user_id));
       return data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
@@ -123,6 +206,9 @@ const userToursSlice = createSlice({
     noUsers: () => {
       return { ...initialState };
     },
+    changeConfirmingPopup: (state, action) => {
+      state.isConfirmingPurchase = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -165,6 +251,43 @@ const userToursSlice = createSlice({
         state.isRetrieving = false;
         state.error = action.payload as string;
       })
+      .addCase(retrievePurchasedTours.pending, (state) => {
+        state.isRetrieving = true;
+        state.error = "";
+      })
+      .addCase(retrievePurchasedTours.fulfilled, (state, action) => {
+        state.purchasedTours = action.payload;
+        state.isRetrieving = false;
+        state.error = "";
+      })
+      .addCase(retrievePurchasedTours.rejected, (state, action) => {
+        state.isRetrieving = false;
+        state.error = action.payload as string;
+      })
+      .addCase(addPurchasedTour.pending, (state) => {
+        state.isPurchasing = true;
+        state.error = "";
+      })
+      .addCase(addPurchasedTour.fulfilled, (state) => {
+        state.isPurchasing = false;
+        state.error = "";
+      })
+      .addCase(addPurchasedTour.rejected, (state, action) => {
+        state.isPurchasing = false;
+        state.error = action.payload as string;
+      })
+      .addCase(deletePurchasedTour.pending, (state) => {
+        state.isDeleting = true;
+        state.error = "";
+      })
+      .addCase(deletePurchasedTour.fulfilled, (state) => {
+        state.isDeleting = false;
+        state.error = "";
+      })
+      .addCase(deletePurchasedTour.rejected, (state, action) => {
+        state.isDeleting = false;
+        state.error = action.payload as string;
+      })
       .addCase(addFavoriteTour.pending, (state) => {
         state.isAdding = true;
         state.error = "";
@@ -179,5 +302,5 @@ const userToursSlice = createSlice({
       });
   },
 });
-export const { noUsers } = userToursSlice.actions;
+export const { noUsers, changeConfirmingPopup } = userToursSlice.actions;
 export default userToursSlice.reducer;

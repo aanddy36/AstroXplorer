@@ -126,6 +126,7 @@ export interface IDate {
   tour_id: number;
   startDate: string;
   price: number;
+  duration: string;
 }
 
 export interface IFavTour {
@@ -142,4 +143,27 @@ export interface IInfoFavTour {
   price: number;
   duration: string;
   cardImage: string;
+}
+
+
+
+export interface newPurchasedTour {
+  id: number;
+  user_id: string;
+  date_id: number;
+  numTravelers: number;
+  isSuitPremium: boolean;
+  totalPrice: number;
+  tour_id: number;
+}
+export interface IPurchasedTour extends newPurchasedTour {
+  cardImage: string;
+  created_at: string;
+  title: string;
+  startDate: string;
+  useremail: string;
+  userdata: {
+    name: string;
+    surname: string;
+  };
 }

@@ -22,6 +22,7 @@ export const LogIn = () => {
     formState: { errors },
     reset,
   } = useForm();
+  
 
   const { isLoading, name, surname, errorLogin, isLoggedIn } = useSelector(
     (store: RootState) => store.auth
@@ -41,12 +42,6 @@ export const LogIn = () => {
   const onSubmit = (data: ILogin) => {
     dispatch(login(data));
   };
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      navigate(-1);
-    }
-  }, [isLoggedIn]);
 
   return (
     <div

@@ -8,9 +8,9 @@ export const Home = () => {
   /*ERRORS TO SOLVE
   NOTE: At the end erase all cardImages and tourImages as they are extracted from supabase, not from the project
   NOTE: Remove scroll bar height for the submenu of Specific Tour
-  1. ALL SIDEBARS: When they are open and the window is full width, the shadow remains in the screen.
-  4. When refreshing the Profile page, it sends me to the Home page, but it should leave me in the same page.
-  5. When refreshing the Profile page, it sends me to the Log in page, and even if I login, it doesnt proceed.
+  1. The Popup marker of the Leaflet map doesnt show in production.
+  2. OPTIONAL:The navbar of the Specific Tour page should be fixed when exceed (like the search bar).
+  5. When im in Profile, log out and then Log in, the app breaks 
   */
 
   return (

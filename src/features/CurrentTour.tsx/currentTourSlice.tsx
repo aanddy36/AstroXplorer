@@ -80,14 +80,15 @@ export const retrieveDates = createAsyncThunk(
   "currentTour/retrieveDates",
   async (id: string, thunkAPI) => {
     try {
-      const { data: itinerary, error } = await supabase
-        .from("dates")
+      const { data: dates, error } = await supabase
+        .from("full_dates")
         .select("*")
         .eq("tour_id", id);
       if (error) {
         return thunkAPI.rejectWithValue(error.message);
       }
-      return itinerary;
+      
+      return dates;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -148,7 +149,11 @@ const currentTourSlice = createSlice({
       })
       .addCase(retrieveDates.fulfilled, (state, action) => {
         state.isRetrieving = false;
-        state.dates = action.payload;
+        state.dates = action.payload.sort((a, b) => {
+          const date1 = new Date(a.startDate);
+          const date2 = new Date(b.startDate);
+          return date1.getTime() - date2.getTime();
+        });
       })
       .addCase(retrieveDates.rejected, (state, action) => {
         state.isRetrieving = false;
