@@ -9,7 +9,7 @@ export const ConfirmDeleting = ({handleClick, setClose}:{handleClick: ()=>void, 
     <div className="bg-black/70 h-screen w-screen overflow-hidden fixed top-0 left-0 z-[999]">
       <div
         className="bg-[#1f1f1f] h-[340px] w-[350px] tablet:w-[400px] laptop:w-[500px] absolute left-[50%] 
-          translate-x-[-50%] top-[50%] translate-y-[-50%] flex flex-col gap-5 text-white items-center p-5
+          translate-x-[-50%] top-[45%] tablet:top-[50%] translate-y-[-50%] flex flex-col gap-5 text-white items-center p-5
            shadow-xl shadow-black"
       >
         {" "}

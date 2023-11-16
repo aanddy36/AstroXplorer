@@ -145,8 +145,6 @@ export interface IInfoFavTour {
   cardImage: string;
 }
 
-
-
 export interface newPurchasedTour {
   id: number;
   user_id: string;
@@ -162,6 +160,7 @@ export interface IPurchasedTour extends newPurchasedTour {
   title: string;
   startDate: string;
   useremail: string;
+  price: number;
   userdata: {
     name: string;
     surname: string;

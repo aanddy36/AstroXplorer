@@ -22,6 +22,7 @@ interface IUserTours {
   purchasedTours: IPurchasedTour[];
   isRetrieving: boolean;
   isDeleting: boolean;
+  isUpdating: boolean;
   isAdding: boolean;
   error: string;
   isConfirmingPurchase: boolean;
@@ -34,6 +35,7 @@ const initialState: IUserTours = {
   purchasedTours: [],
   isRetrieving: false,
   isDeleting: false,
+  isUpdating: false,
   isAdding: false,
   error: "",
   isConfirmingPurchase: true,
@@ -152,7 +154,43 @@ export const deletePurchasedTour = createAsyncThunk(
     }
   }
 );
-
+export const updatePurchasedTour = createAsyncThunk(
+  "userTours/updatePurchasedTour",
+  async (
+    {
+      id,
+      numTravelers,
+      isSuitPremium,
+      totalPrice,
+      user_id
+    }: {
+      id:number,
+      numTravelers:number,
+      isSuitPremium:boolean,
+      totalPrice:number,
+      user_id:string
+    },
+    thunkAPI
+  ) => {
+    try {
+      const { data, error } = await supabase
+        .from("purchased_tours")
+        .update({
+          numTravelers,
+          isSuitPremium,
+          totalPrice,
+        }).eq("id",id)
+        .select();
+      if (error) {
+        return thunkAPI.rejectWithValue(error.message);
+      }
+      thunkAPI.dispatch(retrievePurchasedTours(user_id));
+      return data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
 export const deleteFavoriteTour = createAsyncThunk(
   "userTours/deleteFavoriteTour",
   async (
@@ -286,6 +324,18 @@ const userToursSlice = createSlice({
       })
       .addCase(deletePurchasedTour.rejected, (state, action) => {
         state.isDeleting = false;
+        state.error = action.payload as string;
+      })
+      .addCase(updatePurchasedTour.pending, (state) => {
+        state.isUpdating = true;
+        state.error = "";
+      })
+      .addCase(updatePurchasedTour.fulfilled, (state) => {
+        state.isUpdating = false;
+        state.error = "";
+      })
+      .addCase(updatePurchasedTour.rejected, (state, action) => {
+        state.isUpdating = false;
         state.error = action.payload as string;
       })
       .addCase(addFavoriteTour.pending, (state) => {
