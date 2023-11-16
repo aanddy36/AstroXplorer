@@ -83,7 +83,7 @@ export const TourCard = ({
                     ","
                   )}.*</span>
               <Link
-                to={String(id)}
+                to={`/tours/${String(id)}`}
                 className="px-3 py-2 border-2 border-white/50 bg-transparent hover:bg-white/90 hover:text-black
                 transition duration-200"
               >

@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store";
 import { Spinner } from "../ui/Spinner";
-import { FaBookmark, FaGear, FaRocket, FaXmark } from "react-icons/fa6";
+import { FaBookmark, FaRocket, FaXmark } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { AnyAction, ThunkDispatch } from "@reduxjs/toolkit";
 import { useEffect, useState } from "react";
@@ -76,7 +76,7 @@ export const Profile = () => {
             {name} {surname}
           </span>
         </div>
-        <button
+        {/*        <button
           className="flex items-center gap-5 group text-white/80"
           onClick={() => setIsPopup(true)}
         >
@@ -84,7 +84,7 @@ export const Profile = () => {
             Account settings
           </span>
           <FaGear className="scale-[1.8] laptop:scale-[1.4] group-hover:text-white" />
-        </button>
+      </button>*/}
       </section>
       <section className="grid grid-cols-1 px-[5%] tablet:px-[10%] py-12 gap-10">
         <div
@@ -116,8 +116,8 @@ export const Profile = () => {
             </div>
           ) : (
             <ul className="pt-20 grid grid-cols-1">
-              {purchasedTours.map(tour =>{
-                return <PurchasedTourCard key={tour.id} {...tour}/>
+              {purchasedTours.map((tour) => {
+                return <PurchasedTourCard key={tour.id} {...tour} />;
               })}
             </ul>
           )}
