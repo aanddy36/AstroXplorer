@@ -1,12 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { RootState } from "../store";
-import {
-  FaArrowLeft,
-  FaRegPenToSquare,
-  FaRegTrashCan,
-  FaXmark,
-} from "react-icons/fa6";
+import { FaArrowLeft, FaRegPenToSquare, FaRegTrashCan } from "react-icons/fa6";
 import { useEffect, useState } from "react";
 import { IPurchasedTour } from "../moduls";
 import { daysOfWeek, monthAbbreviations } from "../utils/months";
@@ -14,9 +9,9 @@ import { Spinner } from "../ui/Spinner";
 import { AnyAction, ThunkDispatch } from "@reduxjs/toolkit";
 import { deletePurchasedTour } from "../features/UserTours/userToursSlice";
 import { ConfirmDeleting } from "../ui/ConfirmDeleting";
+import { EditTour } from "../ui/EditTour";
 
 export const PurchasedTour = () => {
-  const [isPopup, setIsPopup] = useState(false);
   const { orderId } = useParams();
   const { purchasedTours, isRetrieving } = useSelector(
     (store: RootState) => store.userTours
@@ -24,6 +19,7 @@ export const PurchasedTour = () => {
   const { id: user_id } = useSelector((store: RootState) => store.auth);
   const navigate = useNavigate();
   const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false);
+  const [isEditingOpen, setIsEditingOpen] = useState(false);
   const dispatch = useDispatch() as ThunkDispatch<
     RootState,
     undefined,
@@ -47,13 +43,14 @@ export const PurchasedTour = () => {
       new Date(actualOrder?.startDate).getTime() - new Date().getTime()
     );
   }, [actualOrder]);
+
   useEffect(() => {
-    if (isConfirmDeleteOpen) {
+    if (isConfirmDeleteOpen || isEditingOpen) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "auto";
     }
-  }, [isConfirmDeleteOpen]);
+  }, [isConfirmDeleteOpen, isEditingOpen]);
 
   useEffect(() => {
     const handleTimer = () => {
@@ -239,7 +236,7 @@ export const PurchasedTour = () => {
               <tr>
                 <td className="py-3 font-light text-white/70">
                   {actualOrder?.isSuitPremium ? "Premium" : "Standard"}
-                </td>{" "}
+                </td>
                 <td className=" font-light text-white/70">
                   {actualOrder?.numTravelers}
                 </td>
@@ -269,6 +266,7 @@ export const PurchasedTour = () => {
             className="border bg-transparent font-semibold py-2 w-[120px] laptop:w-[150px] text-sm laptop:text-base 
           transition duration-200 hover:bg-white hover:text-black flex items-center gap-2 tablet:gap-4 justify-center
            border-white/20"
+            onClick={() => setIsEditingOpen(true)}
           >
             <FaRegPenToSquare />
             Edit Tour
@@ -290,23 +288,11 @@ export const PurchasedTour = () => {
           setClose={() => setIsConfirmDeleteOpen(false)}
         />
       )}
-      {isPopup && (
-        <div
-          className="bg-[#1f1f1f] h-[220px] w-[350px] tablet:w-[400px] laptop:w-[500px] fixed left-[50%] 
-          translate-x-[-50%] top-[50%] translate-y-[-50%] flex flex-col gap-12 text-white items-center p-5
-           shadow-xl shadow-black z-[999]"
-        >
-          <div className="w-full flex justify-end">
-            <FaXmark
-              className="scale-[1.4] transition duration-200 hover:rotate-90 cursor-pointer"
-              onClick={() => setIsPopup(false)}
-            />
-          </div>
-          <h1 className="text-2xl font-semibold text-center">
-            This functionality is not available yet, but soon it will be, so try
-            again soon!
-          </h1>
-        </div>
+      {isEditingOpen && (
+        <EditTour
+          setClose={() => setIsEditingOpen(false)}
+          tourInfo={actualOrder}
+        />
       )}
     </div>
   );
