@@ -74,8 +74,7 @@ export const ReviewsTour = () => {
            onClick={()=>setIsPopup(false)}/>
         </div>
         <h1 className="text-2xl font-semibold text-center">
-          This functionality is not available yet, but soon it will be, so try
-          again soon!
+          Unless you have completed this tour, you can't write a review!
         </h1>
       </div>}
       <div
