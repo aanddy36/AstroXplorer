@@ -49,7 +49,8 @@ export const LogIn = () => {
     before:content-[''] before:absolute before:inset-0 before:bg-black/50"
     >
       <div
-        className={`h-16 fixed top-0 w-full bg-orange-500 flex justify-between text-white items-center text-xl px-10
+        className={`tablet:h-16 fixed top-0 w-full bg-orange-500 flex justify-between text-white items-center text-base 
+        tablet:text-xl px-6 tablet:px-10 h-22
        z-[999] py-2 ${warningMessage ? "block" : "hidden"}`}
       >
         <span>

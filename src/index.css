@@ -24,7 +24,7 @@ input[data-autocompleted] {
 }
 ::-webkit-scrollbar {
     width: 8px; /* Set the width of the scrollbar track */
-    height: 4px;
+    height: 0px;
   }
   
   /* Scrollbar Track Background */
